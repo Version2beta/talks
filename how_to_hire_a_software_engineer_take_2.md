@@ -135,7 +135,7 @@ We don't want to waste your time. The phone screen is a go / no-go interview tha
 
 We want to understand why you're looking for a new job, and why you're looking at OC Tanner specifically. Also, we want to know if you can actually code.
 
-#### How to win at this interview:
+#### Interviewing for the Win!
 
 The best way to win the phone screen is to be an excellent, well rounded developer who knows about the work we do.
 
@@ -161,9 +161,79 @@ It'd be better to know more than one language though, especially if the job call
 
 **Know something about platforms.**
 
-Writing a new program from scratch is often a waste of time. We want to get boilerplate stuff done within a framework of open source code that other people have written and proven in the field.
-
-It's always valuable to have discrete skills and experience with common frameworks in the languages you use.
+Writing a new program from scratch is often a waste of time. We want to get boilerplate stuff done within a framework of open source code that other people have written and proven in the field. It's always valuable to have discrete skills and experience with common frameworks in the languages you use. It's often valuable to also understand the patterns they implement, the abstractions they offer, and the opinions they enforce.
 
 **Know something about databases.**
+
+In a phone screen, you might be asked about different databases, and it is nice to be able to convey what you do and don't know about them.
+
+Remember, we want to get a feel for where you are in your career so that we can make a good fit for you and for us.
+
+### Lunch
+
+We try to feed every candidate at least once. Some managers prefer to take a candidate to a fancy local restaurant, along with the team of engineers who will be doing the interviews.
+
+I don't. If dinner out is an important part of the recruiting effort, let's do that while we're discussing an offer.
+
+At OC Tanner, we have an excellent cafeteria with an executive chef we recruited away from one of the best restaurants in the area, and while the daily menu may not be a modernist delight, the food is good.  More important than the food, though, is that I can make an open invitation to a dozen or more other developers, potential coworkers for the candidate.
+
+#### What we want to know:
+
+* How do you relate to our team?
+
+#### Interviewing for the Win!
+
+The lunch interview is an opportunity for you to learn about us from a diverse group of people working here. Take advantage of that. Ask questions, get to know people. Try to be outgoing.
+
+It's a safe place, and we want you to like us.
+
+### The language skills interview
+
+We use a variety of programming languages on different projects: Java, Scala, Javascript, Coffeescript, Ruby, and Erlang in my area alone. We want to hire and train developers to be exceptionally competent, often in several languages.
+
+#### What we want to know:
+
+* What languages do you use?
+* How well do you use them?
+
+#### Interviewing for the Win!
+
+This is a coding interview, and you should expect to have a coding problem to solve. Ideally, you'll do this interview on your own laptop using an environment you're comfortable with, while pairing with one of our engineers.
+
+A lot of places want you to solve coding problems on a whiteboard, as if you're a philosophy professor or a trained monkey. We don't have openings for either in our department. We hire engineers and we want to collaborate with you every day, starting with the day of your interview.
+
+**Be competent.**
+
+We come up with programming problems from a bunch of different sources, sometimes even our current work. However, if you can solve random problems from ProjectEuler.net, chances are good you can handle our programming problems.
+
+**Know the right language(s).**
+
+By the time you get through the phone screen, you should have an idea what language or languages we might want you to work with. That's probably not enough opportunity to go learn a new language, but even if you don't know the primary language we're going to use together, it still helps to know at least one similar language and at least two or three languages total. Ideally, you'll be well rounded with an object oriented language plus a procedural language and a functional language.
+
+**Front-end is harder.**
+
+We used to act like front end wasn't real engineering, but it's now some of the most difficult programming we do. It's certainly some of the most dynamic programming.
+
+We want to know that you know HTML5 and CSS really well. We'll ask hard questions to test you on this. Also, you'll still need to demonstrate language competentcy in Javascript, understand about shims and polyfills, and show proficiency in a framework like Angular or React.
+
+### The design and architecture interview
+
+As a manager, I'm supposed to communicate with my developers *what* the problem is and *why* we're solving it, but not *how* to solve it. Figuring out the how is your problem, so we want to make sure you can do it.
+
+#### What we want to know
+
+We'll want to know that you can solve the kinds of problems we want to toss your way.
+
+#### Interviewing for the win!
+
+**Know your patterns.**
+
+Design patterns are a way of solving problems by seeing how well the problem fits the shape of some known solutions. The idea comes from architecture and the 1977 book by Christopher Alexander called "A Pattern Language". In architecture, a door fits a pattern for entering and exiting a house, and a double-wide French door is an implementation detail.
+
+We have a pattern language for programming as well, and have identified hundreds of different patterns that fit various problems. We want you to know some of those patterns. A junior developer should know the major patterns he or she has used, like a model-view-controller and object-relational-mapper. Senior devs should probably be able to recognize most of the patterns they've used by name, as well as a bunch of patterns they haven't yet used.
+
+Right now, concurrency-oriented patterns and functional programming patterns are particularly interesting to us and to the field as a whole. I'd recommend you learn them.
+
+**Know your databases.**
+
 
