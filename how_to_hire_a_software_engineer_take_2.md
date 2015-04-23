@@ -129,13 +129,13 @@ Let's look at each interview and explore our goals for that interview, along wit
 
 ### The phone screen
 
-We don't want to waste your time. The phone screen is a go / no-go interview that determines whether it's worthwhile to bring a candidate in for the on-site interview process.
+We don't want to waste the candidate's time, or our time either. The phone screen is a go / no-go interview that determines whether it's worthwhile to bring a candidate in for the on-site interview process.
 
 #### What we want to know:
 
-We want to understand why you're looking for a new job, and why you're looking at OC Tanner specifically. Also, we want to know if you can actually code.
+We want to understand why the candidate is looking for a new job, and why at OC Tanner specifically. Also, we want to make sure the candidate can code.
 
-#### Interviewing for the Win!
+#### For the Win!
 
 The best way to win the phone screen is to be an excellent, well rounded developer who knows about the work we do.
 
@@ -179,9 +179,9 @@ At OC Tanner, we have an excellent cafeteria with an executive chef we recruited
 
 #### What we want to know:
 
-* How do you relate to our team?
+* How does the candidate relate to our team?
 
-#### Interviewing for the Win!
+#### For the Win!
 
 The lunch interview is an opportunity for you to learn about us from a diverse group of people working here. Take advantage of that. Ask questions, get to know people. Try to be outgoing.
 
@@ -196,7 +196,7 @@ We use a variety of programming languages on different projects: Java, Scala, Ja
 * What languages do you use?
 * How well do you use them?
 
-#### Interviewing for the Win!
+#### For the Win!
 
 This is a coding interview, and you should expect to have a coding problem to solve. Ideally, you'll do this interview on your own laptop using an environment you're comfortable with, while pairing with one of our engineers.
 
@@ -218,13 +218,11 @@ We want to know that you know HTML5 and CSS really well. We'll ask hard question
 
 ### The design and architecture interview
 
-As a manager, I'm supposed to communicate with my developers *what* the problem is and *why* we're solving it, but not *how* to solve it. Figuring out the how is your problem, so we want to make sure you can do it.
-
 #### What we want to know
 
-We'll want to know that you can solve the kinds of problems we want to toss your way.
+As a manager, I'm supposed to communicate with my developers *what* the problem is and *why* we're solving it, but not *how* to solve it. Figuring out the how is engineer's responsibility, so we want to make sure the candidate can do it.
 
-#### Interviewing for the win!
+#### For the win!
 
 **Know your patterns.**
 
@@ -235,5 +233,103 @@ We have a pattern language for programming as well, and have identified hundreds
 Right now, concurrency-oriented patterns and functional programming patterns are particularly interesting to us and to the field as a whole. I'd recommend you learn them.
 
 **Know your databases.**
+
+We want to know whether you're safe around databases, and whether you know how to design and build systems around them. Can you explain why PostgreSQL is a beter open source database than MySQL? (If not, Rob Conery has a great talk on this called "Five things you didn't know about PostgreSQL.")
+
+Can you explain when an ORM is not longer appropriate or performant? When NoSQL is a better choice than SQL? What the CAP theorem is and how to apply it? Why Riak is a better key-value store than MongoDB? Can you make the opposite argument?
+
+**Solve a design problem.**
+
+We don't have time in a one hour interview to design and build a full stack, highly available, high performance system. We only have time for the fun parts.
+
+What I may not tell you in the interview is that I picked out one of the most important things you might work on when you join one of my teams. I want to see how you approach the problem, and how you related to it. Is this an exciting problem for you? Do you catch on quickly? Do you have experience in the problem domain?
+
+### The craftsmanship interview
+
+We are improving our quality practices, and while we've got great support from the current members of our team, we also want to hire people who have experience and a commitment to strong quality practices.
+
+#### What we want to know:
+
+Does the candidate write tests? What kinds of tests? Does the candidate write unit tests first or after? Can she red-green refactor? How about acceptance tests and regression tests? Does he know about property based testing or contract testing? How about static analysis? Formal verifications?
+
+Does the candidate pair program? How much? Could they do it full time? How well?
+
+#### Interview for the Win!
+
+A lot of this interview is about the Extreme Programming (or XP) and Software Craftsmanship principles laid out by Robert C Martin (also known as Uncle Bob). We're kinda hoping you've read these. Either way, there's a good chance you've been training on some of the techniques.
+
+**Write unit tests first.**
+
+We think the best way to write code is to understand what it's supposed to do, write a test that proves it can do it, and then write code that passes that test.
+
+**Write acceptance and regression tests.**
+
+It doesn't actually matter a lot to us whether the test cycle is short term or long term, unit tests or acceptance tests. We want and expect both - short scale, unit test driven development; feature-scaled acceptance test driven development; and bug-scaled regression tests.
+
+**Pair.**
+
+Pair programming helps team members learn from each other. It helps keep "institutional knowledge" in more than one head. It distributes accountability. It improves code quality.
+
+We like pair programming and we want to do more of it. We want new hires to expect that, and to participate in making it happen. Some of these skills are aspirational for some of our teams, but we're getting better and part of how we're doing that is by hiring people who bring good habits with them.
+
+### The community interview
+
+Our final interview of the day helps us see how the candidate interacts with the tech community both inside and outside of the office.
+
+#### What we want to know:
+
+How capable are you at receiving help from the community? Do you make use of static resources like tech blogs and community documentation as well as dynamic resources like IRC, Twitter, meetups, and conferences? When you get help by someone else in the community, do you treat them as a resource or as a person?
+
+How valuable are you to the community? Are you just a consumer, or also a leader?
+
+#### Interview for the Win!
+
+**Know your community.**
+
+None of us got where we are without the help of others, and most of us rely on other people more or less constantly, because we're constantly growing and learning.
+
+Who do you rely on, specifically? There's a big difference between "I Googled this Erlang problem and got a snippet" and "I Googled this Erlang problem and found Fred Herbert's site. He's the guy who wrote 'Learn You Some Erlang' and he works on the routing team at Heroku."
+
+I'm going to enjoy hearing about the other people who help you. Coaches, mentors, community groups, meetups, blogs, twitter accounts, online training courses - the community is full of amazing people helping other people, and recognizing them is an important step in being a leader yourself.
+
+**Know the coders.**
+
+I think Ruby is a wonderful programming language. You know why? Because Yukohiro Matsumoto wanted to optimize for programmer happiness, so he created a language that's easy to think in. Matz was inspired in part by Larry Wall, a linguist who created Perl, a programming language designed to be very expressive. There are poetry contests in Perl.
+
+These aren't just interesting anecdotes. These are some of the reasons you might choose one language or another.
+
+Who created the languages, libraries, and frameworks you like? What kinds of problems were the trying to solve? What kind of elegance and beauty did they bring into the world? If you don't know the stories, you'll never have a full appreciation for the strengths and weaknesses of the languages, libraries, and frameworks you are relying on.
+
+**Give back.**
+
+What's your Github username? Twitter handle? Blog URL? Who are you mentoring? Have you contributed to open source projects? How about a major programming language? (My friend Kavita got a pull request merged into Python before she got her first programming job.) Do you coach or mentor anyone? Do you present at meetups, regional conferences, or national conferences? Which books have you written?
+
+These questions scare a lot of experienced programmers, but if it weren't for people who do all these things, we wouldn't be here. We want to see how you see yourself in the community.
+
+### Designing an offer
+
+If we get to this point, it's because we want to hire the candidate, so we want to write an offer that will make the candidate happy and excited to come work with us. Negotiate transparently as best you can, and communicate a lot. How does onboarding happen? What are the benefits like? What's the drug testing policy? (This one has bitten me several times!)
+
+#### What we want to know:
+
+We need to determine the details of the candidate's offer, and make sure the candidate understands how our hiring process works.
+
+#### For the win!
+
+**Ask for what you want.**
+
+They pay us stupid amounts of money to do this work. It's nice and all, but I couldn't leave tech and go somewhere else and still make anything like the salary I make in tech. Since they're willing to pay us so well, you might as well try to get more for yourself.
+
+Salary negotiation is hard for a lot of people, but here's a tip to make it easier. It isn't your responsibility to make sure you're worth what they pay you. It's your manager's responsibility to make sure you're worth what they pay you.
+
+Ask for what you want. Research the field, and the area, and the company s that you're in the right ballpark. Ask your hiring manager what the maximum earning potential for the position is. And then ask for the salary you want. Don't hesitate, or waffle, or apologize. Ask.
+
+**It's more than money.**
+
+When you're talking about an offer, take the opportunity to increase your lifetime earning, not just your next salary.
+
+Maybe you need more coding skills, or another language. Maybe you want some management experience or leadership training. Maybe you want to do more writing and presenting. Maybe what you really need is someone who can help you figure out what you need, like a mentor.
+
+What will help you do this job better, and what will help you do the next job better? Propose it as part of your offer.
 
 
