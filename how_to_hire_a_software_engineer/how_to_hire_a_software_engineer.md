@@ -8,15 +8,9 @@ This is the recruiting and interviewing process I'm using at OC Tanner Company i
 
 We'll start with a generalized recruiting process:
 
-[slide: Always be recruiting]
-
 Start recruiting a great developer before you need one. Ideally, start recruiting while the developer is still learning to be a good developer, let along a great one. When you need a developer, it's nice to already have candidates lined up.
 
-[slide: Work with the community]
-
 You want developers to introduce themselves to you, not the other way around. Speak, teach, coach, mentor, sponsor, host, feed, write, tweet, talk, meet, and get noticed being important to the community.
-
-[slide: Be human-friendly and authentic]
 
 Make your interview process humane. Set an expectation that the process is collaborative, not competitive. When the candidates you don't hire speak well of your process, you have a powerful new tool for recruiting.
 
@@ -44,21 +38,13 @@ Hiring people is a competitive process, and we can't help that. This does not me
 
 Share your process with the candidate. Answer their questions directly. Coach them before, during, and after their interview.
 
-[slide: Recuit the candidates you want to hire.]
-
 Don't stop recruiting just because the candidate is interviewing. Hiring is a two way street: we aren't just hiring them, they are hiring us to be their team and employer. You want the best candidates to choose you.
 
-[slide: Recruit the candidates you don't hire.]
-
 Going to send a candidate home without an offer? Keep recruiting. Offer a few minutes of mentoring to the candidates you turn down. What did you like about the candidate? What could he work on to be ready for a job with us? When might she try again?
-
-[slide: Collaborate.]
 
 Structure every interview to see the candidate at their best, just like you're going to structure your team to get the best work from your developers. Let the candidate help you with this.
 
 Sometimes an interview just doesn't work. Maybe the candidate is nervous, or has a language barrier, or doesn't gel well with the interviewer. Stay attuned to how the interviews are going, and be ready to change things to make the process successful. At the end, if you didn't get an accurate representation of the candidate's skills, consider whether you want to do that interview over. For example, a candidate who blanks while pairing on a coding exercise may solve a take-home coding interview elegantly.
-
-[slide: Play Tetris.]
 
 We want candidates who are "tee shaped" - deep skills in at least one area, but broad skills too. What's the right fit for your team? It's almost never just amazing technical skills with the language. You might want to see your team do more pairing, or better testing. Maybe you want someone who is good at sharing and teaching, or helps build cohesion. Look at how each candidate fits the team along multiple dimensions.
 
@@ -68,11 +54,7 @@ Our collaborative process is only useful if we get your cooperation too.
 
 We want to know where you're at, in both your skill level and your career, so that you'll be happy with the job we offer you.
 
-[slide: Tell us what you need.]
-
 We want to see you at your best. If we're not getting that, help us figure out a better way of working with you.
-
-[slide: Tell us what you want.]
 
 Your coding ability is only part of the equation. We also want to see how our goals mesh with your goals.
 
@@ -84,8 +66,6 @@ Before you evaluate a candidate's interview, evaluate the interview process. Wer
 
 I once interrupted an interview taking place in one of our office "living rooms" - small rooms with a couch, a couple of cozy chairs, a big screen TV, and a whiteboard mounted uncomfortably close to the floor. A young woman being interviewed by two engineers (one male and one female) was kneeling on the floor in a skirt and heels trying to solve a coding exercise on the whiteboard. She looked miserable, so we changed just about everything. Instead of the living room, we went to a training room with a desk-height table, office chairs, and bright overhead lighting. Instead of a whiteboard, we had her pair with a female engineer from our team. Instead of being two-on-one, I asked the male engineer to offer the women coffee or tea and then leave the interview. The candidate performed much better under the changed circumstances.
 
-[slide: Fist Five voting]
-
 We evaluate candidates using a modified "fist five" consensus method. We rate the candidate after each interview according to this scale:
 
 * A zero (or a "fist") is a block. Blocking a candidate means that you do not wish to see this candidate continue. Either the candidate is clearly wrong for the job, or the job is completely wrong for the candidate.
@@ -93,8 +73,6 @@ We evaluate candidates using a modified "fist five" consensus method. We rate th
 * A three indicates that the interviewer has some reservations, but is willing to support a decision to hire the candidate.
 * A four indicates that the interview will support a decision to hire the candidate without reservation.
 * A five ("five fingers") indicates that the interview completely supports hiring the candidate and recommends immediate action.
-
-[slide: Percentiles]
 
 Often we will have more than one goal in the hiring process. In these cases we might also ask for a percentile ranking of a candidate in comparison to the current team.
 
@@ -131,25 +109,17 @@ Computer programming involves two basic sets of skills: understanding the proble
 
 Our problem domain is appreciating people. OC Tanner not only wrote the book, we created the entire field. Chances are good you can relate to the work we do. Most of us like to be recognized for the good we do, and shown appreciation in concrete ways.
 
-[slide: Know some computer science.]
-
 There are two sides to a good programmer: discrete skills that help you accomplish specific tasks, and a grasp on theory that lets you generalize your skills to new problems.
 
 A lot of training available to new developers focuses on discrete skills, like creating a web app in Ruby on Rails, or building a user interface in Angular.js. While these are good skills to have, we're going to look for developers who can generalize those skills. Knowing Ruby on Rails is a good thing, but can you do some of the same things in Ruby? What about using another object oriented language like Java? Or a functional programming language like Scala?
 
 The important thing here is not just to know one way to solve a problem, but to be able to efficiently learn other ways to solve problems. This typically comes from studying computer science theory, or from lots of experience.
 
-[slide: Know at least one programming language well.]
-
 If you only know one programming language, let's hope it's the one we want you to use on the job. A junior dev needs to know at least that much.
 
 It'd be better to know more than one language though, especially if the job calls for a language you don't know. We'll train a good candidate, especially one who can demonstrate he or she knows how to learn languages.
 
-[slide: Know something about platforms.]
-
 Writing a new program from scratch is often a waste of time. We want to get boilerplate stuff done within a framework of open source code that other people have written and proven in the field. It's always valuable to have discrete skills and experience with common frameworks in the languages you use. It's often valuable to also understand the patterns they implement, the abstractions they offer, and the opinions they enforce.
-
-[slide: Know something about databases.]
 
 In a phone screen, you might be asked about different databases, and it is nice to be able to convey what you do and don't know about them.
 
@@ -183,11 +153,7 @@ A lot of places want you to solve coding problems on a whiteboard, as if you're 
 
 We come up with programming problems from a bunch of different sources, sometimes even our current work. However, if you can solve random problems from ProjectEuler.net, chances are good you can handle our programming problems.
 
-[slide: Know the right language(s).]
-
 By the time you get through the phone screen, you should have an idea what language or languages we might want you to work with. That's probably not enough opportunity to go learn a new language, but even if you don't know the primary language we're going to use together, it still helps to know at least one similar language and at least two or three languages total. Ideally, you'll be well rounded with an object oriented language plus a procedural language and a functional language.
-
-[slide: Front-end is harder.]
 
 Some people might not agree with me on this point. We used to act like front end wasn't real engineering, but it's now some of the most difficult programming we do. It's certainly some of the most dynamic programming.
 
@@ -205,13 +171,9 @@ We have a pattern language for programming as well, and have identified hundreds
 
 Right now, concurrency-oriented patterns and functional programming patterns are particularly interesting to us and to the field as a whole. I'd recommend you learn them.
 
-[slide: Know your databases.]
-
 We want to know whether you're safe around databases, and whether you know how to design and build systems around them. Can you explain why PostgreSQL is a beter open source database than MySQL? (If not, Rob Conery has a great talk on this called "Five things you didn't know about PostgreSQL.")
 
 Can you explain when an ORM is no longer appropriate or performant? When NoSQL is a better choice than SQL? What the CAP theorem is and how to apply it? Why Riak is a better key-value store than MongoDB? Can you make the opposite argument?
-
-[slide: Solve a design problem.]
 
 We don't have time in a one hour interview to design and build a full stack, highly available, secure, high performance system. We only have time for the fun parts.
 
@@ -229,15 +191,9 @@ Does the candidate pair program? How much? Would they do it full time?
 
 A lot of this interview is about the Extreme Programming (or XP) and Software Craftsmanship principles laid out by Robert C Martin (also known as Uncle Bob). We're kinda hoping you've read these. Either way, there's a good chance you've been training on some of the techniques.
 
-[slide: Write unit tests first.]
-
 We think the best way to write code is to understand what it's supposed to do, write a test that proves it does it, and then write code that passes that test.
 
-[slide: Write acceptance and regression tests.]
-
 It doesn't actually matter a lot to us whether the test cycle is short term or long term, unit tests or acceptance tests. We want and expect both - short scale, unit test driven development; feature-scaled acceptance test driven development; and bug-scaled regression tests.
-
-[slide: Pair.]
 
 Pair programming helps team members learn from each other. It helps keep "institutional knowledge" in more than one head. It distributes accountability. It improves code quality.
 
@@ -259,15 +215,11 @@ I'm going to enjoy hearing about the other people who help you. Coaches, mentors
 
 Just as a side note, I'd like point out that OC Tanner recognizes and appreciates people. That's our business.
 
-[slide: Know the coders.]
-
 I think Ruby is a wonderful programming language. You know why? Because Yukohiro Matsumoto wanted to optimize for programmer happiness, so he created a language that's easy to think in. Matz was inspired in part by Larry Wall, a linguist who created Perl, a programming language designed to be very expressive. There are poetry contests in Perl.
 
 These aren't just interesting anecdotes. These are some of the reasons you might choose one language or another.
 
 Who created the languages, libraries, and frameworks you like? What kinds of problems were the trying to solve? What kind of elegance and beauty did they bring into the world? If you don't know the stories, you'll never have a full appreciation for the strengths and weaknesses of the languages, libraries, and frameworks you are relying on.
-
-[slide: Give back.]
 
 What's your Github username? Twitter handle? Blog URL? Who are you mentoring? Have you contributed to open source projects? How about a major programming language? (My friend Kavita got a pull request merged into Python before she got her first programming job.) Do you coach or mentor anyone? Do you present at meetups, regional conferences, or national conferences? Which books have you written?
 
@@ -287,12 +239,28 @@ Salary negotiation is hard for a lot of people, but here's a tip to make it easi
 
 Ask for what you want, and let your hiring manager try to figure out whether he or she can make sure you're worth every penny. Research the field, and the area, and the company to that you're in the right ballpark. Ask your hiring manager what the maximum earning potential for the position is. And then ask for the salary you want. Don't hesitate, or waffle, or apologize. Ask.
 
-[slide: Get skills, mentoring, and a higher lifetime earning potential.]
-
 When you're talking about an offer, take the opportunity to increase your lifetime earning, not just your next salary.
 
 Maybe you need more coding skills, or your need to learn another language. Maybe you want some management experience or leadership training. Maybe you want to do more writing and presenting. Maybe what you really need is someone who can help you figure out what you really need - like a mentor.
 
 What will help you do this job better, and what will help you do the next job better? Propose it as part of your offer.
+
+[ slide
+
+Too intimidating?
+
+Nope. You can do it, and we're going to help.
+
+]
+
+I've given several variations on this talk, including a version that I gave to the engineers in my department because they are the people who are giving these interviews. I got some interesting feedback.
+
+One day at lunch, for instance, a group of eight developers approached the table where I was eating alone. They wanted to know if the stuff I ask about in the community interview is for real. They asked, "Does this mean I need to use Twitter?" and "Why do I need to know who wrote a library I'm using?" and "Well, I haven't written a book. Am I in danger of losing my job?"
+
+Other people have asked me, "Don't you think this method is a little intimidating?" We talked about famously difficult interviewers for comparison - Google, Disney, Apple. We're interviewing local developers who are also interviewing at these companies, and we're making them offers they want to accept.
+
+I'm finding that this interview process is not intimidating for junior and intermediate programmers. They really appreciate the clear communication and our transparency, and they always leave with good career advice if not an offer. The interview process isn't intimidating for world class developers either, because they expect it. If I came through with an interview that didn't give us all a chance to work together, I think they'd stop paying attention to me.
+
+No matter who is interviewing, I believe it's important to make the process as unintimidating as possible. We're not out to scare people away. We want to attract strong talent at all levels of experience, and with this interview process, we're able to recognize them.
 
 [slide: Rob Martin / version2beta]
