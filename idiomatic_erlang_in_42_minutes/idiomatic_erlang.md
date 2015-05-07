@@ -59,7 +59,7 @@ Erlang does variable assignment a little differently than we learned with impera
 
 You can see the difference when I try to tell Erlang that 'A' isn't equal to one anymore, now it's equal to two. Erlang will politely inform me that I'm wrong, that Erlang already knows what 'A' is equal to, and it's not two.
 
-Note the way that Erlang talks about this. It's not an assignment, it's a match. Erlang is looking at the two sides of my equals sign and trying to see how they match. In this case, they don't, so Erlang gives an exception.
+Note the way that Erlang talks about this. "No **match** on right hand side value 2." It's not an assignment, it's a match. Erlang is looking at the two sides of my equals sign and trying to see how they match. In this case, they don't, so Erlang gives an exception.
 
 [ slide
 
@@ -70,7 +70,7 @@ Note the way that Erlang talks about this. It's not an assignment, it's a match.
 ```
 ]
 
-The only reason Erlang let me get away with telling it 'A's value was because the first time around, Erlang didn't know what 'A' was worth. 'A' was unbound. But then I gave Erlang a logic statement, and from that, Erlang could infer that the unbound variable 'A' had a value.
+The only reason Erlang let me get away with telling it 'A's value was because the first time around, Erlang didn't know what 'A's value was. 'A' was unbound. But then I gave Erlang a logic statement, and from that, Erlang could infer that the unbound variable 'A' had a value.
 
 Erlang will do matching even when it needs to unpack values to do so. However, it's important to note a couple of things. First, the unbound variable needs to be on the left side of the equals sign. Second, bound variables still have to match or you're going to get an exception.
 
@@ -85,7 +85,7 @@ Erlang will do matching even when it needs to unpack values to do so. However, i
 ```
 ]
 
-Erlang does a special unpacking job when it comes to lists. If you've ever studied Lisp or Scheme or any of the derived languages, you might be familiar with the terms CAR and CDR, referring to the pointer for the first element of a list, and the pointer for the second element, which carries with it the links for the rest of the list. Erlang refers to the Head and Tail of a list similarly. Head refers to the first element, and Tail gets you the rest of the list. In a list with one element, Tail is an empty list.
+Erlang does a special unpacking job when it comes to lists. If you've ever studied Lisp or Scheme or any of the derived languages, you might be familiar with the terms CAR and CDR, referring to the pointer for the first element of a list, and the pointer for the second element, which carries with it the links for the rest of the list. Erlang refers to the Head and Tail of a list similarly. Head refers to the first element, and Tail gets you the rest of the list.
 
 [ slide
 
@@ -98,7 +98,7 @@ ok.
 ```
 ]
 
-Erlang does the same kind of pattern matching and variable binding when defining functions as well. If we define a function with a parameter that's constant, like zero in this example, Erlang will only recognize the function when there is a match. Anything else will crash and burn.
+Erlang does the same kind of pattern matching and variable binding when defining functions. If we define a function with an argument that's constant, like zero in this example, Erlang will only recognize the function when there is a match on that constant. Anything else will crash and burn.
 
 Just as an aside, this example returns a value called 'ok'. That's not a built-in value or anything, it's what Erlang calls an 'atom'. Erlang's atoms are a 'literal' data type, where the name and the value are the same. In Ruby, a similar data type is called a symbol.
 
@@ -148,7 +148,7 @@ whereis(Marco) ->
 ```
 ]
 
-Erlang uses pattern matching to handle incoming messages from other processes too. In this example, we send a process we know as Marco a message that is our PID and the atom "marco". Then we wait for Marco to reply with a tuple of the atom "polo" and the direction we should move. Erlang is going to ignore any messages that aren't a tuple starting with the "polo" atom, but when it sees that, it will take the second part of the tuple and bind it to the variable Direction, and return it.
+Erlang is concurrent and uses message passing to communicate between processes. It uses pattern matching to handle incoming messages from other processes. In this example, we send a process we know as Marco a message that is our PID and the atom "marco". Then we wait for Marco to reply with a tuple of the atom "polo" and the direction we should move. Erlang is going to ignore any messages that aren't a tuple starting with the "polo" atom, but when the tuple does start with "polo", it will take the second part of the tuple and bind it to the variable Direction, and return the value of that variable.
 
 [ slide
 
@@ -194,7 +194,7 @@ Some definitions:
 
 A **process** is a sequence of programmed instruction, either single- or multi-threaded, that a computer executes.
 
-A **thread** is a single sequence of programmed instruction that a computer executes sequentially. Multi-threaded programs execute more than one thread at a time.
+A **thread** is a single sequence of programmed instruction that a computer executes sequentially. Multi-threaded processes execute more than one thread at a time.
 
 In a lot of languages, we consider threads to be lightweight and processes to be kinda heavy. Threads can get started up quickly but processes are slow. Threads tend to share memory and processes tend to be isolated from each other. Threads use a little memory and processes use a lot.
 
