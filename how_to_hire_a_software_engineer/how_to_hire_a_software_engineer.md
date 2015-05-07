@@ -4,7 +4,11 @@ Let's explore a recruiting and interview process that is people-centered, authen
 
 This is the recruiting and interviewing process I'm using at OC Tanner Company in Salt Lake City, Utah, one of Fortune Magazine's 100 Best Places to Work. It's how I interview for the teams I manage, and it's the process I train other people to use.
 
-[slide: A generalized recruiting process]
+[ slide
+
+A generalized recruiting process
+
+]
 
 We'll start with a generalized recruiting process:
 
@@ -14,7 +18,11 @@ You want developers to introduce themselves to you, not the other way around. Sp
 
 Make your interview process humane. Set an expectation that the process is collaborative, not competitive. When the candidates you don't hire speak well of your process, you have a powerful new tool for recruiting.
 
-[slide: A specialized recruiting process]
+[ slide
+
+A specialized recruiting process
+
+]
 
 We often have specific needs, and we want to tune our recruiting process to meet those needs. Maybe the company is driving up quality, and you want to attract people with experience in software as craft. Perhaps you're carving up a monolithic application and calving microservices. You might want to attract functional programmers, or developers strong in architecture, or programmers in a more obscure language ideal for your application.
 
@@ -30,7 +38,11 @@ For several years I've focused on diversity on engineering teams, especially gen
 
 Because of this and other recruiting efforts, the result has been that about half of the candidates we see are specifically targeting OC Tanner for a job, and some are not even applying at other companies.
 
-[slide: Advice to the hiring manager, Be transparent]
+[ slide
+
+Advice to the hiring manager, Be transparent
+
+]
 
 Before we launch into the mechanics of our interview process, here are some pointers.
 
@@ -48,7 +60,11 @@ Sometimes an interview just doesn't work. Maybe the candidate is nervous, or has
 
 We want candidates who are "tee shaped" - deep skills in at least one area, but broad skills too. What's the right fit for your team? It's almost never just amazing technical skills with the language. You might want to see your team do more pairing, or better testing. Maybe you want someone who is good at sharing and teaching, or helps build cohesion. Look at how each candidate fits the team along multiple dimensions.
 
-[slide: Advice to the candidate, show us where you're at]
+[ slide
+
+Advice to the candidate, show us where you're at
+
+]
 
 Our collaborative process is only useful if we get your cooperation too.
 
@@ -58,13 +74,21 @@ We want to see you at your best. If we're not getting that, help us figure out a
 
 Your coding ability is only part of the equation. We also want to see how our goals mesh with your goals.
 
-[slide: How to evaluate an interview, for interviewers and hiring managers, evaluate the interview first]
+[ slide
+
+How to evaluate an interview, for interviewers and hiring managers, evaluate the interview first
+
+]
 
 Here's part of our transparency: we want candidates to know how they will be evaluated, and later, how they performed.
 
 Before you evaluate a candidate's interview, evaluate the interview process. Were you able to get to know the candidate? Do you and the candidate both feel like you got an accurate impression of the candidate's abilities during the interview? If not, is it worthwhile confirming the candidate's skills in another way, like moving to a different space (maybe less casual, like a conference room, or more casual, like a coffee shop?), or with a take home coding exercise, or a corraborating interview with someone else?
 
 I once interrupted an interview taking place in one of our office "living rooms" - small rooms with a couch, a couple of cozy chairs, a big screen TV, and a whiteboard mounted uncomfortably close to the floor. A young woman being interviewed by two engineers (one male and one female) was kneeling on the floor in a skirt and heels trying to solve a coding exercise on the whiteboard. She looked miserable, so we changed just about everything. Instead of the living room, we went to a training room with a desk-height table, office chairs, and bright overhead lighting. Instead of a whiteboard, we had her pair with a female engineer from our team. Instead of being two-on-one, I asked the male engineer to offer the women coffee or tea and then leave the interview. The candidate performed much better under the changed circumstances.
+
+Did you know that the dry erase marker is less than 40 years old? Together with the whiteboard, they are a direct replacement for their predecessors, chalk and the chalk board. A soft rock, and a hard rock.
+
+When we do a whiteboard coding interview, we're asking a software engineer to prove that they have mastered the most complicated devices humankind has created by drawing pictures on a cave wall.
 
 We evaluate candidates using a modified "fist five" consensus method. We rate the candidate after each interview according to this scale:
 
@@ -80,7 +104,11 @@ For example, maybe we don't just need a Scala developer, but one with enough lan
 
 Perhaps we have specific goals around improving software quality. In that case, we might prefer a candidate who ranks high in the interview who ranks in the 90th percentile for Software Craftsmanship.
 
-[slide: How to evaluate an interview, for candidates]
+[ slide
+
+How to evaluate an interview, for candidates
+
+]
 
 At the end of each interview, your interviewers will already be figuring out how to share their impressions of you with the hiring manager. This is an excellent time to ask what their thoughts are.
 
@@ -89,19 +117,31 @@ At the end of each interview, your interviewers will already be figuring out how
 * Do you feel like they got an accurate impression? If not, be sure to tell them, or bring it up with the hiring manager.
 * Will you get the interviewers' recommendation for the job?
 
-[slide: Seven interviews]
+[ slide
+
+Seven interviews
+
+]
 
 Every promising candidate for a job will get at least one interview, and the candidates who receive offers will get seven interviews total.
 
 Let's look at each interview and explore our goals for that interview, along with some ideas for candidates on how to win it.
 
-[slide: The phone screen, interviewers and hiring managers]
+[ slide
+
+The phone screen, interviewers and hiring managers
+
+]
 
 We don't want to waste the candidate's time, or our time either. The phone screen is a go / no-go interview that determines whether it's worthwhile to bring a candidate in for the on-site interview process.
 
 We want to understand why the candidate is looking for a new job, and why at OC Tanner specifically. Also, we want to make sure the candidate can code.
 
-[slide: The phone screen for the win! Understand our problem domain.]
+[ slide
+
+The phone screen for the win! Understand our problem domain.
+
+]
 
 The best way to win the phone screen is to be an excellent, well rounded developer who knows about the work we do.
 
@@ -125,7 +165,11 @@ In a phone screen, you might be asked about different databases, and it is nice 
 
 Remember, we want to get a feel for where you are in your career so that we can make a good fit for you and for us.
 
-[slide: Lunch, Interviewers and hiring managers]
+[ slide
+
+Lunch, Interviewers and hiring managers
+
+]
 
 We try to feed every candidate at least once. Some managers prefer to take a candidate to a fancy local restaurant, along with the team of engineers who will be doing the interviews.
 
@@ -133,19 +177,31 @@ I don't. If dinner out is an important part of the recruiting effort, let's do t
 
 At OC Tanner, we have an excellent cafeteria with an executive chef we recruited away from one of the best restaurants in the area, and while the daily menu may not be a modernist delight, the food is good.  More important than the food, though, is that I can make an open invitation to a dozen or more other developers, potential coworkers for the candidate. This gives my candidate a great opportunity to meet the team informally, and gives me a chance to watch how the candidate relates to my team.
 
-[slide: Lunch for the Win!]
+[ slide
+
+Lunch for the Win!
+
+]
 
 The lunch interview is an opportunity for you to learn about us from a diverse group of people working here. Take advantage of that. Ask questions, get to know people. Try to be outgoing.
 
 It's a safe place, and we want you to like us.
 
-[slide: The language skills interview, Interviewers and hiring managers]
+[ slide
+
+The language skills interview, Interviewers and hiring managers
+
+]
 
 We use a variety of programming languages on different projects: Java, Scala, Javascript, Coffeescript, Ruby, and Erlang in my area alone. We want to hire and train developers to be exceptionally competent, often in several languages.
 
 We want to know what language a candidate uses, and how competently they're able to use them. We'll probably look for one or more languages in our list, or similar to the languages in our list. We might also look for candidates who have experience in langauges we think brings a good perspective to their work.
 
-[slide: The language skills interview for the win! Be competent.]
+[ slide
+
+The language skills interview for the win! Be competent.
+
+]
 
 This is a coding interview, and you should expect to have a coding problem to solve. Ideally, you'll do this interview on your own laptop using an environment you're comfortable with, while pairing with one of our engineers.
 
@@ -159,11 +215,19 @@ Some people might not agree with me on this point. We used to act like front end
 
 We want to know that you know HTML5 and CSS really well. We'll ask hard questions to test you on this. Also, you'll still need to demonstrate language competentcy in Javascript, understand about shims and polyfills, and show proficiency in frameworks like Angular and React.
 
-[slide: Design and architecture, interviewers and hiring managers]
+[ slide
+
+Design and architecture, interviewers and hiring managers
+
+]
 
 As a manager, I'm supposed to communicate with my developers *what* the problem is and *why* we're solving it, but not *how* to solve it. Figuring out the how is engineer's responsibility, so we want to make sure the candidate can do it.
 
-[slide: Design and architecture for the win! Know your patterns.]
+[ slide
+
+Design and architecture for the win! Know your patterns.
+
+]
 
 Design patterns are a way of solving problems by seeing how well the problem fits the shape of some known solutions. The idea comes from architecture and the 1977 book by Christopher Alexander called "A Pattern Language". In architecture, a door fits a pattern for entering and exiting a house, and a double-wide French door is an implementation detail.
 
@@ -179,7 +243,11 @@ We don't have time in a one hour interview to design and build a full stack, hig
 
 What I may not tell you in the interview is that I picked out one of the most important things you might work on when you join one of my teams. I want to see how you approach the problem, and how you related to it. Is this an exciting problem for you? Do you catch on quickly? Do you have experience in the problem domain?
 
-[slide: The craftsmanship interview, Interviewers and hiring managers.]
+[ slide
+
+The craftsmanship interview, Interviewers and hiring managers.
+
+]
 
 We are improving our quality practices, and while we've got great support from the current members of our team, we also want to hire people who have experience and a commitment to strong quality practices.
 
@@ -187,7 +255,11 @@ Does the candidate write tests? What kinds of tests? Does the candidate write un
 
 Does the candidate pair program? How much? Would they do it full time?
 
-[slide: The craftsmanship interview for the win! Clean coding and extreme programming.]
+[ slide
+
+The craftsmanship interview for the win! Clean coding and extreme programming.
+
+]
 
 A lot of this interview is about the Extreme Programming (or XP) and Software Craftsmanship principles laid out by Robert C Martin (also known as Uncle Bob). We're kinda hoping you've read these. Either way, there's a good chance you've been training on some of the techniques.
 
@@ -199,13 +271,21 @@ Pair programming helps team members learn from each other. It helps keep "instit
 
 We like pair programming and we want to do more of it. We want new hires to expect that, and to participate in making it happen. Some of these skills are aspirational for some of our teams, but we're getting better and part of how we're doing that is by hiring people who bring good habits with them.
 
-[slide: The community interview, interviewers and hiring managers.]
+[ slide
+
+The community interview, interviewers and hiring managers.
+
+]
 
 Our final interview of the day helps us see how the candidate interacts with the tech community both inside and outside of the office.
 
 How capable is the candidate at receiving help from the community? Does the candidate make use of static resources like tech blogs and community documentation as well as dynamic resources like IRC, Twitter, meetups, and conferences? When he or she describes getting help from someone in the community, do they talk more about the resources, or the people? How valuable is the candidate to the community? Is he or she just a consumer, or also a leader?
 
-[slide: The community interview for the win! Know your community.]
+[ slide
+
+The community interview for the win! Know your community.
+
+]
 
 None of us got where we are without the help of others, and most of us rely on other people more or less constantly, because we're constantly growing and learning.
 
@@ -225,13 +305,21 @@ What's your Github username? Twitter handle? Blog URL? Who are you mentoring? Ha
 
 These questions scare a lot of experienced programmers, but if it weren't for people who do all these things, we wouldn't be here. We want to see how you see yourself in the community.
 
-[slide: Designing an offer, Hiring manager.]
+[ slide
+
+Designing an offer, Hiring manager.
+
+]
 
 If we get to this point, it's because we want to hire the candidate, so we want to write an offer that will make the candidate happy and excited to come work with us. Negotiate transparently as best you can, and communicate a lot. How does onboarding happen? What are the benefits like? What's the drug testing policy? (This one has bitten me several times!)
 
 When you're done with this interview, you should know exactly what the offer will say - and exactly what the candidate will say to it too.
 
-[slide: Writing an offer for the win! Ask for what you want.]
+[ slide
+
+Writing an offer for the win! Ask for what you want.
+
+]
 
 They pay us stupid amounts of money to do this work. It's nice and all, but I couldn't leave tech and go somewhere else and still make anything like the salary I make in tech. Since they're willing to pay us so well, you might as well try to get more for yourself.
 
@@ -263,4 +351,10 @@ I'm finding that this interview process is not intimidating for junior and inter
 
 No matter who is interviewing, I believe it's important to make the process as unintimidating as possible. We're not out to scare people away. We want to attract strong talent at all levels of experience, and with this interview process, we're able to recognize them.
 
-[slide: Rob Martin / version2beta]
+[ slide
+
+Questions?
+
+Rob Martin / version2beta contact info
+
+]
