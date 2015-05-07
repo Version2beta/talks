@@ -162,19 +162,20 @@ Six rules of fault tolerant systems. (Spoiler alert: Erlang is designed around t
 
 **Concurrency** processes must run concurrently. The world is concurrent, parallel, and distributed. We need at least two computers to make a fault tolerant system, but a few hundred are better.
 
-**Failure detection** Machines are going to die. Processes are going to die. You've got to know when this happens, even across machine boundaries. Crossing machine boundaries means you have to have pure message passing where you copy everything. You can't share dangling pointers across different machines.
-
-**Fault identification** It's not enough to know that something crashed. You have to know what crashed, and why it crashed.
-
 **Hot code upgrades** Need to be able to maintain the code without shutting down the system.
 
 **Stable storage of data** Stable storage means we don't need backups. If data systems are also fault tolerant, then the data is already distributed in multiple copies on multiple machines.
 
-We've already talked about how some of these play out in Erlang - that processes share nothing, that processes run concurrently and in parallel if there's more than one processor available to them.
+**Failure detection** Machines are going to die. Processes are going to die. You've got to know when this happens, even across machine boundaries. Crossing machine boundaries means you have to have pure message passing where you copy everything. You can't share dangling pointers across different machines.
+
+**Fault identification** It's not enough to know that something crashed. You have to know what crashed, and why it crashed.
+
+We've already talked about how some of these play out in Erlang - that processes share nothing, that processes run concurrently and in parallel if there's more than one processor available to them. Data storage is outside of the scope of this talk (I don't think it's idiomatic to Erlang, although there's a lot of cool stuff going on in there.) The fact that Erlang let's you do hot code swapping is really kinda beautiful, but in practice it's most used by applications requiring constant uptime.
 
 Erlang has support built in for failure detection and identification, too. A process that starts another process can link to it too, even across a network. This detection works several different ways. Two or more processes can be linked together to detect failures so that all of the processes can fail or exit together. Or, a linked process can simply receive notice that another process has failed along with a message about why it failed.
 
-In Erlang, processes with a primary job of watching over other processes are called supervisors, and they're an important part of fault tolerance in Erlang. Each process is expected to deal with the data it expects, and just crash otherwise. Workers process the data this way, and supervisors supervise workers this way. Like in de Raadt's rule, 
+In Erlang, processes with a primary job of watching over other processes are called supervisors, and they're an important part of fault tolerance in Erlang. Each process is expected to deal with the data it expects, and just crash otherwise. Workers process the data this way, and supervisors supervise workers (and other supervisors). Like in de Raadt's rule, they do what they're specified to do and otherwise they fail.
+
 
 
 
