@@ -59,6 +59,13 @@ ExUnit.start
 defmodule CheaterTest do
   use ExUnit.Case
 
+  test "learning some Elixir" do
+    assert "jumble" == "jumble"
+    refute 'jumble' == "jumble"
+    assert 'jumble' == "jumble" |> to_char_list
+    assert 'jumble' |> Enum.sort == 'bejlmu'
+  end
+
   test "pick" do
     assert Cheater.pick('', '') == ''
     assert Cheater.pick('abc', '') == ''
