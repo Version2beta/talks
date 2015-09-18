@@ -78,10 +78,7 @@ We can try that in the REPL first.
 First, lets try to figure out how to test one word. For that, we need a word. How do we represent that in Elixir?
 
 ```
-iex> "jumble"
-"jumble"
-
-iex> "jumble" |> to_char_list
+iex> 'jumble'
 'jumble'
 
 iex> 'jumble' == "jumble"
@@ -89,6 +86,9 @@ false
 
 iex> 'jumble' == to_char_list "jumble"
 true
+
+iex> "jumble" |> to_char_list
+'jumble'
 
 iex> "jumble" |> to_char_list |> Enum.sort
 'bejlmu'
@@ -102,8 +102,20 @@ iex> 'jumble' |> Enum.shuffle
 iex> for c <- 'jumble', do: c
 'jumble'
 
-iex> for c <- 'jumble', do: c+1
-'kvncmf'
+iex> for c <- 'jumble', do: IO.puts c
+106
+117
+109
+98
+108
+101
+[:ok, :ok, :ok, :ok, :ok, :ok]
+
+iex> for c <- [106, 117, 109, 98, 108, 101], do: c
+'jumble'
+
+iex> for ages <- [106, 117, 109, 98, 108, 101], do: ages
+'jumble'
 
 iex> for c <- 'jumble', do: Enum.member?('muebjl', c)
 [true, true, true, true, true, true]
@@ -155,7 +167,5 @@ iex> Enum.filter words, fn word -> Enum.all? for c <- word, do: Enum.member?(til
 ```
 
 We have a problem. How did we get 'bell' and 'belle' through? We have a 'b' and one 'e', and only one 'l' in our tiles.
-
-I think it's time to approach this a little differently. Let's use some tests.
 
 
