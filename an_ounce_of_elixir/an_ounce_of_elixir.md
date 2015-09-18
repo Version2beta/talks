@@ -166,6 +166,98 @@ iex> Enum.filter words, fn word -> Enum.all? for c <- word, do: Enum.member?(til
 ['be', 'bee', 'beebee', 'bejumble', 'bel', 'bell', 'belle', 'bleb', 'blellum', ...
 ```
 
-We have a problem. How did we get 'bell' and 'belle' through? We have a 'b' and one 'e', and only one 'l' in our tiles.
+We have a problem. How did 'bejumble' get through? We only have one 'b' and one 'e' in our tiles.
 
+Let's switch to a test driven approach. Maybe we won't make mistakes like this one.
 
+```cheater.exs
+ExUnit.start
+
+defmodule CheaterTest do
+  use ExUnit.Case
+
+  test "learning some Elixir" do
+    assert "jumble" == "jumble"
+    refute 'jumble' == "jumble"
+    assert 'jumble' == "jumble" |> to_char_list
+    assert 'jumble' |> Enum.sort == 'bejlmu'
+  end
+end
+```
+
+```
+...
+  test "pick" do
+    assert Cheater.pick('', '') == ''
+    assert Cheater.pick('abc', '') == ''
+    assert Cheater.pick('abc', 'd') == ''
+    assert Cheater.pick('abc', 'b') == 'b'
+    assert Cheater.pick('abcdef', 'bdf') == 'bdf'
+    assert Cheater.pick('abcabc', 'abc') == 'abc'
+    assert Cheater.pick('abc', 'abcabc') == 'abc'
+    assert Cheater.pick('ujmleb', 'jumble') == 'jumble'
+  end
+...
+defmodule Cheater do
+  def pick(tiles, word), do: pick(tiles, word, '')
+  def pick(tiles, word, int) when tiles == '' or word == '' do
+    int
+  end
+  def pick(tiles, [char | chars], int) do
+    cond do
+      Enum.member? tiles, char ->
+        pick(tiles -- [char], chars, int ++ [char])
+      true ->
+        pick(tiles, chars, int)
+    end
+  end
+end
+```
+
+```
+...
+  test "match" do
+    assert Cheater.match('', '') == true
+    assert Cheater.match('abc', 'abc') == true
+    assert Cheater.match('abc', '') == true
+    assert Cheater.match('', 'abc') == false
+    assert Cheater.match('abc', 'def') == false
+    assert Cheater.match('ujmleb', 'jumble') == true
+  end
+...
+  def match(tiles, word) do
+    word == pick(tiles, word)
+  end
+```
+
+```
+...
+  test "dict" do
+    [word | words] = Cheater.make_dict "words.txt"
+    assert is_list words
+    assert is_list word
+  end
+...
+  def make_dict(file) do
+    {:ok, dict} = File.read(file)
+    dict |> String.split("\n") |>
+      Enum.map fn word ->
+        to_char_list word
+      end
+  end
+```
+
+```
+...
+  test "find" do
+    words = Cheater.make_dict("words.txt")
+    matches = Cheater.find('ujmebl', words)
+    assert Enum.member? matches, 'jumble'
+    refute Enum.member? matches, 'mumble'
+    refute Enum.member? matches, 'bell'
+  end
+...
+  def find(tiles, words) do
+    Enum.filter words, fn word -> match tiles, word end
+  end
+```
