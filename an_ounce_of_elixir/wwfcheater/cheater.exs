@@ -1,3 +1,50 @@
+ExUnit.start
+
+defmodule CheaterTest do
+  use ExUnit.Case
+
+  test "learning some Elixir" do
+    assert "jumble" == "jumble"
+    refute 'jumble' == "jumble"
+    assert 'jumble' == "jumble" |> to_char_list
+    assert 'jumble' |> Enum.sort == 'bejlmu'
+  end
+
+  test "pick" do
+    assert Cheater.pick('', '') == ''
+    assert Cheater.pick('abc', '') == ''
+    assert Cheater.pick('abc', 'd') == ''
+    assert Cheater.pick('abc', 'b') == 'b'
+    assert Cheater.pick('abcdef', 'bdf') == 'bdf'
+    assert Cheater.pick('abcabc', 'abc') == 'abc'
+    assert Cheater.pick('abc', 'abcabc') == 'abc'
+    assert Cheater.pick('ujmleb', 'jumble') == 'jumble'
+  end
+
+  test "match" do
+    assert Cheater.match('', '') == true
+    assert Cheater.match('abc', 'abc') == true
+    assert Cheater.match('abc', '') == true
+    assert Cheater.match('', 'abc') == false
+    assert Cheater.match('abc', 'def') == false
+    assert Cheater.match('ujmleb', 'jumble') == true
+  end
+
+  test "dict" do
+    [word | words] = Cheater.make_dict "words.txt"
+    assert is_list words
+    assert is_list word
+  end
+
+  test "find" do
+    words = Cheater.make_dict("words.txt")
+    matches = Cheater.find('ujmebl', words)
+    assert Enum.member? matches, 'jumble'
+    refute Enum.member? matches, 'mumble'
+    refute Enum.member? matches, 'bell'
+  end
+end
+
 defmodule Cheater do
   @moduledoc """
   Find words that can be made from a jumbled collection
@@ -53,51 +100,3 @@ defmodule Cheater do
   end
 end
 
-
-ExUnit.start
-
-defmodule CheaterTest do
-  use ExUnit.Case
-
-  test "learning some Elixir" do
-    assert "jumble" == "jumble"
-    refute 'jumble' == "jumble"
-    assert 'jumble' == "jumble" |> to_char_list
-    assert 'jumble' |> Enum.sort == 'bejlmu'
-  end
-
-  test "pick" do
-    assert Cheater.pick('', '') == ''
-    assert Cheater.pick('abc', '') == ''
-    assert Cheater.pick('abc', 'd') == ''
-    assert Cheater.pick('abc', 'b') == 'b'
-    assert Cheater.pick('abcdef', 'bdf') == 'bdf'
-    assert Cheater.pick('abcabc', 'abc') == 'abc'
-    assert Cheater.pick('abc', 'abcabc') == 'abc'
-    assert Cheater.pick('ujmleb', 'jumble') == 'jumble'
-  end
-
-  test "match" do
-    assert Cheater.match('', '') == true
-    assert Cheater.match('abc', 'abc') == true
-    assert Cheater.match('abc', '') == true
-    assert Cheater.match('', 'abc') == false
-    assert Cheater.match('abc', 'def') == false
-    assert Cheater.match('ujmleb', 'jumble') == true
-  end
-
-  test "dict" do
-    [word | words] = Cheater.make_dict "words.txt"
-    assert is_list words
-    assert is_list word
-  end
-
-  test "find" do
-    words = Cheater.make_dict("words.txt")
-    matches = Cheater.find('ujmebl', words)
-    assert Enum.member? matches, 'jumble'
-    refute Enum.member? matches, 'mumble'
-    refute Enum.member? matches, 'bell'
-  end
-
-end
