@@ -31,8 +31,6 @@ Elixir inherits all of the good things from Erlang, and it adds some new good th
 
 About a year ago, Elixir hit it's first official production release, version 1.0. It's pretty easy to learn. Companies are using it for their products. Startups are using it to prove their ideas. It plays nicely at internet scale.
 
-It seems to be the tool I was looking for.
-
 ## Learning Elixir
 
 When I'm learning a new programming language, I like to use two tools.
