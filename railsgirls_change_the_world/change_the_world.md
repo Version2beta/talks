@@ -166,6 +166,8 @@ rob@version2beta.com
 @version2beta
 github.com/version2beta
 
+Appreciation to @senvara, @onealexharms, and countless others for their insights and influence on my talk and my life.
+
 ]
 
 I want to thank you for the opportunity to be one of the first people to interview for the jobs that you're going to create. I understand that you might not be ready to offer me a job right away. Please, take the rest of the weekend to think about it. After that, I hope we can talk again about how to fit me into your plans for world domination.
