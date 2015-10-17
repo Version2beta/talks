@@ -6,9 +6,13 @@ This is a transcript.
 
 [ slide:
 
-Where do you go from here?
+Where to go from here?
+Rails Girls Salt Lake City 2015 at Dev Point Labs 
 
-1. Get a mentor.
+Rob Martin
+rob@version2beta.com
+@version2beta
+www.linkedin.com/in/version2beta
 
 ]
 
@@ -17,6 +21,13 @@ Hi, I'm Rob Martin, otherwise known as Version2beta pretty much everywhere onlin
 I hope this weekend has been super successful for you, and that you decide to keep coding, to become a professional developer, or build that app you've been wanting to have, or just express yourself to a connected world. You've got lots of choices in the path you take to get there, and I'm not in a position to give you a road map because I only know a little about where you're at, and I know almost nothing about where you want to be.
 
 But I think our organizers might have wanted me to talk about practical steps you can take to keep learning and keep coding. And that's important, so let's take thirty seconds and discuss a plan.
+
+[ slide:
+
+1. Get a mentor.
+2. To be determined.
+
+]
 
 The facts are that if I knew more, I could help more. If we sat down and talked, I can help you find your path. That's true of pretty much every coach here.
 
@@ -37,6 +48,8 @@ I have mad skills, of course because why else would I ask you for a job, but sin
 [ slide:
 
 Developers create culture.
+
+cul·ture (noun) the complex whole that includes knowledge, belief, art, morals, law, custom, and any other capabilities and habits acquired by a human being as a member of society.
 
 ]
 
