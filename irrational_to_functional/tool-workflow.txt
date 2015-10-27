@@ -1,0 +1,52 @@
+  Markdown:
+
+  ---
+  title: Feature flags
+  ---
+
+  Enable or disable features using the switches below.
+
+  {{performance.fflags.newui}}
+  {{performance.fflags.wall}}
+  {{performance.fflags.profile_service}}
+  {{performance.fflags.email_service}}
+  ...
+
+  Make form elements:
+
+  ---
+  title: Feature flags
+  ---
+
+  Enable or disable features using the switches below.
+
+  <form action="#">
+  <script type="javascript"> make_form_element("performance.fflags.newui"); </script>
+  <script type="javascript"> make_form_element("performance.fflags.wall"); </script>
+  <script type="javascript"> make_form_element("performance.fflags.profile_service"); </script>
+  <script type="javascript"> make_form_element("performance.fflags.email_service"); </script>
+  </form>
+  ...
+
+  Apply layout:
+
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <link rel="stylesheet" href="..."/>
+      <script type="javascript" src="..." .../>
+      ...
+    </head>
+    <body>
+      <nav>
+        ...
+      </nav>
+      <section>
+        <h1>Feature flags</h1>
+        <p>Enable or disable features using the switches below.</p>
+        <form action="#">
+        <script type="javascript"> make_form_element("performance.fflags.newui"); </script>
+        ...
+
+
+

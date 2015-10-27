@@ -1,0 +1,11 @@
+{                         {                             {
+  foo: {                    foo: "bar",                   foo: {
+    bar: "baz"    plus      bar: "baz"       equals         bar: "baz"
+  }                         boo: {                        },
+}                             shoo: "yoo"                 bar: "baz",
+                            }                             boo: {
+                          }                                 shoo: "yoo"
+                                                          }
+                                                        }
+
+

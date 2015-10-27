@@ -1,0 +1,15 @@
+Commands:
+
+PUT foo = "bar"
+
+PUT foo.bar = "baz"
+
+PUT foo.baz = "bar"
+
+
+
+PUT foo.bar = "qux"
+
+
+
+DELETE foo.bar

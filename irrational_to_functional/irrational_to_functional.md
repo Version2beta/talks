@@ -18,17 +18,40 @@ OC Tanner does employee engagement through recognition and appreciation awards. 
 
 ### The way things were
 
+[ slide:
+
+Basement, Terrace, and Courtyard floor plan
+
+]
+
 OC Tanner has grown over the years primarily by saying yes to customers. As revenues and capabilities have increased, they've tacked additions on to our facilities like an old house that gets more bedrooms as the family grows. Our basements are a good example: we have seven, and they aren't connected to each other.
 
 I heard a story about a woman who started her first day of work by going through our half-day orientation session, and then asked if she could skip lunch and go say thank you to the friend who had recommended her. She got directions to find her friend's team, down in one of the basements. The person leading the orientation didn't expect to see her again, since she was supposed to report to her manager after lunch. When she didn't report for work after lunch, her manager assumed she had been a no-show for the whole day. Late that afternoon someone found the poor woman in one of the basements, hopelessly lost and crying.
 
 This is what our software is like too.
 
+[ slide:
+
+"[T]hings which grow shape themselves from within outwards – they are not assemblages of originally distinct parts; they partition themselves, elaborating their own structure from the whole to the parts, from the simple to the complex.”
+
+Alan Watts 1958
+
+]
+
 I mean, our software has grown organically over the years, by saying yes to customers. Can I have this new feature? Yes. Can you make the software do things our way? Yes. What if we want this to be royal blue? Yes. Option by option, tacked on like a new tower on the castle, with a royal blue turret on top. Or purple. We can do purple too.
 
 When I came along, my new boss put me in charge of the team responsible for configuration tools on the second of the two largest software platforms we offer. He explained to me that there were umpteen hundred settings, and onboarding required individually setting every one of them correctly, and that was a big reason why our onboarding process was running as long as ten months. My team is responsible for the monolithic web app used by 175 internal customers to manage those settings. Oh, and the only developer on that team was out on maternity leave and we didn't know when she'd be back.
 
 He also told me that there is a standing prediction in the office that anyone who takes on configuration would be gone within six months.
+
+[ slide:
+
+* > 5250 configuration settings
+* 42 tables
+* 25% of settings have no effect
+* ~20 systems mucking around directly in the database
+
+]
 
 I didn't have a team yet, and I did have some time on my hands, so I scoped out the problem. Here are some of my findings:
 
@@ -47,13 +70,19 @@ It is worth mentioning that the product I work on was built on a monolithic code
 
 So that's what I set out to do with configuration, too, knowing that in six months I could always retrain as a hairdresser, because out of all the careers we can choose from, hairdressers have the highest job satifaction.
 
-### Design goals
+[ slide:
+
+Design goals
+
+* Reduce complexity
+
+]
 
 I would love to say that my next step was to make a list of design goals for the project. And I did make some design goals, but I also had an inclination to use purely functional programming as much as possible, a functional data store, and a CQRS pattern, command-query responsibility segregation. Some of our most impressive design goals came out of thinking about patterns, rather than looking at our application.
 
 Here are some of the design goals we settled on for our new configuration service.
 
-* Zeroeth law: Reduce complexity.
+* The zeroeth law: Reduce complexity.
 
 I'm putting this up here, maybe just as a reminder to myself. On any project, my first goal is to reduce complexity.
 
@@ -69,25 +98,45 @@ We can try to make sure that our configuration settings comply with logical cons
 
 Of course, there's much, much more we were able to do. This is just some of the complexity from my intial findings.
 
+[ slide:
+
+Design goals:
+
 * Multi-tenant - not just our product and not just configuration data.
 * Hierarchical key-value store with metadata.
 * 10^8 keys with <10ms response time for most queries.
 
+]
+
 Let me stop here and explain that it took me about a month to finally see that we were building a database, not a specialized configuration service. I can be kinda slow, but once I got it I kicked myself. Building your own database is so 2012! I even went to my CTO and asked him why he approved a project to build our own database.
 
 If I'd realized this sooner, I'm sure I would have dropped the project and tried to figure out how to do it with a generic NoSQL database. The jury is still out on whether that would have been a better move, but by the time I realized what we were doing we already had design goals I couldn't meet with a general purpose database.
+
+[ slide:
+
+Design goals:
 
 * Single point of specification (the team creating the setting).
 * Discoverable. Documented.
 * Expose settings anywhere.
 * A useful metaphor: books of definitions, like dictionaries.
 
+]
+
 Under the old system, when we needed new configuration settings, the developer created a row, or maybe a table, and stored what they needed there. The documentation typically consisted of the name of the table and the name of the column along with the code. Other developers that interact with that setting, for instance building a configuration management tool, have to infer how it's used.
 
 In our new system, we want the developer to create a new configuration setting and store alongside it any information needed to find, understand, change, and validate that setting. So our system contains not just data but metadata - a title, a description, and a schema at least, but it can also include tags that identify where the data should be exposed, and access control information defining who can view and change it. The metadata tells us everything we need to know to expose the setting anywhere we'd like, with documentation that comes straight from the creator.
 
+[ slide:
+
+Design goals:
+
 * Composable data.
 * Time variant for version control.
+
+(composable data example)
+
+]
 
 Our old system doesn't have the concept of default settings or settings templates. Every new customer needs to have every configuration setting established by an implementation specialist.
 
@@ -101,8 +150,14 @@ That's how composable data works. You can specify a query across multiple books 
 
 We have a special situation though. Although many of our customers can simply use the default values in the current version of each book, some of our customers want to go through a change review process, so we can't willy-nilly update the default books without warning them. To accomodate this situation, we keep every version of every book, and we can reference any version by an identifier that is a hash of that book in that version. We stole the idea from Git, and along with it we made sure you can also name (or tag) a version so that we can reference it intuitively.
 
+[ slide:
+
+Design goals:
+
 * Don't require changes to legacy code.
 * Foreign views.
+
+]
 
 Composable data and time variance are two features that we didn't think we could get from any available database. Foreign views are another.
 
@@ -110,12 +165,16 @@ The original monolith had about 2 million lines of Java, and we still have about
 
 We addressed this with foreign views, or foreign projections. That is, when something changes in a book, we want to be able to map that change to a row in a database table and update it there as well. This means we need to treat the database as a view of the current state of a configuration setting, not the canonical source of that state. On the side, all of our legacy code including the tool used internally to manage customer configurations, write directly to the database. So we also need to treat the database as a source for configuration events - a proxy, if you will.
 
-Configuration management tools
+[ slide: 
+
+Design goals: Configuration management tools
 
 * Build tools that support workflow, rather than workflows to support the tools.
 * Expect internal customers to design their own tools.
 * Deliver new tools the same day and iterate quickly.
 * Make the tool building process lego-block simple. Juniors should do it.
+
+]
 
 Our work on this project covers the whole spectrum of configuration and configuration management. We're not only building a configuration database, we're building the tools to manage it, and we have a lot of opportunity to improve on our current tools. Our software engineering department used to promise new hires that they can't do worse than has already been done.
 
@@ -141,7 +200,13 @@ We spent two hours reviewing the translation service's needs, looking for the ga
 
 I think that was the moment I realized that what we were building was actually a database.
 
-### A time-variant key-value store
+[ slide:
+
+A time-variant key-value store:
+Event stores &
+Command Query Responsibility Segregation
+
+]
 
 We were able to meet all of our design goals by basing our design on two relatively well known patterns: event stores, and command query responsibility segregation. In fact these two patterns influenced our design goals and exposed some wins we might not have asked for otherwise.
 
@@ -153,6 +218,12 @@ In order to get excellent query performance, when we get a request for a key, we
 
 Foreign views work the same way. After a full view is produced, the metadata indicates whether the data is also projected somewhere else. If it is, we use another service called a data coordinator to do that.
 
+[ slide:
+
+Java spike vs. Elixir version
+
+]
+
 At this point I want to come clean on something. By the time we started work on this, I had one excellent programmer available, but he is a Java developer with little functional programming experience. Our first release of this system is not exactly as described. We built it in a lean-development sort of way, to get the interface and functionality into the hands of the developers who who are going to use it and see where our abstractions are falling short. Our current production version is written in Java 1.8 and uses one process per book rather than one actor per key. Because of this, a book is distinct from a key. Instead, it's a container for a set of keys. Data composition can only happen across books. Our development version is written in Elixir and is actor-based. In the development version, there is no difference between a book and a key - a book simply denotes the root key, any key can be considered a book, and compositions can happen at any level.
 
 Obviously there are a lot of interesting implementation details behind a database like this, and I don't have time to go into all of it, but I can talk about some of our development strategies. For example, in the current production version, disk persistence uses S3 buckets from Amazon Web Services. We get redundancy and availability with a super-simple interface, but once we start measuring performance this will be low hanging fruit. What we got was a persistence layer that brings something extra to the table, and we will continue to look for ways to leverage other technologies to meet our needs rather than build it all in house. Another example of this is our message bus. Instead of tacking an HTTP interface onto our service, the service is configured to use RabbitMQ channels for receiving and sending messages.
@@ -161,9 +232,19 @@ I'd love to discuss other implementation details. The data structure, for exampl
 
 I sound like a manager. We got to implementation details, and I got all hand-wavey.
 
+[ slide:
+
+Invalid data
+
+]
+
 Before we move on, however, there is a design detail that I think is significant. We had to consider what happens with invalid data - what happens if someone sends us something that doesn't validate. If we were just a regular database, we could reject it. Of course, if we were just a regular database, we'd be keeping only the current state and it would break our contract with our users to provide them data that lacks integrity. As an immutable and time-variant database, I think we have a responsibility to handle all events, not just the ones we like, because events happen in the real world and it's not like we can just reject reality. Even if it means our data is in an exceptional state. The decision we made was to use the metadata to flag states that are invalid. If you ask for a key without metadata, we'll send you the most current valid state. But if you ask for the data and metadata, it'll give you the current invalid state. And we can use the "invalid" flag to create a report showing which keys are broken, and ask some human being for help.
 
-### Data coorindators
+[ slide:
+
+Data coorindators
+
+]
 
 Our initial and perhaps naive view of foreign data was two-fold. On the configuration service side, when we build a projection we might run a SQL statement that is stored in the metadata, updating the setting in the database. On the database side, we could set up triggers on each of the configuration tables that would post the updated data to an API.
 
@@ -173,11 +254,21 @@ On the other side of the pub-sub-sub-pub equation, we have our database, and a m
 
 Going the other way, treating changes to the database as an event source for the configuration service, is a little more tricky. After considering several options, we settled on processing the Oracle redo log. We get change vectors by watching that log, and if the item is in our foreign data map, we create a new event and send it to the configuration service.
 
+[ slide:
+
+Data coorindators
+
+]
+
 It is important to note that we are not actually trying to keep two canonical data sources in sync here. Even though the legacy code may believe that Oracle is the source of Truth for its configuration values, I don't. I think the database is one of several places I might project a view of the data, and just another way of recognizing a configuration change event.
 
 Taking a step back, the idea of being able to subscribe to changes in data from almost any source *is* kind of exciting - and probably too good to be true. Since our primary use is configuration data that doesn't actually change all that often, I think we can get away with it, but in the bigger picture it feels like a three-legged stool at best. If we want streaming data, we probably should get it as it's entering the system, not as a reflection of what's changed within the system. I have questions in this area if anyone wants to talk about it after the session.
 
-### A stack for building configuration management tools
+[ slide:
+
+config-tool-tool
+
+]
 
 We've covered getting events into the system, projecting them to in-memory views and to foreign locations, composing data, and answering queries. That pretty much covers the back end of the configuration service. We also designed a slick, functional system for building configuration management tools. And it's bone simple to use.
 
@@ -191,6 +282,12 @@ We can compose some number of configuration settings in one form, and send each 
 
 Of course, our implementation specialists and customer service teams will ultimately need richer, more sophisticated tools than just this. Right now, their main tool is an app that exposes all of the configuration settings ever for any customer in one long list. They designed their workflows around that list. We are doing better than that. We want tools designed around their work, and we're going to do it so efficiently that they can iterate on their own processes.
 
+[ slide:
+
+config-tool-tool build stack
+
+]
+
 To accomplish this, we put together a build process using Markdown source files, a collection of templates that turn a pile of workflows into a collection of tools, static files for a consistent and usable look and feel, and a static site generator called Metalsmith.
 
 Metalsmith is Node.js, functional, pipelined build tool that works well as static site generator. The main loop is one long filter chain operating on all the files in any given directory.
@@ -201,7 +298,11 @@ The output from each filter step is the input for the next filter, until all the
 
 One of the particularly shiny things about this system is that the work of building new tools can be done by juniors, or possibly even the users themselves. Our tool building stack is actually being built by a team of interns in our women's internship program.
 
-### What's next
+[ slide:
+
+What's next?
+
+]
 
 That's the system, end to end, from the functional data store with immutable, time-variant data to a pipelined static site generator building the management tools. We haven't done anything in here that's actually novel, except for how it's all put together. We're in the process of moving configurations onto the new service now, and we're learning from our internal customers and their patterns of use. We're changing things, like moving to an actor model and Elixir for the data store. We already have permission to open source the code, but being stubborn and egotistical we'll likely wait until it's proven under heavier production load.
 

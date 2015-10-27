@@ -1,0 +1,15 @@
+Views:
+
+{ foo: 'bar' }
+
+{ foo: { bar: 'baz' } }
+
+{ foo: {
+  bar: 'baz',
+  baz: 'bar' } }
+
+{ foo: {
+  bar: 'qux',
+  baz: 'bar' } }
+
+{ foo: { baz: 'bar' } }
