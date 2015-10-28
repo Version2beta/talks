@@ -1,15 +1,15 @@
-Commands:
+Events:
 
-PUT foo = "bar"
+foo = "bar"
 
-PUT foo.bar = "baz"
+foo.bar = "baz"
 
-PUT foo.baz = "bar"
-
-
-
-PUT foo.bar = "qux"
+foo.baz = "bar"
 
 
 
-DELETE foo.bar
+foo.bar = "qux"
+
+
+
+foo.bar = gone

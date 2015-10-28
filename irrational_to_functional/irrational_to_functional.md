@@ -12,11 +12,20 @@ This is my talk for Code Mesh 2015 in London. The abstract I submit reads as suc
 
 > > Programmers and managers interested in applying functional programming concepts to data stores.
 
-## Narrative form
+---
+
+[ slide:
+
+From irrational configuration system to functional data store
+Code Mesh London 2015
+
+Rob Martin, OC Tanner Company, Salt Lake City, Utah USA
+rob@version2beta.com || rob.martin@octanner.com
+@version2beta
+
+]
 
 OC Tanner does employee engagement through recognition and appreciation awards. Before I uncover some warts, let me just say we do appreciation well. In fact, we created the field when Obert Tanner went off to Berkeley in the 1930's and earned a Ph.D. in the philosophy of appreciating people. We're not only the largest company of our kind in the world, with offices from Singapore to Brazil to 35km away from here in Essex. 27 of our customers are on the Fortune 100 Best Places to Work list, and we are too.
-
-### The way things were
 
 [ slide:
 
@@ -228,7 +237,23 @@ At this point I want to come clean on something. By the time we started work on 
 
 Obviously there are a lot of interesting implementation details behind a database like this, and I don't have time to go into all of it, but I can talk about some of our development strategies. For example, in the current production version, disk persistence uses S3 buckets from Amazon Web Services. We get redundancy and availability with a super-simple interface, but once we start measuring performance this will be low hanging fruit. What we got was a persistence layer that brings something extra to the table, and we will continue to look for ways to leverage other technologies to meet our needs rather than build it all in house. Another example of this is our message bus. Instead of tacking an HTTP interface onto our service, the service is configured to use RabbitMQ channels for receiving and sending messages.
 
-I'd love to discuss other implementation details. The data structure, for example, is fascinating and would require its own talk. Memory management is really simple - we just kill the least recently used actors when we're running low on memory. And the API is just an API.
+[ slide:
+
+data structure
+
+]
+
+I'd love to discuss other implementation details. The data structure, for example, is fascinating and would require its own talk. It's basically a modified hash array-mapped trie overlaid on Elixir actors. Very fast access to the values, and as we traverse the trie we pick up metadata along the way for access control that can be inherited down a line.
+
+[ slide:
+
+declarative API
+
+]
+
+I'm going to skip over the API too, since it's an implementation detail. I will say that we figure that commands happen where the people are - on the front end - and by the time our system gets the message, we can treat it as an event that happened in the real world. Turns out there's only one event we need to support: something changed. Perhaps it changed from nothing to something, and we can infer that new nodes need to be created. The result is that every event binds a key to a new state.
+
+Queries are similarly easy. We respond to keys with a little bit of pattern matching support.
 
 I sound like a manager. We got to implementation details, and I got all hand-wavey.
 
@@ -238,7 +263,7 @@ Invalid data
 
 ]
 
-Before we move on, however, there is a design detail that I think is significant. We had to consider what happens with invalid data - what happens if someone sends us something that doesn't validate. If we were just a regular database, we could reject it. Of course, if we were just a regular database, we'd be keeping only the current state and it would break our contract with our users to provide them data that lacks integrity. As an immutable and time-variant database, I think we have a responsibility to handle all events, not just the ones we like, because events happen in the real world and it's not like we can just reject reality. Even if it means our data is in an exceptional state. The decision we made was to use the metadata to flag states that are invalid. If you ask for a key without metadata, we'll send you the most current valid state. But if you ask for the data and metadata, it'll give you the current invalid state. And we can use the "invalid" flag to create a report showing which keys are broken, and ask some human being for help.
+Before we move on, there is one more implementation detail I want to cover. We had to consider what happens when someone sends us something that doesn't validate. If we were just a regular database, we could reject it. Of course, if we were just a regular database, we'd be keeping only the current state and it would break our contract with our users to provide them data that lacks integrity. As an immutable and time-variant database, I think we have a responsibility to handle all events, not just the ones we like, because events happen in the real world and it's not like we can just reject reality. Even if it means our data is in an exceptional state. The decision we made was to use the metadata to flag states that are invalid. If you ask for a key without metadata, we'll send you the most current valid state. But if you ask for the data and metadata, it'll give you the current invalid state. And we can use the "invalid" flag to create a report showing which keys are broken, and ask some human being for help.
 
 [ slide:
 
@@ -256,7 +281,7 @@ Going the other way, treating changes to the database as an event source for the
 
 [ slide:
 
-Data coorindators
+Data coorindators: Danger, Will Robinson!
 
 ]
 
@@ -310,31 +335,15 @@ In this project we're fixing problems with how configuration is managed, but we 
 
 In the meantime, our new functional configuration service is not perfect, and it's definitely not a general purpose database, but it's proving to meet our needs.
 
-## Slides
-
-[ slide:
-
-From irrational configuration system to functional data store
-Code Mesh London 2015
-
-Rob Martin, OC Tanner Company, Salt Lake City, Utah USA
-rob@version2beta.com || rob.martin@octanner.com
-@version2beta
-
-]
-
-
-
 [ slide:
 
 "If debugging is the process of removing bugs, then programming must be the process of putting them in.”
 - Edsger Djikstra
 
-rob@version2beta.com
-@version2beta
-github.com/version2beta
+version2beta.com/articles/irrational_to_functional
 
-Acknowledgements and appreciation to my engineering teams at OC Tanner Company for building such cool software with me, and to my bosses for supporting this opportunity to share our work with you.
+Rob Martin from OC Tanner Company is @version2beta rob.martin@octanner.com ⤄ rob@version2beta.com
+
+Appreciation to Michael Whitehead and our coworkers at OC Tanner Company, and to my bosses for supporting this opportunity to share our work with you.
 
 ]
-
