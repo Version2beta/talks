@@ -1,11 +1,3 @@
-to do
-
-change us to you whenever I'm not included
-
-change me to us
-
-
-
 # From irrational configuration system to functional data store
 
 This is my talk for Code Mesh 2015 in London. The abstract I submit reads as such:
@@ -107,7 +99,7 @@ How we did it
 
 ]
 
-My goal on this system, and on every other system, is to reduce complexity. It's my "zeroeth law" of programming.
+Reducing complexity it my "zeroeth law of programming". My goal on this system, and on every other system, is to reduce complexity.
 
 I use two tools extensively to manage complexity: design patterns and functional data stores. In fact, choosing to use these tools did just as much to influence our design goals as talking to our users did. Just by picking the right patterns we got surprising wins out of this system.
 
@@ -119,13 +111,19 @@ Design patterns
 
 Design patterns are abstract solutions for abstract problems.
 
+1. Choose a problem.
+2. Reduce it to an abstraction.
+3. Find a pattern that fits the abstraction.
+4. Choose a solution pattern that matches the problem pattern.
+5. Implement the solution pattern to fit your specific problem.
+
 ]
 
-If I had to guess, I'd say you're here because you think you might problems that look something like our problems. If we're all lucky, I might have solutions that look something like the solution that's going to solve your problems.
+If I had to guess, I'd say you're here because you think you might have problems that look something like our problems. If we're all lucky, I might have solutions that look something like the solution that's going to solve your problems.
 
 That's what a design pattern is. Design patterns are generalized solutions to generalized problems. Design patterns help us understand our problems quickly, and the give structure to our solutions early in the process. Design patterns help us reason about our project right away.
 
-Pretty much everything I'm going to talk about is a design pattern. Event stores, command query responsibility segregation, hash array mapped tries, static site generators, even dependent data types. We didn't do anything new. We looked at the problem we were trying to solve and identified which patterns fit well.
+Pretty much everything I'm going to talk about today is a design pattern. Functional-first programming, event stores, command query responsibility segregation, prefix tries, static site generators, even dependent data types. We didn't do anything new. We looked at the problem we were trying to solve and found patterns other people discovered that matched our problems. Then we took established solution patterns and made them fit our specific needs.
 
 [ slide:
 
@@ -136,7 +134,7 @@ Functional-first programming
 
 ]
 
-I stole the term "functional first programming" from Doug Syme, without asking him and without checking to see if I'm using it the way he intended. It might be time for me to apologize to him.
+I stole the term "functional first programming" from Doug Syme, without asking him and without checking to see if I'm using it the way he intended. I probably owe him an apology.
 
 My version of functional first programming goes like this: First code everything that's possible to do without side effects. Then code the side effects. The first part should be purely functional, easy to test, easy to reason about, and maybe even provably correct. The second part is *just* side effects, which probably means it all depends on IO libraries that someone else wrote and tested. There's a good chance you won't even need to unit test your side effect code, which is a good thing because all developers hate writing mocks. Plus, your interfaces to the outside world are now strictly modular, so changing an interface or a database is very concise.
 
@@ -172,7 +170,7 @@ data structure
 
 ]
 
-One underlying concept of our data structure is a *trie*, which is actually called a "trie" but I prefer to distinguish it from a "tree". Trie is short for "retrieval".
+One underlying concept of our data structure is a *trie*, which is actually called a "trie" because it comes from the word "retrieval" but I prefer "trie" to distinguish it from a "tree" that comes from the word for a big woody plant.
 
 Tries help you find things quickly and store things compactly by building a tree that shares prefixes. In our case, nodes can represent a dotted-notation key. We map each node to an Elixir process and give it responsibility for processing events regarding its state, persisting new events to a disk or database, and sharing new events with other machines in a cluster, and ultimately other clusters distributed globally.
 
