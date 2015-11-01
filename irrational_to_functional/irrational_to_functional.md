@@ -35,7 +35,7 @@ rob@version2beta.com || rob.martin@octanner.com
 
 ]
 
-OC Tanner does employee engagement through recognition and appreciation awards. Before I uncover some warts, let me just say we do appreciation well. In fact, we created the field when Obert Tanner went off to Berkeley in the 1930's and earned a Ph.D. in the philosophy of appreciating people. We're not only the largest company of our kind in the world, with offices from Singapore to Brazil to 35km away from here in Essex. 27 of our customers are on the Fortune 100 Best Places to Work list, and we are too.
+OC Tanner does employee engagement through recognition and appreciation awards. Before I uncover some warts, let me just say we do appreciation well. In fact, we created the field when Obert C. Tanner went off to Berkeley in the 1930's and earned a Ph.D. in the philosophy of appreciating people. We are the largest company of our kind, with offices all over the world - including right down the road from here in Essex. 28 of the companies on the Fortune 100 Best Places To Work list use our software. We're one of them - we're on the list of best places to work too.
 
 [ slide:
 
@@ -43,7 +43,7 @@ Basement, Terrace, and Courtyard floor plan
 
 ]
 
-OC Tanner has grown over the years primarily by saying yes to customers. As revenues and capabilities have increased, they've tacked additions on to our facilities like an old house that gets more bedrooms as the family grows. Our basements are a good example: we have seven, and they aren't connected to each other.
+OC Tanner has grown over the years primarily by saying yes to customers. As our capabilities have increased, we've tacked additions on to our facilities like an old house that gets more bedrooms as the family grows. Our basements are a good example: we have seven, and they aren't connected to each other.
 
 I heard a story about a woman who started her first day of work by going through our half-day orientation session, and then asked if she could skip lunch and go say thank you to the friend who had recommended her. She got directions to find her friend's team, down in one of the basements. The person leading the orientation didn't expect to see her again, since she was supposed to report to her manager after lunch. When she didn't report for work after lunch, her manager assumed she had been a no-show for the whole day. Late that afternoon someone found the poor woman in one of the basements, hopelessly lost and crying.
 
@@ -59,9 +59,9 @@ Alan Watts 1958
 
 I mean, our software has grown organically over the years, by saying yes to customers. Can I have this new feature? Yes. Can you make the software do things our way? Yes. What if we want this to be royal blue? Yes. Option by option, tacked on like a new tower on the castle, with a royal blue turret on top. Or purple. We can do purple too.
 
-This is where much of the complexity in our software came from. I suspect we're far from unique in this. In fact, complexity introduced by organic growth is universal. At least that's what Alan Watts says.
+This is where much of the complexity in our software came from. I suspect we're far from unique in this. Organic growth makes things more complex. At least that's what Alan Watts says.
 
-When I came along, my new boss put me in charge of the team responsible for configuration tools on the second of the two largest software platforms we offer. He explained to me that there were umpteen hundred settings, and onboarding required individually setting every one of them correctly, and that was a big reason why our onboarding process was running as long as ten months. My team is responsible for the monolithic web app used by 175 internal customers to manage those settings. Oh, and the only developer on that team was out on maternity leave and we didn't know when she'd be back.
+When I started, my new boss put me in charge of the team responsible for configuration tools on the second of the two largest software platforms we offer. He explained to me that there were umpteen hundred settings, and onboarding required individually setting every one of them correctly, and that was a big reason why our onboarding process was running as long as ten months. My team is responsible for the monolithic web app used by 175 internal customers to manage those settings. Oh, and the only developer on that team was out on maternity leave and we didn't know when she'd be back.
 
 He also told me that there is a standing prediction in the office that anyone who takes on configuration would be gone within six months.
 
@@ -73,18 +73,20 @@ Initial findings
 * 42 tables
 * 25% of settings have no effect
 * ~20 systems mucking around directly in the database
-* ~2,000,000 lines of Java just in our product
+* ~2,000,000 lines of Java
 * Few tests
 
 ]
 
-Updating our configuration system is far from the only project we're working. Our biggest initiative is breaking up our monolith into microservices, a very common practice over the past half dozen years. Our software was complex, but you've probably seen software just as bad.
+Here are a few statistics from the beginning of the project. I found it intimidating, but frankly it's probably a pretty typical system.
 
-My team is working on a better system for configuration and configuration management, but we would have followed many of the same steps no matter what the problem was.
+We have about 75 programmers on staff, most of whom are breaking up one of the two large products we offer into microservices. Our software is complex, but you've probably seen software just as complex.
 
-Our configuration data is poorly organized, hard to find and hard to reason about. It's like a kitchen junk drawer, you know the drawer where things that don't have a home go to live? That's how common our problem are. Most kitchens have a drawer full of these problems.
+My team is working on a better system for configuration and configuration management, but the process we've been working through would be pretty much the same regardless of the project.
 
-Our legacy code is written Java, but that doesn't matter. What matters is there is a lot of it, and it doesn't have many automated tests. We can't fix it all at once, so we have to work with it. We have to support the legacy system.
+Our configuration data is poorly organized, hard to find and hard to reason about. It's like a kitchen junk drawer, the drawer that holds everything that doesn't have a real home. Most kitchens have one. That's how common our problem are.
+
+Our legacy code happens to be written Java, but that doesn't matter. What matters is there is a lot of it, and it doesn't have many automated tests. We can't fix it all at once, so we have to work with it. We have to support the legacy system.
 
 [ slide:
 
@@ -99,11 +101,11 @@ How we did it
 
 ]
 
-Reducing complexity it my "zeroeth law of programming". My goal on this system, and on every other system, is to reduce complexity.
+Reducing complexity is my "zeroeth law of programming", so my goal on this project, and on every other project, is to reduce complexity.
 
-I use two tools extensively to manage complexity: design patterns and functional data stores. In fact, choosing to use these tools did just as much to influence our design goals as talking to our users did. Just by picking the right patterns we got surprising wins out of this system.
+The two tools I use most to manage complexity are design patterns and functional programming. Design patterns prune a project back to a common shape, and functional programming makes it predictable.
 
-Before we talk about other design goals, let's explain what these tools are. Then we can talk about how we used them.
+I want to spend a little time on each of these, but I'm not going to cover all of functional programming in one slide so we'll talk about a pattern called functional-first programming instead.
 
 [ slide:
 
@@ -119,11 +121,15 @@ Design patterns are abstract solutions for abstract problems.
 
 ]
 
-If I had to guess, I'd say you're here because you think you might have problems that look something like our problems. If we're all lucky, I might have solutions that look something like the solution that's going to solve your problems.
+You're probably here because you think you might have problems that look something like our problems. If we're all lucky, I might have solutions that look something like the solutions that are going to solve your problems.
 
-That's what a design pattern is. Design patterns are generalized solutions to generalized problems. Design patterns help us understand our problems quickly, and the give structure to our solutions early in the process. Design patterns help us reason about our project right away.
+That's what a design pattern is. Design patterns are generalized solutions to generalized problems. They help us understand our problems quickly, and the give structure to our solutions early in the process. Design patterns help us reason about our project right away.
 
 Pretty much everything I'm going to talk about today is a design pattern. Functional-first programming, event stores, command query responsibility segregation, prefix tries, static site generators, even dependent data types. We didn't do anything new. We looked at the problem we were trying to solve and found patterns other people discovered that matched our problems. Then we took established solution patterns and made them fit our specific needs.
+
+One of the really neat thing about design patterns is that they bring win with them. If I had sat down to create goals for this project without first having some patterns in mind, I would have come up with a good list. But the patterns we chose informed our design goals tremendously.
+
+Choosing the right patterns not only helped us solve the problem, they raised the bar on what we could expect from our solution.
 
 [ slide:
 
@@ -134,13 +140,13 @@ Functional-first programming
 
 ]
 
-I stole the term "functional first programming" from Doug Syme, without asking him and without checking to see if I'm using it the way he intended. I probably owe him an apology.
+I stole the term "functional first programming" from Don Syme, without asking him and without checking to see if I'm using it the way he intended. I probably owe him an apology.
 
-My version of functional first programming goes like this: First code everything that's possible to do without side effects. Then code the side effects. The first part should be purely functional, easy to test, easy to reason about, and maybe even provably correct. The second part is *just* side effects, which probably means it all depends on IO libraries that someone else wrote and tested. There's a good chance you won't even need to unit test your side effect code, which is a good thing because all developers hate writing mocks. Plus, your interfaces to the outside world are now strictly modular, so changing an interface or a database is very concise.
+My version of functional first programming goes like this: First code everything that's possible to do without side effects. Then code the side effects. The first part should be purely functional, easy to test, easy to reason about, and maybe even provably correct. The second part is *just* side effects, which probably means it all depends on IO libraries that someone else wrote and tested. There's a good chance you won't even need to unit test your side effect code, which is a good thing because we hate writing mocks. Plus, your interfaces to the outside world are now strictly modular, so changing an interface or a database is very concise.
 
-You can do functional first programming in almost any programming language. You can do functional first programming in imperative and object-oriented languages.
+You can do functional first programming in almost any programming language, including object oriented programming languages. Gary Bernhardt has a great talk on that called "Imperative shell, functional core". But using a functional programming language makes it easier. A powerful language might let you do all sorts of amazing manipulations in a computer, and a flexible language might give you tremendous choice in how you solve any given problem. Those languages have their place, but for managing complexity I always prefer a strict, opinionated, constrained language.
 
-Using a functional programming language makes it easier, though. A powerful language might let you do all sorts of amazing manipulations in a computer, and a flexible language might give you tremendous choice in how you solve any given problem. Those languages have their place, but for managing complexity I always prefer a strict, constrained, opinionated language.
+It turns out choosing a language is a lot like choosing a design pattern. The languages we use change the way we think about a problem. My team could have solved our configuration issues acceptably using only Java, but choosing to use an actor-based concurrent programming language created opportunities we don't get with Java.
 
 [ slide:
 
@@ -156,13 +162,11 @@ How we did it:
 
 ]
 
-Let's get into some specifics for our project. One of the first things I realized when I was putting together this talk is that our specific needs are actually pretty common, and not just for managing complex configurations.
-
-When we started, I thought we were building a specialized configuration service. It took me a month to see that we were actually building a NoSQL database. When I finally realized this, I went to my CTO and asked him why he approved a project so full of hubris.
+When we started, I thought we were building a specialized configuration service. It took me a month to see that we were actually building a NoSQL database - a key-value store. When I finally realized this, I went to my CTO and asked him why he approved a project to build our own database.
 
 If I'd realized this sooner, I'm sure I would have dropped the project and tried to figure out how to do it with a generic NoSQL database. The jury is still out on whether that would have been a better move, but by the time I realized what we were doing we already had design goals I couldn't meet with any of the NoSQL databases on the market.
 
-I know this slide says "How we did it" but we haven't tested at anything near this much data yet. All the same, we're confident it'll scale.
+For accuracy sake, I should tell you that we haven't run tests with 99 million keys yet, but we're confident we can get the performance we want.
 
 [ slide:
 
@@ -170,38 +174,49 @@ data structure
 
 ]
 
-One underlying concept of our data structure is a *trie*, which is actually called a "trie" because it comes from the word "retrieval" but I prefer "trie" to distinguish it from a "tree" that comes from the word for a big woody plant.
+The underlying concept of our data structure is a *trie*, which is actually called a "trie" because it comes from the word "retrieval" but I prefer "trie" to distinguish it from a "tree" that comes from the word for a big woody plant.
 
-Tries help you find things quickly and store things compactly by building a tree that shares prefixes. In our case, nodes can represent a dotted-notation key. We map each node to an Elixir process and give it responsibility for processing events regarding its state, persisting new events to a disk or database, and sharing new events with other machines in a cluster, and ultimately other clusters distributed globally.
+Tries help you find things quickly and store things compactly by building a tree that shares prefixes. In our case, nodes can represent a dotted-notation key. We map each node to an Elixir process - an actor - and give it responsibility for processing events regarding its state, persisting new events to a disk or database, and sharing new events with other machines with other machines in a cluster.
 
 [ slide:
 
 Design goals:
 
+* A useful metaphor: books of definitions, like dictionaries.
 * Composable data.
 * Time variant for version control.
+
+How we did it:
+
+* Immutable time variant prefix trie
 
 (composable data example)
 
 ]
 
-Our old system doesn't have the concept of default settings or settings templates. Every new customer needs to have every configuration setting established by an implementation specialist. With our new system, we want to get most settings from default settings, and only put in the settings that have changed from the default.
+Our old system doesn't have the concept of default settings. Every new customer needs to have every configuration setting established by an implementation specialist. With our new system, we want to get most settings from default settings, and only put in the settings that have changed from the default.
 
-This is where the book metaphor comes in handy. We have a book with system-wide default settings. We have books with the default settings for various option packages available by subscription. Then the customer has a book, and each user can have a book. 
+This is where our book metaphor comes in handy. We have a book with system-wide default settings. We have books with the default settings for various option packages. The customer has a book, and each user can have a book.
 
 Composable data is like stacking those books. The user's book overrides the customer's book, which overrides the books of default settings. Conflicting values from less specific books are ignored.
 
 We have a special situation though. Although many of our customers can simply use the default values in the current version of each book, some of our customers want to go through a change review process, so we can't willy-nilly update the default books without warning them. That's one of the reasons we use an event store, to keep every version of every book.
 
+[ slide:
+
+Immutable time-variant prefix trie
+
+]
+
+If we look again at our prefix trie, this time I'll show that every node contains not only the current state, but also all previous states of the node. We keep the value of the node over time in a list. When we're looking for data, we retrieve the most recently added version if no version is specified; otherwise, we go through the list and get the version requested.
 
 [ slide:
 
 Design goals:
 
 * Single point of specification (the team creating the setting).
-* Discoverable. Documented.
+* Documented and discoverable.
 * Expose settings anywhere.
-* A useful metaphor: books of definitions, like dictionaries.
 
 How we did it:
 
@@ -209,9 +224,9 @@ How we did it:
 
 ]
 
-Under the old system, when we needed new configuration settings, the developer created a row, or maybe a table, and stored what they needed there. The documentation typically consisted of the name of the table and the name of the column along with the code. Other developers that interact with that setting, for instance building a configuration management tool, have to infer how it's used.
+Under the old system, when a developer needed to create a new configuration setting, he or she created a row, or maybe a table, and stored the data there. The documentation typically consisted of the name of the table and the name of the column along with the code. Other developers that needed to interact with that setting would figure it out from those clues.
 
-In our new system, when a developer creates a new setting, they store alongside it any information needed to find, understand, change, and validate that setting. So our system contains not just data but metadata - a title, a description, and a schema at least, but it can also include tags that identify where the data should be exposed, and access control information defining who can view and change it. The metadata tells us everything we need to know to expose the setting anywhere we'd like, with documentation that comes straight from the creator.
+In our new system, when a developer creates a setting, they store alongside it any information needed to find, understand, change, and validate that setting. So our system contains not just data but metadata - a title, a description, and a schema at least, but it can also include tags that identify where the data should be exposed, and access control information defining who can view and change it. The metadata tells us everything we need to know to expose the setting anywhere we'd like, with documentation that comes straight from the creator.
 
 [ slide:
 
@@ -251,11 +266,7 @@ Functional data stores
 
 ]
 
-A functional data store is a pretty broad label that means a database that doesn't let you change any data, and does let you interact with your data by transforming it.
-
-For comparison, we're all probably familiar with a CRUD database. It lets you Create, Read, Update, and Delete data.
-
-Functional data stores don't do updates or deletes. Instead of updates, we create a new state for an existing record. Instead of deletes, we can mark things as "gone" beginning at a certain time. Things change over time, and very often we want to know what data we had before the current data.
+A functional data store is a pretty broad label that means a database that doesn't let you change any data, and does let you interact with your data by transforming it. For comparison, we're all probably familiar with a CRUD database. It lets you Create, Read, Update, and Delete data. Functional data stores don't do updates or deletes. Instead of updates, we create a new state for an existing record. Instead of deletes, we can mark things as "gone" beginning at a certain time. Things change over time, and very often we want to know what data we had before the current data, even if the data was "deleted". Sometimes especially if the data was deleted.
 
 Our functional data store is based on two design patterns that work really well together, Event Stores and Command Query Responsibility Segregation.
 
@@ -263,34 +274,26 @@ Event stores are like your checkbook register. We record every transaction, not 
 
 Command Query Responsibility Segregation is the difference between the checkbook register and the running balance for our accounts. When we make a deposit or draft a check, that's a command applied to our that gets recorded as an event that happened at a given point in time. When we want to know our balance, when we query our balance, we don't start at the first event and calculate it. We simply look at the running total column, because we keep that up to date just so that we can quickly know how much money we have.
 
-We're doing the same thing with our configuration system, but these patterns are generally very useful - and they can give you design wins you weren't expecting.
-
-Take a shopping cart application for example. If you track just the current state of the cart, you can get a customer through your store and checked out. But if you track each event along with when it happened, you can still get the current state of the cart but you can also look at the customer's shopping behavior. From that behavior, you can learn a lot about your ecommerce site, your customer's preferences, the problems with your user experience. That kind of business intelligence is hot right now.
+We built our configuration system the same way, but these patterns are generally very useful - and they can give you design wins you weren't expecting. In our case, we can get specific versions of any configuration for our customers who aren't quick to adopt the latest and greatest.
 
 [ slide:
 
-Data coorindators
+Data coordinators
+
+* Publishers
+* Subscribers
 
 ]
 
-Our initial and perhaps naive view of foreign data was two-fold. On the configuration service side, when we build a projection we might run a SQL statement that is stored in the metadata, updating the setting in the database. On the database side, we could set up triggers on each of the configuration tables that would post the updated data to an API.
+When something changes in the configuration service that also exists in the database, we need to update the database, otherwise the legacy code won't see the change. Likewise when legacy code changes something in the database, we need to treat that like any other configuration event and update our configuration service so that the new code can see it too. We do this by using "data coordinators".
 
-But now my team is bigger and a new developer got a hold of this and squeezed out a very nice abstraction. He suggested we publish data updates on RabbitMQ channels, so that you can not only query a key, but subscribe to it. On the configuration side, this is relatively trivial. We're already using RabbitMQ as our message bus. The key-value store can be it's own publisher and send updates directly to RabbitMQ.
+We have two types of data coordinators. Publishers listen for changes in a data source and publish any changes to a message queue. For example, our Oracle data coordinator watches the redo log, and if any of the rows it cares about are changed, it publishes the change to a channel. The configuration service does its own data coordination - whenever it changes anything, it sends out a message about the change. Other machines in the cluster see the message and update their records.
 
-On the other side of the pub-sub-sub-pub equation, we have our database, and a map connecting keys and rows that's basically just a secondary index on metadata. When we get an update that's in our map, we project it into the database.
+Subscribers listen to those channels and do something useful with the information. On the Oracle side, for example, the data coordinator maps keys in the configuration service to rows in a table. When it gets a message about a change on the configuration service, it updates the row.
 
-Going the other way, treating changes to the database as an event source for the configuration service, is a little more tricky. After considering several options, we settled on processing the Oracle redo log. We get change vectors by watching that log, and if the item is in our foreign data map, we create a new event and send it to the configuration service.
+Even though it looks a little like we're trying to keep two data sources in sync, I think we aren't. The configuration service is the canonical data source. Oracle is just a place where we store a view of that data as well as an event source about changes made by a user.
 
-[ slide:
-
-Data coorindators: Danger, Will Robinson!
-
-]
-
-It is important to note that we are not actually trying to keep two canonical data sources in sync here. Even though the legacy code may believe that Oracle is the source of Truth for its configuration values, I don't. I think the database is one of several places I might project a view of the data, and just another way of recognizing a configuration change event.
-
-Taking a step back, the idea of being able to subscribe to changes in data from almost any source *is* kind of exciting - and probably too good to be true. Since our primary use is configuration data that doesn't actually change all that often, I think we can get away with it, but in the bigger picture it feels like a three-legged stool at best. If we want streaming data, we probably should get it as it's entering the system, not as a reflection of what's changed within the system. I have questions in this area if anyone wants to talk about it after the session.
-
+Basically we built a platform that watches for data to change, and when it does it publishes a message. We made it possible to subscribe to our data, not just poll it. It's almost too good to be true. I'm rather worried it is too good to be true. If you want to explain to me why it's too good to be true, I'm available after the talk.
 
 [ slide: 
 
@@ -309,19 +312,17 @@ How we did it:
 
 ]
 
-Our work on this project covers the whole spectrum of configuration and configuration management. We're not only building a configuration service, we're building the tools to manage it, and we have a lot of opportunity to improve on our current tools. In fact, our software engineering department used to promise new hires that they can't do worse than has already been done.
+Our work on this project covers the whole spectrum of configuration and configuration management. We're not only building a configuration service, we're building the tools to manage it.
 
-Rather than building a new configuration management tool, we chose to build a tool that will build tools. Actually, build a tool that would build and manage collections of tools.
+Our current configuration management tool is a web app that exposes all the settings for any user in one long list. We don't want that. We want our internal customers to have bunch of small tools that support their workflow. But we don't actually want to focus on builing each of those tools, so we built a tool that builds and manages a collection of tools.
 
-It was important to us that our system didn't dictate up front how our internal customers work. Since we launched the monolithic platform, they've had one main tool that exposed all available settings, and they built their workflows around that tool. Under the new system, we want to turn that upside down. Instead of designing their workflows around the tool, we want to build tools designed around their workflows. We want our internal customers to bring us lots of pages to build, and we expect to be able to turn those tools around quickly - possibly even the same day. If we make it simple for them to work with us, and we deliver new workflows quickly, then they will be able to iterate on their own processes.
+We want our internal customers to design their own tools, and bring us lots of pages to build. We expect to be able to turn those tools around quickly - possibly even the same day. If we make it simple for them to work with us, and we deliver new workflows quickly, then they will be able to iterate on their own processes.
 
-My final design goal for configuration management is that juniors should be building these tools. That's how I'll know that we eliminated enough complexity.
+One of my goals for configuration management is that juniors should be building these tools. That'll be a good indicator that we managed complexity well. But there's more. When I started, we had no work available that juniors could do, so we hire them. If we can't hire juniors, then we can't build our stock future seniors. We can't contribute to the growth of our community in that way. And we can't get them started off right.
 
-But for me, it goes deeper than that. As a manager, I'm trying to solve a number of problems both within my team and within the tech community. One of them is that our team, when I started, had no work available that juniors could do, so we weren't able to hire any juniors. If we can't hire juniors, then we can't help build the market of future seniors. We can't get juniors started with the skills we consider best practices. We can't contribute to the growth of our community in that way.
+Most of industry seems to treat functional programming as something senior developers do, and maybe even just the best senior developers. It's almost as if we don't trust someone with functional programming until they've proven they can go a decade with object oriented programming and still not murder anyone. In my experience, we're teaching new programmers to learn to live with complexity, rather than how to manage it.
 
-Another factor is that most places, OC Tanner included, seems to treat functional programming as something senior developers do, and maybe even just the best senior developers. It's almost as if we don't trust someone with the power of functional programming and functional data stores until they've proven they can go ten years or more with object oriented programming and still not murder anyone. We're telling new developers they can't use languages that reduce complexity until they learn to live with complexity.
-
-As an industry, we should be teaching new developers functional programming. At OC Tanner, we're doing that.
+Who builds our configuration management tools isn't exactly part of the functional specification, but it is working for us. We have a team of interns working on the first set of tools now.
 
 [ slide:
 
@@ -333,19 +334,9 @@ User-side code empowers the user to meet their needs and guarantees their positi
 
 ]
 
-It used to be that we used the server to dynamically generate client-side HTML, CSS, and even Javascript. We were doing it wrong.
+There's a natural boundary between server and client software, just like there's a bounday between the company and the user. Historically we have tried to bridge that boundary, and I think that's the wrong approach.
 
-Sure, we had limitations in the power of the client's browser and programming environment then, and we had a focus on controlling everything from one large application. One monolithic application responsible for everything. We quite literally designed for complexity.
-
-I've been guilty of this. Our monolithic code at OC Tanner is guilty of this. You've probably been guilty of this. I suggest we all stop doing that.
-
-Data lives on the server, and we apply business logic to assure the integrity of the data within our systems, whatever those systems do. I think that's all that servers should do - they should provide views the data to the right people, and expose functionality that allows the right people to modify the data in a way that makes sense within the language of our data domain.
-
-In contrast, our client-side code should be focused exclusively on the user's needs, making it a joy to use the software to accomplish their goals. We do this by translating the user's goals, the user's language for thinking about the problem, to the server's interface.
-
-When we used to couple these two disparate objectives, we introduced tons of complexity. We talked about data in terms of what users want in some places and what the business needs in other places. We translated between the goals on the fly, throughout the code base.
-
-Now that we respect this separation of concerns, by creating separate applications that interact with each other through well-defined interfaces, we have eliminated massive amounts of complexity. I highly recommend you do the same.
+The server manages the company's data and keeps it safe. Client software manages the user's experience and helps them meet their needs. The goals, the audience, the libraries, the languages are all different. If we develop them separately, each team can focus on what's important to their audience, without compromising - or complicating - the other.
 
 [ slide:
 
@@ -353,7 +344,9 @@ Keep data sane: the command side of command query responsibility segregation
 
 ]
 
-This is the other side of the command query responsibility segregation pattern, too. When we put a form element on a page, we're giving the user ability to issue a command to change that value. Commands happen in user-space. Commands are imperative. Commands are part of our shared reality, what we might call "the real world". Commands mutate shared state in the Big Blue Room.
+When we talked about command query responsibility segregation on the server side, we talked about events. But events are just 
+
+When we put a form element on a page, we're giving the user ability to issue a command to change that value. Commands happen in user-space. Commands are imperative. Commands are part of our shared reality, what we might call "the real world". Commands mutate shared state in the Big Blue Room.
 
 Events are how the server tries to maintain a consistent model of the real world.
 
