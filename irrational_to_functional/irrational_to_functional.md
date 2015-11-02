@@ -235,7 +235,7 @@ Metadata
 
 ]
 
-Our trie datastructure holds metadata in each node, and when we query the configuration service we can request just data or data and metadata. Either way, as it traverses the trie to get the data, it picks up the metadata, composes it with the metadata on child nodes, and uses it to figure things out like what data types to expect and who can access the data.
+Our trie data structure holds metadata in each node, and when we query the configuration service we can request just data or data and metadata. Either way, as it traverses the trie to get the data, it picks up the metadata, composes it with the metadata on child nodes, and uses it to figure things out like what data types to expect and who can access the data.
 
 
 [ slide:
@@ -374,12 +374,6 @@ One of our design goals was for a single point of specification. When a develope
 Metadata is the basis for our configuration management tools. Because the metadata tells us so much about the data, we can use it to automatically render a form element for changing the data. If we want to expose a setting in a configuration management screen, we simply insert one line of javascript and pass it the key. The javascript renders the form element based on the metadata.
 
 It doesn't matter what kind of configuration management tool it is, either. It can be our internal tools, or tools we expose to our customers to administer their programs, or even tools for users to manage their profile inside the software.
-
-[ slide:
-
-config-tool-tool build stack
-
-]
 
 Right now, the main tool for our implementation specialists and customer service team is an app that exposes all of the possible configuration settings for any customer in one long list. They designed their workflows around that list. Our new system gets away from that. We don't want their work designed around our tools. Our tools should be designed around their work, and we're going to do it so efficiently that they can iterate on their own processes.
 
