@@ -83,7 +83,7 @@ We have about 75 programmers on staff, most of whom are carving monolithic platf
 
 My team is working on a better system for configuration and configuration management, but the process we've been working through would be pretty much the same regardless of the project.
 
-Our configuration data is poorly organized, hard to find and hard to reason about. It's like a kitchen junk drawer. Most kitchens have one. That's how common our problems are.
+Our configuration data is poorly organized, hard to find, and hard to reason about. It's like a kitchen junk drawer. Most kitchens have one. That's how common our problems are.
 
 Our legacy code happens to be written Java, but that doesn't matter. What matters is there is a lot of it, and it doesn't have many automated tests. We can't fix it all at once, so we have to work with it. We have to support the legacy system.
 
@@ -177,7 +177,7 @@ data structure
 
 Our data structure is a basically a *trie*, which is actually called a "trie" because it comes from the word "retrieval" but I prefer "trie" to distinguish it from a "tree" that comes from the word for a big woody plant.
 
-Tries help you find things quickly and store things compactly by building a tree that shares prefixes. In our case, nodes can represent a dotted-notation key. We map each node to an Elixir process - an actor - and give it responsibility for processing events regarding its state, persisting new events, and sharing new events across a cluster.
+Tries help you find things quickly and store things compactly by building a tree that shares prefixes. In our case, nodes could represent a dotted-notation key. We map each node to an Elixir process - an actor - and give it responsibility for processing events regarding its state, persisting new events, and sharing new events across a cluster.
 
 [ slide:
 
@@ -209,7 +209,7 @@ Immutable time-variant prefix trie
 
 ]
 
-If we look again at our prefix trie, this time I'll show that every node contains not only its current state, but also all previous states of the node. We keep the value of the node over time in a list. When someone asks for a setting without specifying the version, we give them the most recent valid version. But if they specify an older version, we can give it to them.
+If we look at our prefix trie again, this time I'll show that every node contains not only its current state, but also all previous states of the node. We keep the value of the node over time in a list. When someone asks for a setting without specifying the version, we give them the most recent valid version. But if they specify any specific version, we can give it to them.
 
 [ slide:
 
@@ -271,11 +271,9 @@ A functional data store is a pretty broad label that means a database that doesn
 
 Our functional data store is based on two design patterns that work really well together, Event Stores and Command Query Responsibility Segregation.
 
-Event stores are like your checkbook register. With most databases, we overwrite a value when it changes. That'd be like keeping your checkbook balance by erasing it and writing a new one every time you spend some money or make a deposit. Uh-uh. We keep a list of every transactions going back to the first deposit we made when we opened the account. From that list we can figure out what our current balance is, as well as what our balance was at any point in time.
+Event stores are like your checkbook register. With most databases, we overwrite a value when it changes. That'd be like keeping your checkbook balance by erasing it and writing a new one every time you spend some money or make a deposit. Uh-uh. We keep a list of every transactions going back to the first deposit we made when we opened the account. From that list we can figure out what our current balance is, as well as what our balance was at any point since we opened the account.
 
 Command Query Responsibility Segregation is the difference between the checkbook register and the running balance for your account. When we make a deposit or draft a check, that's the command side. When we want to know our balance, we don't start at the first deposit and calculate everything since. We simply look at the running total column. That's the query side.
-
-We built our configuration system this way, and because of that we got a design win we hadn't thought of. Our customers don't have to all upgrade default configurations at the same time.
 
 [ slide:
 
@@ -286,9 +284,11 @@ Data coordinators
 
 ]
 
+We built our configuration system with these two patterns, and because of that we got a design win that we needed but hadn't thought of. Our customers don't have to all upgrade default configurations at the same time.
+
 When something changes in the configuration service that also exists in Oracle, we need to update Oracle, otherwise the legacy code won't see the change. Likewise when legacy code changes something in Oracle, we need to treat that like any other configuration event and update our configuration service so that the new code can see it too. We do this by using "data coordinators".
 
-We have two types of data coordinators. Publishers listen for changes in a data source and publish any changes to a message queue. For example, our Oracle data coordinator watches the redo log, and if any of the rows it cares about are changed, it publishes the change to a channel. Likewise with the configuration service. Whenever it changes anything, it sends out a message about the change.
+We have two types of data coordinators. Publishers listen for changes in a data source and publish any changes to a pub sub queue. For example, our Oracle data coordinator watches the redo log, and if any of the rows it cares about are changed, it publishes the change to a channel. Likewise with the configuration service. Whenever it changes anything, it sends out a message about the change.
 
 Subscribers listen to those channels and do something useful with the information. On the Oracle side, the data coordinator maps keys in the configuration service to rows in a table. When it gets a message about a change on the configuration service, it updates the row.
 
@@ -321,7 +321,7 @@ We want our internal customers to design their own tools, and bring them to us t
 
 One of my goals for configuration management is that juniors should be building these tools. That'll be a good indicator that we managed complexity well. But there's more. When I started, we had no work available that juniors could do, so we couldn't hire them. If we can't hire juniors, then we can't build future seniors. We can't contribute to the growth of our community in that way. And we can't get them started off right. We're a really good company, and people are really important to us. That's why I work there.
 
-Most of industry seems to treat functional programming as something senior developers do, and maybe even just the best senior developers. It's almost as if we don't trust someone with functional programming until they've proven they can go a decade with object oriented programming and still not murder anyone. In my experience, we're teaching new programmers to learn to live with complexity, rather than how to manage it.
+Most of industry seems to treat functional programming as something senior developers do, and maybe even just the best senior developers. It's almost as if we don't trust someone with functional programming until they've proven they can go a decade with object oriented programming and still not murder anyone. We're teaching new programmers to live with complexity, rather than how to minimize it.
 
 I want to help change that. Our interns and juniors learn functional programming. I teach functional programming to new developers outside the company too. We're doing a session this weekend with the London chapter of Women Who Code. Ask me about this if you're interested.
 
@@ -339,7 +339,7 @@ User-side code empowers the user to meet their needs and guarantees their positi
 
 There's a natural boundary between server and client software, just like there's a natural boundary between the company and the user. Unfortunately, we've spent much of the history of the internet building systems that violate that boundary.
 
-Companies have goals, and users have different goals. For several years now, I've been designing systems that keep the company's interest - mostly the data and it's integrity - on the server, and the user's interest - meeting their needs online - on the client. Servers shouldn't do client things; they should apply business logic and expose the company's core competencies through a useful interface. Clients shouldn't be constrained in meeting their needs by data restrictions. I hate it when that happens. I call it the tyranny of the database.
+Companies have goals, and users have different goals. I try to design systems that keep the company's interest - mostly the data and it's integrity - on the server, and the user's interest - meeting their needs online - on the client. Servers shouldn't do client things; they should apply business logic and expose the company's core competencies through a useful interface. Clients shouldn't be constrained in meeting their needs by data restrictions. I hate it when that happens. I call it the tyranny of the database.
 
 Programs on the server should focus on the data, and client-side software should be all about the client. It's the single responsibility principal. It lets the server team focus on the company's needs, and the client team focus on the user's experience. It reduces coupling where it makes no sense to couple things. It reduces complexity.
 
@@ -359,7 +359,7 @@ Events are how the server tries to maintain a consistent model of the real world
 
 Here's another way to look at it. We can call it "sanity". In psychology we consider someone to be sane when their internal view of the world matches our shared external view of the world. Our data is sane when we maintain consistency between our user's experience of the world, and the model of the world we keep in our database.
 
-Because of this, we had to consider what happens when someone sends us a configuration value that doesn't validate. If we were just a regular database, we could reject it. But if we were just a regular database, we'd be keeping only the current state and sending out data that lacks integrity would break our contract with our users. As an immutable and time-variant database, I think we have a responsibility to handle all events, not just the ones we like, because events happen in the real world and it's not like we can just reject reality. Even if it means our data is invalid. The decision we made was to use the metadata to flag states that are invalid. If you make a request for just the value of a key, we'll send you the most current valid state. But if you ask for the data and metadata, we'll give you the current state, even if it's invalid. Plus we can use the "invalid" flag to create a report showing which keys are broken, and ask some human being for help.
+We had to consider what happens when someone sends us a configuration value that doesn't validate. If we were just a regular database, we could reject it. But if we were just a regular database, we'd be keeping only the current state and it would break our contract with our users to send out data that lacks integrity. As an immutable and time-variant database, I think we have a responsibility to handle all events, not just the ones we like, because events happen in the real world and it's not like we can just reject reality. Even if it means our data is invalid. The decision we made was to use the metadata to flag states that are invalid. If you make a request for just the value of a key, we'll send you the most current valid state. But if you ask for the data and metadata, we'll give you the current state, even if it's invalid. Plus we can use the "invalid" flag to create a report showing which keys are broken, and ask some human being for help.
 
 [ slide:
 
@@ -373,7 +373,7 @@ One of our design goals was for a single point of specification. When a develope
 
 Metadata is the basis for our configuration management tools. Because the metadata tells us so much about the data, we can use it to automatically render a form element for changing the data. If we want to expose a setting in a configuration management screen, we simply insert one line of javascript and pass it the key. The javascript renders the form element based on the metadata.
 
-It doesn't matter what kind of configuration management tool it is, either. It can be our internal tools, or tools we expose to our customers to administer their programs, or even tools for users to manage their profile.
+It doesn't matter what kind of configuration management tool it is, either. It can be our internal tools, or tools we expose to our customers to administer their programs, or even tools for users to manage their profile inside the software.
 
 [ slide:
 
@@ -385,7 +385,7 @@ Right now, the main tool for our implementation specialists and customer service
 
 We put together a stack to build their tools. Each tool is defined by a markdown file, and where it appears in the file system indicates where it'll be located in the toolset's navigation. A static site generator called Metalsmith turns the source files into a website of custom-made configuration management tools. The site is built as a collection of static files, so deployment is just a matter of pushing them to the server.
 
-Metalsmith is Node.js, functional, pipelined build tool. The main loop is one long filter chain operating on all the files in the project directory. We start with Markdown files. In one pass, a filter rewrites the configuration keys as javascript calls and wraps them in a form element. In the next pass, a filter converts the markdown to HTML. In another pass, a filter calculates navigation for the site. In another pass, a filter applies our layouts, including calling all the appropriate javascript libraries and stylesheets.
+Metalsmith is Node.js, functional, pipelined build tool. The main loop is one long filter chain operating on all the files in the project directory. We start with Markdown files. In one pass, a filter rewrites the configuration keys as javascript calls and wraps them in a form element. In the next pass, a filter converts the markdown to HTML. In another pass, a filter calculates navigation for the site. In another pass, a filter applies our layouts, including calling all the appropriate javascript libraries, stylesheets, and other assets.
 
 The output from each filter step is the input for the next filter, until all the filters are applied and the resulting files are written to a build directory containing all of the HTML, javascript, and CSS files for the tool site.
 
@@ -401,11 +401,11 @@ How we accomplished it:
 
 ]
 
-About the time we finished our design goals and were starting to code, we were almost thrown for a loop. Another team came to us and said they had a problem that wasn't about configuration, and they wanted to know if the new configuration service could solve it.
+About the time we finished our design goals and were starting to code, we were kinda thrown for a loop. Another team came to us and said they had a problem that wasn't about configuration, and they wanted to know if the new configuration service could solve it.
 
-Our software is used world-wide. It's translated into I-don't-even-know-how-many languages, and each customer's platform is customized and translated into the languages their employees need. That means we have default translations to a bunch of different languages, each of which can be overridden by the customer.
+Our software is used world-wide. It's translated into I-don't-even-know-how-many languages, and each customer's platform is customized and translated into the languages their employees need. That means we have default translations to a bunch of different languages, each of which might be overridden by the customer.
 
-We spent two hours reviewing the translation service's needs, looking for the gaps between what we were already building and what they required. We didn't find any. Our design goals fit their needs exactly.
+We spent two hours together reviewing the translation service's needs, looking for the gaps between what we were already building and what they needed. We didn't find any. Our design goals fit their needs exactly.
 
 I think that was the moment I realized that we were actually building a database.
 
@@ -417,9 +417,9 @@ Java spike vs. Elixir version
 
 ]
 
-When we started code on this project, I had one programmer available to work on it. He's great at Java but had almost no functional programming experience. We did our best, and the first release of this system - the version we have in production now - is not exactly what I've described.
+When we started code on this project, I had one programmer available to work on it. He's great at Java but had almost no functional programming experience. We did our best, and the first release of this system - the version we have in production now - is not exactly like what I've described.
 
-We try to work in a lean-development way, to get services into the hands of the developers who are going to use it and see what we did wrong. Our production version is written in Java 1.8 and uses one process per book rather than one actor per key. Because of this, a book is a container for a set of keys. We can only compose data across books, and books maintain their own event stores and a single projection.
+We try to work in a lean-development way, to get services into the hands of the developers who are going to use it and see what we did wrong. Our production version is written in Java 1.8 and uses one process per book rather than one actor per key. Because of this, a book is a container for a set of keys, and we can only compose data across books, and books maintain their own event stores and a single projection. It doesn't scale well - the chunks are too big.
 
 Our development version is being written in Elixir. Here there is no difference between a book and a key - a book is just a key, so any key can be considered a book, and compositions can happen at any level. Each key is an Erlang process and maintains its own state across time, which includes metadata and either data or a link to child nodes. Each key manages its own event store as well, although this is distributed around the cluster.
 
@@ -438,6 +438,10 @@ We do have permission to open source the code, and we will - once it's proven un
 We haven't really done anything novel, we just combined established patterns in a way that fit our problem. We got some surprising results from that - things we wouldn't have asked for if we weren't already looking at a pattern that offered it. But believe me, once we knew we could get it, we were sure we had to have it. We also got some things we knew we needed, like significantly less complexity.
 
 This project is fixing problems with how configuration is managed, but we haven't done anything about the consistency problems within our configurations. We've got great new tools for writing buggy configurations that are impossible to reason about. Moving forward we want to provide a way to make declarative statements about relationships between configuration values. I think implementing a dependent type system may be coming soon.
+
+But that would be a different talk.
+
+Thank you.
 
 [ slide:
 
