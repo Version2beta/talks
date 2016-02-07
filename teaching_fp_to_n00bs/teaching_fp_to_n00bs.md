@@ -209,6 +209,20 @@ The simplicity test for languages is dependent on either the discipline of the t
 
 [ slide:
 
+* First, code whatever you can without side effects.
+  * Core logic in the core language.
+  * Referentially transparent
+  * Composable
+* Then, code your side effects.
+  * Libraries for side effects.
+  * Stateless, or use agent/services for state
+
+"In the end, any program must manipulate state. A program that has no side effects whatsoever is a kind of black box. All you can tell is that the box gets hotter." --Simon Peyton-Jones
+
+]
+
+[ slide:
+
 Simplicity test for functional first programming:
 
 * Does it help us to create code we can reason about? Yes.
@@ -219,17 +233,12 @@ Simplicity test for functional first programming:
 
 [ slide:
 
-"In the end, any program must manipulate state. A program that has no side effects whatsoever is a kind of black box. All you can tell is that the box gets hotter." --Simon Peyton-Jones
-
-]
-
-[ slide:
-
 Functional first programming gets n00b code into production sooner
 
-* Plain old language vs learning the libraries
-* Logic in the language
-* Side effects in the libraries
+* Learning a language is easy, learning an ecosystem is hard
+* Much less complexity, way easier to reason about the code
+* Easy testing with no mocking
+* Almost all side effects use libraries, which probably need no unit tests
 
 Less is more.
 
@@ -237,14 +246,9 @@ Less is more.
 
 For n00bs, it consolidates work into two sections: the logic, based on the plain language, and side effects that require libraries. This is why we're teaching FP to n00bs, functional language or not, using functional first programming.
 
-[ slide:
+Side-effect free code is easy and fast to test - referential integrity for the win.
 
-Functional first programming helps n00bs write better tests
-
-* Side-effect free code is easy and fast to test - referential integrity for the win.
-* Side-effect code is almost all based on libraries and other services - nothing to unit test.
-
-]
+Side-effect code is almost all based on libraries and other services - nothing to unit test.
 
 Testing and functional first programming - we don't need to test libraries for side effects.
 
@@ -260,22 +264,23 @@ Functional first refactoring:
 
 [ slide:
 
-Functional first programming gets our teams half way there ("everything but the language"):
+Functional first programming gets our teams half way there
 
-* Devs are doing functional programming in whatever language they're using.
-* Code is (re-)written using functional patterns.
+* Functional first programming works with any language.
+* Devs are doing functional programming, or at least major patterns, in whatever language they're using.
 
 ]
 
 [ slide:
 
-Functional first programming works with any language.
-Disadvantage is that language is not restrictive, that the benefits require knowledge, discipline, and convention.
-Better (best?) is to have a language that enforces these habits.
+What's the other half?
+
+Functional first development in a non-functional language requires knowledge, discipline, and convention.
+Best is to have a language that enforces these habits - a pure functional language
 
 ]
 
-### Surrender to the mob
+### Mob programming
 
 [ slide:
 
@@ -289,27 +294,89 @@ Mob Programming
 
 ]
 
-Good developers on larger projects make one feature a year, at best, that are meaningful to the user or the company's bottom line. The rest is busy work. Why not pair all our developers?
+[ slide:
 
-What is mob programming
+Our mobbing guidelines
 
+“Yes and” goes further than “no” and “but”.
+Kindness, consideration, and respect are way better than having anyone in charge.
+Declarative language and experience sharing goes further than imperative language.
+Thinking out loud helps everyone in the mob follow what you’re doing.
+We speak at the highest level of abstraction the mob is able to digest in the moment.
+Drivers type code that the mob proposes.
+We learn differently when we’re the driver, so it’s important that everyone drives.
+Rotations can happen as often as every five minutes.
+<~  Learning is contributing.  ~>
 
+]
 
-What mob programming is good for
+* “Yes and” goes further than “no” and “but”.
 
+This comes from improv comedy training - how improv teams build off each other
 
+* Kindness, consideration, and respect are way better than having anyone in charge.
 
-What mob programming may be good for, but I can't prove it
+This comes from classical anarchy - non-coercion and the value of having people work on what's important to them
 
+* Declarative language and experience sharing goes further than imperative language.
 
+This comes from working with declarative (functional and logical) programming languages versus imperative and object oriented languages. It also comes from working with kids, especially special needs kids. More. Prefrontal cortex.
 
-What people want mob programming to prove
+* Thinking out loud helps everyone in the mob follow what you’re doing.
 
+This also comes from working with special needs kids, especially from RDI. Experience-sharing, apprenticeship, self-talk, and the value of having something to say.
 
+* We speak at the highest level of abstraction the mob is able to digest in the moment.
 
-How we do mob programming
+As a mob changes, so does the way we talk about the work of the mob. In a mob with new developers, even if there are also seniors, we will often speak in terms of what to type. As the mob becomes more experienced, our discussion becomes more and more abstract, and often the driver takes more responsibility for translating what the mob suggests into code.
 
+* Drivers type code that the mob proposes.
+* We learn differently when we’re the driver, so it’s important that everyone drives.
+* Rotations can happen as often as every five minutes.
 
+This also comes from working with special needs kids, and kids with ADHD attention-deficit/hyperactivity disorder. A lot of us learn kinetically. I can still tell you phone numbers I knew as a child, but only if I pretend to dial it. A lot of our programming is stored in fingers, not in our brain.
 
-Anarchy and genius in a development team
+* <~  Learning is contributing.  ~>
+
+This comes straight from imposter syndrome. So many people - almost everyone - are afraid to disrupt the momentum by asking questions. But without these interruptions, the mob is literally useless, a bunch of people watching someone code without understanding. The emphasis on learning is crucial.
+
+[ slide:
+
+The 10x developer
+
+The 10x developer delivers an order of magnitude more value than the average developer.
+
+]
+
+Note, ten times the value, not ten times the code.
+
+This is what I want, and I'm willing to start with brand new developers and try to help them become a 10x developer.
+
+[ slide:
+
+Avg dev: 10 decisions, average value of 1. 1<sup>10</sup> = 1.0
+
+10x dev: 10 decisions, average value of 1.25. 1.25<sup>10</sup> = 9.31
+
+]
+
+To understand mob programming a little better, let's look at the extreme opposite - the (possibly mythical?) developer who, working solo, does as much as ten other programmers. He, or she, does it by making series of particularly good decisions that build on one another.
+
+[ slide:
+
+Examples of good decisions:
+
+* Write less code.
+* Write code the team can reason about.
+* Use the right languages and abstractions.
+* Depend on as little third party code as possible.
+* Write code that scales linearly.
+* Write code that does only what it's specified to do.
+* Don't ship technical debt.
+* Understand the best abstractions and architecture for your project before you start.
+* Demonstrate, if possible prove, correctness.
+* Write code that is secure.
+
+]
+
 
