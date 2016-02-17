@@ -264,9 +264,9 @@ Functional first refactoring:
 
 [ slide:
 
-Functional first programming gets our teams half way there
+Functional first development gets our teams half way there
 
-* Functional first programming works with any language.
+* Functional first development works with any language.
 * Devs are doing functional programming, or at least major patterns, in whatever language they're using.
 
 ]
@@ -298,15 +298,20 @@ Mob Programming
 
 Our mobbing guidelines
 
-“Yes and” goes further than “no” and “but”.
-Kindness, consideration, and respect are way better than having anyone in charge.
-Declarative language and experience sharing goes further than imperative language.
-Thinking out loud helps everyone in the mob follow what you’re doing.
-We speak at the highest level of abstraction the mob is able to digest in the moment.
-Drivers type code that the mob proposes.
-We learn differently when we’re the driver, so it’s important that everyone drives.
-Rotations can happen as often as every five minutes.
-<~  Learning is contributing.  ~>
+0. Kindness, consideration, and respect are way better than having anyone in charge.
+0. “Yes and” goes further than “no but”.
+
+0. We speak at the lowest level of abstraction anyone in the mob needs in the moment.
+0. Declarative language and experience sharing goes further than imperative language.
+0. Thinking out loud helps everyone in the mob follow what you’re doing.
+
+0. Drivers type code the mob proposes.
+0. We learn differently when we’re the driver, so it’s important that everyone drives.
+0. Rotations can happen as often as every five minutes.
+
+0. Learning is contributing.
+
+0. Turn up the good.
 
 ]
 
