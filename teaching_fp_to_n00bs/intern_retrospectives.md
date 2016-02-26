@@ -321,14 +321,14 @@ What still has you baffled?
 ## 10/5/15
 
 What went well?
-Meeting with Derek
-Getting connected with the database and able to store the form data.
+* Meeting with Derek
+* Getting connected with the database and able to store the form data.
 
 What didn't go well?
-Getting the data from the database for the React task Master.
+* Getting the data from the database for the React task Master.
 
 What still has you baffled?
-Have to do the List java script file for displaying task data from database.
+* Have to do the List java script file for displaying task data from database.
 
 ## 10/6/15
 
