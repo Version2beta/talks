@@ -12,7 +12,7 @@ This talk explores the benefits from using functional programming; surveys the l
 
 Bio:
 
-Rob Martin is an engineering manager at OC Tanner Company in Salt Lake City, Utah. He has taught functional programming workshops in the United States, Great Britain, and Poland. He has a special interest in building teams of functional programmers that productively includes junior developers, and specializes in teaching functional programming to new developers.
+Rob Martin is an engineering manager at OC Tanner Company in Salt Lake City, Utah. He uses Elixir and mob programming to teach functional programming concepts in workshops in the US and Europe, and has a special interest in building teams of functional programmers that productively includes junior developers.
 
 Additional information:
 
