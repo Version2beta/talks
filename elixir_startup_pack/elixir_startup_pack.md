@@ -72,148 +72,6 @@ brew services start postgresql
 createdb `whoami`
 ```
 
-#### Create a Phoenix project to test everything
-
-```
-mix phoenix.new hello
-cd hello
-vi config/dev.exs
-mix ecto.create
-mix phoenix.server
-```
-
-Alternatively, `iex -S mix phoenix.server`. Hit the test site at (http://localhost:4000)[http://localhost:4000]
-
-## Debug through iex
-
-Edit `web/controllers/page_controller.ex`:
-
-```
-1 defmodule Hello.PageController do
-2   use Hello.Web, :controller
-3   require IEx
-4
-5   def index(conn, _params) do
-6     IEx.pry
-7     render conn, "index.html"
-8   end
-9 end
-```
-
-Run with `iex -S mix phoenix.server`. Navigate to `http://localhost:4000/`.
-
-Inside a template, like `web/templates/page/index.html.eex`:
-
-```
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
-  <% require IEx %>
-  <% message = "hello" %>
-  <% IEx.pry %>
-</div>
-...
-```
-
-Inside a model:
-
-First, generate a model.
-
-```
-mix phoenix.gen.model User users username:string
-mix ecto.migrate
-```
-
-Edit the model, `web/models/user.ex`:
-
-```
-defmodule Hello.User do
-  use Hello.Web, :model
-  require IEx
-
-  schema "users" do
-    field :username, :string
-
-    timestamps
-  end
-
-  @required_fields ~w(username)
-  @optional_fields ~w()
-
-  @doc """
-  Creates a changeset based on the `model` and `params`.
-
-  If no params are provided, an invalid changeset is returned
-  with no validation performed.
-  """
-  def changeset(model, params \\ :empty) do
-    IEx.pry
-    model
-    |> cast(params, @required_fields, @optional_fields)
-  end
-end
-```
-
-Edit the controller to call the changeset function:
-
-```
-defmodule Hello.PageController do
-  use Hello.Web, :controller
-  alias Hello.User
-
-  def index(conn, _params) do
-    user = User.changeset(%User{}, %{username: "test"})
-    render conn, "index.html"
-  end
-end
-```
-
-And run `iex -S mix phoenix.server`:
-
-```
-Interactive Elixir (1.2.1) - press Ctrl+C to exit (type h() ENTER for help)
-pry(1)> model
-%Hello.User{__meta__: #Ecto.Schema.Metadata<:built>, id: nil, inserted_at: nil,
- updated_at: nil, username: nil}
-pry(2)> params
-%{username: "test"}
-```
-
-## A better project organization
-
-Use a mix umbrella application to keep web and business logic separate.
-
-```
-mix new cheater --umbrella
-cd cheater/apps/
-mix phoenix.new web --no-html --no-ecto --no-brunch --module Cheater.Web
-cd ..
-ls -al apps/web/
-ls -al deps/
-mix test --trace
-```
-
-cheater/apps/solver/mix.exs
-cheater/apps/solver/lib/solver.ex
-cheater/apps/solver/lib/supervisor.ex
-cheater/apps/solver/test/solver_test.exs
-
-```
-> :observer.start
-:ok
-> Cheater.SolverSup.start_solver key: :mine
-{:ok, #PID<0.239.0>}
-> Cheater.SolverSup.start_solver key: :alsomine
-{:ok, #PID<0.244.0>}
-> Cheater.Solver.solve(:solver, 'abc', ['cab', 'tab'])
-['cab']
-```
-
-
-
-
-
-
 ## Learning Elixir
 
 When I'm learning a new programming language, I like to use two tools.
@@ -343,96 +201,150 @@ iex> Enum.filter words, fn word -> Enum.all? for c <- word, do: Enum.member?(til
 
 We have a problem. How did 'bejumble' get through? We only have one 'b' and one 'e' in our tiles.
 
-Let's switch to a test driven approach. Maybe we won't make mistakes like this one.
+#### Create a Phoenix project
 
-```cheater.exs
-ExUnit.start
+```
+mix phoenix.new hello
+cd hello
+vi config/dev.exs
+mix ecto.create
+mix phoenix.server
+```
 
-defmodule CheaterTest do
-  use ExUnit.Case
+Alternatively, `iex -S mix phoenix.server`. Hit the test site at (http://localhost:4000)[http://localhost:4000]
 
-  test "learning some Elixir" do
-    assert "jumble" == "jumble"
-    refute 'jumble' == "jumble"
-    assert 'jumble' == "jumble" |> to_char_list
-    assert 'jumble' |> Enum.sort == 'bejlmu'
+## Debug through iex
+
+Edit `web/controllers/page_controller.ex`:
+
+```
+1 defmodule Hello.PageController do
+2   use Hello.Web, :controller
+3   require IEx
+4
+5   def index(conn, _params) do
+6     IEx.pry
+7     render conn, "index.html"
+8   end
+9 end
+```
+
+Run with `iex -S mix phoenix.server`. Navigate to `http://localhost:4000/`.
+
+Inside a template, like `web/templates/page/index.html.eex`:
+
+```
+<div class="jumbotron">
+  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
+  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
+  <% require IEx %>
+  <% message = "hello" %>
+  <% IEx.pry %>
+</div>
+...
+```
+
+Inside a model:
+
+First, generate a model.
+
+```
+mix phoenix.gen.model User users username:string
+mix ecto.migrate
+```
+
+Edit the model, `web/models/user.ex`:
+
+```
+defmodule Hello.User do
+  use Hello.Web, :model
+  require IEx
+
+  schema "users" do
+    field :username, :string
+
+    timestamps
+  end
+
+  @required_fields ~w(username)
+  @optional_fields ~w()
+
+  @doc """
+  Creates a changeset based on the `model` and `params`.
+
+  If no params are provided, an invalid changeset is returned
+  with no validation performed.
+  """
+  def changeset(model, params \\ :empty) do
+    IEx.pry
+    model
+    |> cast(params, @required_fields, @optional_fields)
   end
 end
 ```
 
+Edit the controller to call the changeset function:
+
 ```
-...
-  test "pick" do
-    assert Cheater.pick('', '') == ''
-    assert Cheater.pick('abc', '') == ''
-    assert Cheater.pick('abc', 'd') == ''
-    assert Cheater.pick('abc', 'b') == 'b'
-    assert Cheater.pick('abcdef', 'bdf') == 'bdf'
-    assert Cheater.pick('abcabc', 'abc') == 'abc'
-    assert Cheater.pick('abc', 'abcabc') == 'abc'
-    assert Cheater.pick('ujmleb', 'jumble') == 'jumble'
-  end
-...
-defmodule Cheater do
-  def pick(tiles, word), do: pick(tiles, word, '')
-  def pick(tiles, word, int) when tiles == '' or word == '' do
-    int
-  end
-  def pick(tiles, [char | chars], int) do
-    cond do
-      Enum.member? tiles, char ->
-        pick(tiles -- [char], chars, int ++ [char])
-      true ->
-        pick(tiles, chars, int)
-    end
+defmodule Hello.PageController do
+  use Hello.Web, :controller
+  alias Hello.User
+
+  def index(conn, _params) do
+    user = User.changeset(%User{}, %{username: "test"})
+    render conn, "index.html"
   end
 end
 ```
 
-```
-...
-  test "match" do
-    assert Cheater.match('', '') == true
-    assert Cheater.match('abc', 'abc') == true
-    assert Cheater.match('abc', '') == true
-    assert Cheater.match('', 'abc') == false
-    assert Cheater.match('abc', 'def') == false
-    assert Cheater.match('ujmleb', 'jumble') == true
-  end
-...
-  def match(tiles, word) do
-    word == pick(tiles, word)
-  end
-```
+And run `iex -S mix phoenix.server`:
 
 ```
-...
-  test "dict" do
-    [word | words] = Cheater.make_dict "words.txt"
-    assert is_list words
-    assert is_list word
-  end
-...
-  def make_dict(file) do
-    {:ok, dict} = File.read(file)
-    dict |> String.split("\n") |>
-      Enum.map fn word ->
-        to_char_list word
-      end
-  end
+Interactive Elixir (1.2.1) - press Ctrl+C to exit (type h() ENTER for help)
+pry(1)> model
+%Hello.User{__meta__: #Ecto.Schema.Metadata<:built>, id: nil, inserted_at: nil,
+ updated_at: nil, username: nil}
+pry(2)> params
+%{username: "test"}
 ```
 
+In another shell:
+
 ```
-...
-  test "find" do
-    words = Cheater.make_dict("words.txt")
-    matches = Cheater.find('ujmebl', words)
-    assert Enum.member? matches, 'jumble'
-    refute Enum.member? matches, 'mumble'
-    refute Enum.member? matches, 'bell'
-  end
-...
-  def find(tiles, words) do
-    Enum.filter words, fn word -> match tiles, word end
-  end
+$ siege -c 1000 -t 10s http://localhost:4000/api/abc
+```
+
+## A better project organization
+
+Use a mix umbrella application to keep web and business logic separate.
+
+```
+mix new cheater --umbrella
+cd cheater/apps/
+mix new solver
+mix phoenix.new web --no-html --no-ecto --no-brunch --module Cheater.Web
+cd ..
+ls -al apps/solver/
+ls -al apps/web/
+ls -al deps/
+mix test --trace
+```
+
+cheater/apps/solver/mix.exs
+cheater/apps/solver/lib/solver.ex
+cheater/apps/solver/test/solver_test.exs
+
+```
+iex(1)> Cheater.Solver.suggest 'abc', ['a', 'ba', 'fa', 'la']
+['a', 'ba']
+```
+
+cheater/apps/web/test/integration/cheater_test.exs
+cheater/apps/web/web/router.ex
+cheater/apps/web/web/controllers/api_controller.ex
+cheater/apps/web/web/views/api_view.ex
+
+```
+$ iex -S mix phoenix.server
+iex(1)> :observer.start
 ```
