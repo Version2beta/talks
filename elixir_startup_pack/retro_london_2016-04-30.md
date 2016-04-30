@@ -2,9 +2,9 @@
 
 London, April 29 - 30, 2016
 
-https://github.com/jairodiaz/elixir-shopping-cart
-https://github.com/jb41/elixir-group-3
-https://github.com/veriservus/elixir_cart
+* https://github.com/jairodiaz/elixir-shopping-cart
+* https://github.com/jb41/elixir-group-3
+* https://github.com/veriservus/elixir_cart
 
 ## How do you feel about your code?
 
