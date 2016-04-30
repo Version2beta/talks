@@ -178,6 +178,7 @@ iex> {:ok, dict} = File.read("words.txt")
 "aa\naah\naahed\naahing\naahs\naal\naalii\naaliis\naals..."
 
 iex> dict
+rd = ['
 "aa\naah\naahed\naahing\naahs\naal\naalii\naaliis\naals..."
 
 iex> words = dict |> String.split "\n"
