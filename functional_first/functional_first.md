@@ -37,6 +37,10 @@
   * Can we demonstrate the correctness of our code?
 * Functional programming
   * Not the only way to write simple code.
+    * OO code trends toward complexity.
+    * Even well written OO code rots. Encapsulation offers a convenient hiding place for complexity, especially with production code, under deadline, and without tests.
   * Functional programming makes simple easier.
+    * FP programs resist the trend toward complexity.
+    * 
 * Functions
   * 
