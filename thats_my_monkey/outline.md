@@ -58,6 +58,18 @@ I don't think the answer has to do with the years of programming, or the hours, 
 
 ### What is value?
 
+Programming is a practical art. Very few of us do it for aesthetic reasons; by and large we create tools other people use to build richer lives.
+
+The degree to which our tools meets that goal is how I define "value". How we as programmers deliver this value varies depending on where our product is in it's lifecycle.
+
+For example, I have a theory that such a high percentage of software startups fail that it's useful to just round it up to "all". Under that presumption, it's good to fail as cheaply as possible, so we want to deliver value quickly and frequently so that we can validate it with real users - or toss it in the bin and take a different tact. The tools we use to deliver this value quickly are typically rapid application development environments built in scripting languages like Ruby, Python, and Javascript; monolithin frameworks; and readily available libraries. The code produced by this effort is often most charitably described as "expedient". But we can deliver value to a potential market quickly.
+
+Once a product is proven in the market and we start to develop a significant user base, the short cuts we took up front start to matter. The code is hard to maintain. Bug fixes create new bugs. Our systems are fragile. We can't scale to meet demand. Getting through this phase is called "surviving our success".
+
+At this point, our system architecture, application design, and software tests really start to matter. We need the architecture to remain stable. We need the design to allow us to scale horizontally. We need the tests to have confidence in the code we ship. The value we deliver in this phase tends to lean towards delivering the tool to many users more than creating the tool.
+
+Assuming we have survived our success and refactored our application (sometimes rebuilding it from the ground up), we may have a mature application with a loyal base of users depending on it. The value we deliver in this phase tends toward delivering new features, solving issue tickets, incrementally refactoring problem areas, and removing our accumulated technical debt.
+
 - The value of value
   * What is value when it comes to software?
   * Delivering value frequently
