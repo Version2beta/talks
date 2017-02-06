@@ -326,16 +326,37 @@ By using established, proven software (Cassandra, RabbitMQ, etc.) for the portio
 
 ## Let's talk about simple, demonstrably correct systems
 
-- Simple
-  - Service as pure functions
-  - Composable services
-  - Immutable, no side effects
-  - Contracts, DDD ubiquitous language and mental models
-  - Easier to reason about the system as a whole
+Let's take a look at those benefits of pure functions, and of functional programming, in terms of our architecture.
+
+**Referential transparency.** Our domain logic is referentially transparent. Given the same list of events, it will always return the same projection. This is basically creating a database that manages the integrity of the datam then applies a specific query function to the entirety of that data within a domain to return exactly the projection that's needed. Typically, it does this work in advance in order to answer queries instantly.
+
+**Immutable state.** Our data persistence layer is an immutable, append-only, event store. From it, we can answer any question about state and identity at any past or current time.
+
+**Function composition.** 
+
+**Laziness.** Some of our projections are updated with every new event. Some projections are evaluated on demand.
+
+**Distribution.** Our domain logic is fully distributed, and relies on established software projects and products to do distributed computing in a way that's been proven correct.
+
+**Higher order functions.** 
+
+
+
+How do you compose services?
+
+How do higher order functions come in?
+
+Services have their own projections. That's not pure.
+
+Where should the projections actually live? With the service? With the event store?
+
+Projections are mutable.
+
+System benefits combining DDD and functional programming. Ease of reasoning? Organization? Domain experts can read and understand?
+
 - Demonstrably correct
   - Integration tests of a service are unit tests
   - Integration tests of composed services are unit tests
   - Thin side effect layers should only need contract testing
   - Easier to demonstrate the correctness (read: can be maintained more cheaply!) 
-
 
