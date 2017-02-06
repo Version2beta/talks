@@ -102,76 +102,195 @@ Of course, we all know that Developer C is not only capable of delivering an ord
 
 But let's not dally on Developer C. The point is that Developer A, with her excellent judgement, can deliver a lot more value for the amount of effort expended than the average developer.
 
-## Let's talk about functions
+## Let's talk about pure functions
 
-- Functions are referentially transparent.
-- Functions can be composed of functions.
-- Functions can be distributed.
-- Functions can be arguments to other functions.
-- Functions can be recursive.
-- Functions can be evaluated lazily.
+Pure functions are the best tool I've identified for consistently creating simple, demonstrably correct code. The concepts behind pure functions are valuable in almost any language, in how we approach writing and refactoring code, in how we build systems, maybe even in how we live our lives.
 
-## Let's talk about functional first refactoring
+Let's look at pure functions and see how we can apply them to different situations.
 
-- The big picture: Isolate side effects and extract pure functions
-- Managing issues with legacy code
-  * Extract business logic into a function, leaving behind side effects
-  * Pass any variables need as arguments to the function
-  * Write a failing test demonstrating the problem
-  * Write passing characterization tests
-  * Change the code to fix the failing test
-  * Refactor to reduce complexity and improve maintainability
+* **Referential transparency.** When I call a pure function with a given set of arguments, it's always going to give me the same answer.
+* **Immutability.** Immutability usually refers to variables, right? "Immutable variables" always sounds to me like "invariable variables" and that makes me want to gag. I think of immutable variables as if they're functions that don't take any arguments, which means they always, always return the same value.
+* **Function composition.** The output of one function can serve as the input to another function. That way we can build functions out of functions, and move up and down through levels of abstraction that take into account the big picture, or the details.
+* **Laziness.** Because functions have referential integrity, and one way of looking at referential integrity is that nothing outside of a function (like global state, or class properties in OO programming) can affect the result of a function call, it really doesn't matter when we calculate a result. We can wait until we need it.
+* **Distribution.** Again, because functions have referential integrity and nothing outside of the function can change the meaning of the function within a program, once we know a function's arguments, it doesn't matter *where* we run the function.
+* **Higher order functions.** Functions can be arguments to other functions, so we can have functions that'll do something later, even if we don't know yet what it will be.
+
+## An side: Let's talk about functional first life
+
+Just for the heck of it, how do we feel about applying the low hanging fruit of pure functions to our lives, and how we relate to other people?
+
+I want to tell you about my amazing group of friends. First off, they have so much integrity, It doesn't matter what's going on in my life or theirs, if I ask for their help, I get it and their results are infallably consistent. I know that trusting them about little things means I can trust them about big things - for my friends, the big things are really just a bunch of little things strung together, and I know that the way they approach our lives together is the same as how they approach each day together: with integrity and competence and empathy. I can count on my friends when I need them. I don't need to worry about whether I need to ask them for their time and effort right now because I may not be able to count on them later when I really need them. And I'm not talking about one or two friends, either. I have many friends I can rely on like this, and together we can all pull together and do what needs to be done to make the world a better place. I have many friends, they work so well together, and the keep working together until we have created a rich, fulfilling life for all of us.
+
+How do my friends compare to pure functions?
+
+* **Referential transparency.** In life, referential transparency is a lot like *integrity*. These are trustworthy people.
+* **Immutability.** Immutability is a lot like integrity combined with reliability. These people are stalwart. They are steadfast.
+* **Function composition.** If I trust you in little ways, I can probably trust you in big ways, because our big things are made up of little things. If you act with stalward integrity about the little things, I know it will be the same no matter how big a thing is.
+* **Laziness.** I don't need to demand everything up front in order to feel like I can trust you. You'll be there and ready to work when I need you.
+* **Distribution.** If I am lucky enough to know many people with these characteristics, I have a really good group of friends who can accomplish a lot more together.
+* **Higher order functions.** Not only do I have a good group of friends, but they are really good at working well together.
 
 ## Let's talk about functional first programming
 
-- The plan
-  * First, code everything you can without side effects
-  * Then, code your side effects
-- Advantages
-  * Our business logic is purely functional, mostly written in the core language, and have fewer dependencies.
-  * Our business logic is easy to unit test, and the tests run fast.
-  * It's exceptionally easy to distribute (horizontally scale) our business logic.
-  * Our side effects layer is *only* side effects. It doesn't need unit tests. It's easy to swap out. It's easy to add another interface.
+Applying pure functions to life is perhaps the epitome of practicality, but it can also apply to how we code in any programming language.
+
+Simon Peyton-Jones points out that "In the end, all programs must manipulate state. A program that has no side effects whatsoever is a kind of black box. All you can tell is the box gets hotter." Despite his venerable position in our field, I disagree with him. Heat is a side effect.
+
+Other side effects include telling what time it is, getting requests at an HTTPS API route, reading data from a database, assigning variables, writing to a database, and responding to an API client. Depending on the kind of programming you're doing, side effects can be even more interesting. Rendering on the screen, buzzing when the coffee is brewed,  applying anti-lock brakes, adjusting the aerilons on an intercontinental missile.
+
+Side effects are the opposite of pure functions. A pure function gives you the same result to the same request, every time. A side effect can give you a different result to the same request.
+
+The Functional First Programming plan is very, very simple:
+
+* First, code everything you can without side effects.
+* Then, code your side effects.
+
+There's an advanced mode too:
+
+* First, code your side effects, and only your side effects. 
+* Then, code your business logic using pure functions.
+
+Either way, we get significant advantages when we follow this plan, regardless of what programming language we use - imperative, procedural, object oriented, declarative, functional. I've used this plan in OO class definitions, Elixir + Phoenix apps, and concatentative programming languages.
+
+Our business logic is purely functional. This generally means we can write it in our core language with few dependencies. We don't need a web framework, an object relational mapper, or any other library that manages IO. Our code base is smaller, easy to reason about, and has very few interdependencies. Because our functions are pure, they're very easy to test, our tests don't need to mock any IO, and our tests run almost instantaneously. Our business logic is stateless, so we can run it anywhere. Horizontal scaling is trivial.
+
+Our side effects layer is *only* side effects, ideally lacking entirely in business logic. Our side effects are almost entirely IO, and we don't usually write our own IO libraries, we use libraries other people have written. That means our side effects layer *doesn't need unit tests*, because the libraries we use have their own unit tests.
+
+Should we make changes around our side effects layer, we've already reduced it to the thinnest possible layer, which means that changing our IO is as trivial as possible. Maybe we wrote our original app with an API layer in Flask on Python, but our business logic might also answer requests over a message bus. Adding an interface to RabbitMQ does only that - it plumbs messages from RabbitMQ to our logic. Similarly, we can add or replace our persistence layer, our rendering library, our hardware abstraction layer - anything that provides side effects.
+
+Most of our "modern" (within the last 12 years) web frameworks do more than side effects, they provide abstractions for entire web applications. These abstractions take our core language and add complexity. Useful complexity, sure, but it's still complexity. Using the framework well often requires mastering both the language and the framework. With functional first programming, we can simplify our use of the framework to managing our IO, and rely on our mastery of the underlying language for doing our core work.
+
+Earlier, we talked about simple, demonstrably correct code, and the compounding value and the 10x programmer. Functional first programming is one of the ways a developer can simplify their code, more readily demonstrate that it is correct, and deliver more value across a hexagonal architecture with less effort.
+
+## Let's talk about functional first refactoring
+
+In my ideal world, my team of functional programmers on a greenfield project can --
+
+Wait a second. Ideal worlds are hard to come by. Let's talk about the real world. Most of us have teams of programmers skilled in an object-oriented language developed sometime in the last 20 to 30 years, working on a legacy code base (usually without tests), lacking significantly in alignment with best practices - even the best practices from a decade ago. 
+
+A couple of years ago, I reported to a VP Engineering who suggested I create an internship program around refactoring legacy code, since code maintenance is a good, solid job for new juniors. I'd like to tell you that our legacy code was "the worst" - Java code two major versions out of date, based on painful frameworks and rendering libraries based on technologies that browsers had long since deprecated. Yes, I had it good actually, but I'm an idealist. 
+
+When he suggested I put interns on that code base, I laughed. "This is the worst possible code for a new developer to work from. We have methods running 5,000 lines in classes 5 times that long. The code horrible, the language and libraries are no longer relevant. The interns will hate the code, hate the work, hate the job, hate getting up in the morning, hate me, hate themselves, and if they're lucky, decide to go into hairdressing instead of coding."
+
+My VPe laughed too. And then he said, "Do it anyway."
+
+Fortunately, he quit before I had to make good on that directive. But he was right about the idea, and although it took me months to figure out how, we created an internship around legacy code maintenance that was good for the company and good for the intern. And by "good for the intern", I mean they learned relevant skills around delivering value by creating simple, demonstrably correct code.
+
+Here's how we did it: I created something called "Functional First Refactoring". You could say I stole it from Michael Feathers, but I wasn't smart enough to go learn it from him first.
+
+The big picture goes like this. First, you isolate your side effects and then your extract your business logic. This means that we can identify a hot section of code, preferably one with an open bug report, and fix it. While we're fixing it, we can hopefully make the code base simpler, demonstratively correct, and get us closer to a code base we would have created if we'd started from scratch.
+
+The process is more detailed but can be described in this process, at least when working from issues tickets:
+
+* Given an issue ticket, make sure you can reproduce it.
+* Find the likely spot in the code that hurts.
+* Extract usiness logic suspected of causing the issye into a function, leaving behind side effects
+* Pass any variables need as arguments to the function; i.e. let's make it purer.
+* Write a failing test demonstrating the problem
+* Write passing characterization tests
+* Change the code to fix the failing test
+* Refactor to reduce complexity and improve maintainability
+
+This is a little more involed than Functional First Programming, but it yields, given enough time and issue tickets, the same result. Our business logic is pure and easy to test. Our side effects are isolated in the calling method. Every ticket results in a "clean and tested" side and a "dirty side effects" side. We test the former and make sure that the integration tests can catch any errors in the calling method.
+
+Over time, we can begin to treat our refactored code base the same way we'd treat code written using Functional First Programming, with the ability to move add and replace IO interfaces and APIs, databases, create services, and even apply different architectures. 
 
 ## Let's talk about programming languages
 
-- Abstractions, garages, laws of the universe
-- Constrained languages, cognitive load, mastery, intern to senior in four
-years
+I've shipped production code in over 35 languages. Some of those languages feel like they were created in someone's garage. There's a reason for this. They were created in someone's garage. Some of those garages were really big, but still they were basically a garage.
+
+You can tell which languages these are, because they tend to do a lot, and sometimes in these languages we go so far as to say There's More Than One Way To Do It. These languages provide a lot of abstractions that feel almost concrete in how you use them. Want to instantiate an object? Some languages offer three choices on how to do that. Skipping OO altogether? That's okay, we're also procedural. Or functional. Or both.
+
+When we use these languages, we often add frameworks and libraries that tack even more abstractions that do even more concrete things for us. Need a web framework? Our framework can rack that up for us, like magic. Want to connect to a database? Our framework will hide the complexity of mapping objects directly to our relational database.
+
+That's what I see in these languages: the illusion of choice, hidden complexity, loosely wrapped in abstraction, held together tenuously.
+
+Lest I sound too ivory tower, I've used and loved these languages. I've met the creators of these languages, and they are my heroes. I've written easily more than two million lines of code combined in languages like these. Bad code, mostly, but that's on me. One thing I've found is that using these languages well requires mastery of the whole language, and the frameworks you're using, because without that level of experience you're stuck using only the parts you know, and there are lots of parts to know. This massive flexibility feels like freedom for a while, but to borrow a phrase from George Orwell, freedom is slavery.
+
+On the other hand, there are languages I've used that feel like they're based on the laws of the universe. There's a reason for this. It's because they are based on the laws of the universe. These languages don't offer a bunch of different abstractions; they offer very few, but the abstractions are *more* abstract, and apply to more of the problems we need to solve. Thse abstractions are mathematical, logical, philosophical in nature. Very often, the base abstraction is lambda calculus, although in some cases it's combinatorial logic. If we add to that, we tend to add things like type theory, set theory, and category theory.
+
+These "laws of the universe" languages have fewer abstractions that go farther. There is less to master, so we can accomplish more, more quickly. We can focus on mastering our problem domain rather than the vagaries of our language and libraries. The languages tend to be much more constrained than the typical garage language, so even our more junior developers can focus sooner on delivering value rather than figuring out new abstractions.
+
+Most of the "laws of the universe" languages fall under the category of pure functional programming. That's one of the really cool things about doing functional programming. There are languages designed for it.
 
 ## Let's talk about functional programming languages
 
-- Abstractions used in functional programming
-- Why is functional programming simple and demonstrably correct
-- Teaching functional programming to n00bs vs seniors
-- Migrating a team to functional programming
+This seems to be a good time to repeat what we said about functions, because pure functional programming languages are based - not surprisingly - on pure functions.
+
+* **Referential transparency.** In functional programming, functions are going to give me the same answer whenever I call them with the same arguments.
+* **Immutable state.** Pure functional programming languages don't have mutable variables, and I find it convenient to think of variables in pure functional programming languages as functions that don't take any arguments. (In fact, under untyped lambda calculus, we can use Church encoding to represent even data, so that the only primitive data type is the function.)
+* **Function composition.** A common pattern in pure functional programming languages is to "compose" functions - that is, to create a pipeline of functions that work together, in order, to accomplish a higher level goal.
+* **Laziness.** While not all functional programming languages use lazy evaluation, many do - especially when we're working with streaming data, because as we know, large data sets are nearly impossible to work with, but infinite data sets are easy.
+* **Distribution.** Because nothing outside of a function can change the meaning of the function within a program, once we know a function's arguments, it doesn't matter *where* we run the function.
+* **Higher order functions.** In functional programming languages, functions are a primitive data type and can be passed around like any other data type.
+
+These characteristics of pure functions, and by extension, pure functional programming are the reason why it is both simple and demonstrably correct. 
+
+* Because state is immutable, it cannot change on us arbitrarily. An equals sign declares that two things are equal, rather than destructively making them so.
+* Because the arguments to our functions and their return values are strongly typed, and state is immutable, the type checking performed by the compiler is much more likely to suggest a correct program.
+* Because our programs are a composition of functions, it's easy to deduce that the correctness of each member function will lead to the correctness of the composition.
+* Because functions are declarative and state is immutable, it's easy to induce how a function will transform a current state.
+* Because our functions are mathematical in nature, we can identify properties of these functions and test that the properties are true (or rather, search for counter-examples using random input data.)
+
+These are just some of the reasons why functional programming tends to be simpler and easy to demonstrate that it's correct. If we go back to our simplicity test - "Can I reason about this code?" and "Can I demonstrate this code is correct?" - functional programming is a winner.
+
+For me, the real winner is that functional programming works well as a programming language for less experienced developers. I've had seniors tell me "You need a PhD to understand this stuff" and I've have brand new developers tell me "This makes so much sense!" The beautiful part of this is that the juniors produce code that simpler, more correct, and substantially smaller than the hybrid and object oriented code produced by those same seniors.
 
 ## Let's talk about identity
 
-- Identity in OOP is the current state of an object's properties
-- Identity in FP is a collection of state over time
+Very often we use state as a way to model things that exist in the real world. In object oriented languages, this is typically the properties of an object that distinguish any one object from another. In functional programming, we may do the same thing using purely functional data structure. There's an important distinction between these two ways of managing identity.
+
+In OO programming, identity is the current state of an object. We can also say that the current properties of an object are the identity of that object. The object oriented abstraction gives us only one identity, the current snapshot of an object's state. That's not to say we couldn't maintain a journal of changes to state, only that we don't get that for free with object oriented programming.
+
+In pure functional programming, state is immutable. We *transform* state from one version to the next using pure functions. As a result, we can always access at least two versions of our state - the one before a transformation, and the one after a transformation. By extension, we actually have *every* version of state, because we choose what to discard. So in functional programming, identity is a collection of states over time.
+
+This makes sense to me. I have identity, and my identity is not a based on an isolated moment in time. To flatten my identity so completely loses so much richness.
+
+To summarize, object oriented programming gives us identity as the current state of an object, and functional programming gives us identity as a collection of states over time. We're going to use this in discussion about data and architecture coming up.
+
+## Let's talk about databases
+
+When we introduce identity to our programs, very often we also need to introduce persistence. We want to be able to remember, and recall, the state of our entities. We have many options for persisting this state. Let's look at some, and compare them to our understanding of identity.
+
+**Relational databases** treat data like object oriented programming treats identity. A query returns the current state of an entity. Updates to that entity are destructive because the database mutates its data. The concepts behind relational databases were brilliant for their time (the 1970's) but they often fail to match our current needs. Worse, modeling complex data sets in a relational database dramatically increases complexity, rather than keeping it as simple as possible.
+
+Most **NoSQL databases** also treat our data like OOP treats identity. Updates are destructive. Data is mutable (or at least presented to us that way). We still are getting a point-in-time snapshot of our data, even if NoSQL is getting us eventual consistency, denormalization, and speed at "web scale" that relational databases can't. Changes to our data are incremental and shared across multiple devices, necessitating conflict resolution strategies. 
+
+Although much harder to come by, we have the option of **immutable databases**. As the name suggests, these databases do not destructively update our data. In fact, it's reasonable to say there are no updates with immutable databases. Where a typical system might support CRUD operations (create, read, update, delete), an immutable database only supports the create and read operations.
+
+Immutable databases provide our persistence layer with many of the same benefits immutable state provides us in our programs. We can reason about our data. Changes to our data are idempotent. We have an audit trail showing when and how our data changed. We can ask questions about our data over time. Our queries are essentially pure functions run against a bunch of events that affect our understanding of identity.
 
 ## Let's talk about domains
 
-- The basics of Domain Driven Design
-- Front end domain problems
-- Back end domain problems
+Domain Driven Design (DDD) is an approach to developing software based on a collaboration between technical experts (us) and domain experts (people who know a lot about the problems our code will solve). In DDD, we organize our code around the organization of the domain and how the domain problems are modeled.
 
-## Let's talk about program architecture
+Here are some core concepts:
 
-Here's an example. Let's say you're writing the back end of a website. The first thing I'd say is, "Don't do that." The domain problem we want to solve on the front end is different than the domain problem we're solving on the back end. The front end is strictly responsible for the experience of the user as they try to accomplish their goal. The back end is responsible for the integrity of the data, including the business logic.
+* A **domain** is an area of activity, a subject area, or a sphere of knowledge.
+* A **model** is how people who work in a domain think about their work.
+* A **ubiquitous language** is how people who work in a domain talk about their work.
+* An **entity** is something that has *identity* as described in the previous section, in the context of a domain.
+* A **domain event** is something that happens that's important to the domain experts, within the context of the domain model, and affecting one or more entities within that domain.
+* A **bounded context** is a collection of related domains that tend to share a model, ubiquitous language, and many of the same entities, but tend to have their own domain events.
 
-Of course, there's no need to have only one back end. We can (and should) create one back end for each domain problem we need to solve, and group them within bounded contexts. There's also no reason to have only one front end. By decoupling the domains, we've made it so that the consumer of our back end services can be arbitrary. We can add a native mobile app to our web application, or innovate around our core competencies.
+A skillful application of Domain Driven Design will result in code that is limited to a particular domain, depends on data structures describing entities based on the models in that domain, and use the same language as our domain expert partners. It is entirely reasonable to expect that a domain expert who is not a developer to be able to read our code and understand what it is supposed to be doing, because we are all sharing the same models and language.
 
-There's also no reason to have only one interface. Now that we've decoupled the back end from the front end, you can also abstract how the service is consumed. It may be HTTPS now, but later you might want to connect in other ways too. Queue worker. Websockets. Pubsub. Ports. Because our interface is all side effects, and our side effects are implemented using the thinnest possible wrapper around our business logic, it's trivial to add a new interface.
+With these six concepts, we can build software systems that are dramatically simpler to understand and better at correctly solving our business problems than our historic monolithic approach to development. 
 
-Pushing our side effects to the edges gives us many of the advantages of functional programming at an application scale:
+## Let's talk about the back end
+
+Here's an example. Let's say you're writing the back end of a website. The first thing I'd say is, **"Don't do that."** The domain problem we want to solve on the front end is different than the domain problem we're solving on the back end. The front end is strictly responsible for the experience of the user as they try to accomplish their goal. The back end is responsible for the integrity of the data, including the business logic.
+
+Of course, we won't have only one back end. We will create one back end for each domain, and group them within bounded contexts. There's also no reason to have only one front end. By decoupling the client from the back end service, we've made it so that the consumer of our back end services can be arbitrary. We may start with a web application, but we can just as simply produce a public API, a native mobile app, or even new web applications that innovate around our core competencies.
+
+Following the design advice from functional first programming, we'll also push all of our side effects to the edges. This gives our architecture the advantages of functional programming at an application scale:
 
 * Our business logic is purely functional: referentially transparent and composable.
 * It's exceptionally easy to distribute (horizontally scale) our business logic.
 * Our business logic is *very* easy to unit test, and the tests run fast.
-* Our side effects layer is *only* side effects, and since they are pretty much always implemented using someone else's library that has it's own unit tests, we don't write unit tests for the I/O layer, only integration tests. (Look Mom, no mocks!)
-* Switching out how a side effect is implemented requires the absolute minimal amount of code. Adding another interface is just adding the interface, not refactoring logic. Changing a database is just a new library, not a complete rewrite of your models.
+* Our side effects layer is *only* side effects, and since they are pretty much always implemented using someone else's library that has it's own unit tests, we don't write our own unit tests for side effects, we only write integration tests.
+
+Now there's no reason to have only one interface. When the back end is decoupled from the front end, you can also abstract how the service is consumed. It may be HTTPS now, but later you might want to connect in other ways too. Queue worker. Websockets. Pubsub. Ports. Because our interface is all side effects, and our side effects are implemented using the thinnest possible wrapper around our business logic, it's trivial to add a new interface.
 
 In short, we've created a back end service that is both simple and demonstrably correct.
 
@@ -179,7 +298,7 @@ In short, we've created a back end service that is both simple and demonstrably 
 
 What about the front end? To start with, we can reiterate that the front end solves a different domain problem than the back end. The front end is strictly responsible for the user's experience as they meet the need that brought them to your application.
 
-I've used two different patterns here that are very interesting:
+We've used two different patterns here that are very interesting:
 
 ### No Back End
 
@@ -232,26 +351,29 @@ On the server side:
 
 At the end of this process, we have one complete feature ready to deliver on the front end, and a related (but not tightly coupled) complete feature ready to deliver on the back end. We've built the minimum necessary to implement our feature, while staying within an architecture we can trust and reason about.
 
-## Let's talk about databases
+## Let's solve for an architecture
 
-- CAP Theorem
-- Most databases are mutable
-  - Relational databases treat data like OOP treats identity, and they tend to introduce complexity both in
-normalization and in deployment (CA)
-  - Most NoSQL also treat data like OOP treats identity, but they give us tunable CAP settings, denormalization, speed, and "web scale"
-- There are also immutable databases
-  - See Nathan Marz' "How to beat the CAP theorem"
-  - CR not CRUD
-  - CRDTs?
-  - Event stores and DDD
-  - Event stores and command query responsibility segregation
+Let's assume we have a bounded context - a collection of domains that each have their own domain events, but share much of the modeling, language, the entities - and that our bounded context includes a web application that will be used by clients. Given the influence of pure functional programming and domain driven design, how might we architect our system?
 
-## Let's talk about architecture
+[ diagram ]
 
-- Microservices
-- Reactive microservices
-- Composed reactive microservices
-- Interfaces as contracts
+On the user's side, we generate domain events when the user does something noteworthy within our domain. The event gets persisted to an immutable event store. Once it's persisted, the event is published to a message bus. Any service that pays attention to the domain, the entity in question, and the event type can pick up the event and use it to update their internal representation of a domain model.
+
+Our events are represented using a structure based on domain driven design. We send them to our event store like this:
+
+```
+POST http://[ eventstore ]/[ realm ]/[ domain ]/[ entity ID ]/[ event type ] -d { [event data ] }
+```
+
+We've added a "realm" concept to provide for authentication and authorization, which might map to the bounded context. Then we have the domain in which the event occurs. Events relate to an entity, which is represented with a globally unique ID. Every event has an event type, so services can listen only for events they handle.
+
+All of this information, except for the realm, is arbitrary. The event store doesn't know or care what domains are out there, what entities exist, or what types of events are stored. 
+
+Once the event store has persisted the event (we use Cassandra for that), it can either publish the event to a message bus or deliver it via HTTP request or web socket. Each event gets stored with a type 1 UUID that can be used as a definitive "last seen" for a query. Likewise every request can be filtered by domain, entity, and event type.
+
+Services within our bounded context are usually organized by domain, but can be subdivided to specific types of events. The events a service receives are mapped to a command within our business logic, which then updates the service's internal representation of the domain model. Then, the service can answer questions about the domain model.
+
+In most cases, we want a domain to keep an up to date representation of its domain model for immediate response to any questions. This is very useful when queries happen more frequently than new events are processed. For example, a service that maintains the state of a shopping cart for an ecommerce store will be queried much more frequently than it's changed. But sometimes, things happen the other way around. In the shopping cart example, we may have a number of questions we ask about shopper behavior - how old is each cart, how long since it's been used, which items are added to carts but removed before checking out. These queries happen much less frequently than events affecting the model, so we may update these models on a schedule, or on demand.
 
 ## Let's talk about distributed computing
 
@@ -267,7 +389,7 @@ databases
 ## Let's talk about simple, demonstrably correct systems
 
 - Simple
-  - Services as pure functions
+  - Service as pure functions
   - Composable services
   - Immutable, no side effects
   - Contracts, DDD ubiquitous language and mental models
@@ -278,114 +400,4 @@ databases
   - Thin side effect layers should only need contract testing
   - Easier to demonstrate the correctness (read: can be maintained more cheaply!) 
 
-~~~~~~~~~~
-
-
-The 10x Programmer
-
-* 10x the value, not 10x the code
-* Value comes from good judgement
-* Good judgement is compounding
-* 25% more value per decision yields 10x the value
-
-Programming languages
-
-* What's an abstraction?
-  * A technique for arranging complexity
-* Some languages feel like they were built in someone's garage, because they
-were
-  * Multiple abstractions, like objects in Javascript, or Perl's TMTOWTDI
-  * System languages are powerful, but who should wield that power?
-  * Mastering the language requires mastering the various abstractions
-  * Most developers have difficulty getting the best value out of the language
-  * Solid practices mitigate complexity, but they don't eliminate it
-* Some languages feel like they are based on laws of the universe, because they were. Very many of these are functional programming languages
-  * Functional languages are based on mathematical abstractions: algebraic composition and typed lambda calculus plus some combination of combinatorial logic, set theory, type theory, and category theory.
-  * As a result, functional programming typically implements these abstractions:
-    * Pure functions, including referential transparency and no side effects
-    * Immutability (or, are variables really just pure functions?)
-    * Composability
-    * Higher order (and first class) functions
-    * Recursion
-    * Some kind of type system
-  * Functional programming languages are declarative (using expressions), and not a mixture of declarative and imperative (using expressions and statements).
-  * "Pure" functional programming languages are constrained by these abstractions.
-* Constrained languages maximize value from the whole team
-  * Fewer abstractions to master
-  * Fewer brain cycles spent remembering weird abstractions, inconsistencies, and gotchas
-  * More energy available to spend on solving the problem
-
-DDD:
-
-* Quick overview of DDD
-* The front end and the back end solve different domain problems
-* Following the common model
-* Using the ontology
-  * Entities in our domain
-  * Aggregate roots
-  * Events and how to handle them
-
-Event stores:
-
-* The nature of identity in FP and OO
-* Events in a DDD context
-* Canonical, time-variant data
-* Immutable (Create-Read) data
-* Reductions and projections
-* Projections as cache
-* Quick overview of CQRS
-
-NoSQL and Message Brokers:
-
-* Distributed computing is hard
-* Stateless applications, distributed data stores - don't reinvent the distributed computing wheel
-* Denormalization as an optimization strategy
-
-Functional first programming:
-
-* Strategy:
-  * First, program everything you can without side effects
-  * Then, program your side effects
-* Purely pure business logic
-* Isolating side effects as a testing strategy
-* Why not mutate?
-* Feature workflow: Front end is all about the user's experience
-  * Sketch out the user interface
-  * Test it with mock data
-  * Move the mock data to a side-effecting function (always at the edge)
-  * Implement the service call
-* Feature workflow: Back end is all about the integrity of the data
-  * Implement the business logic
-  * Test it with mock data
-  * Move the mock data to the edge, and then to the database
-  * Replace the mock data at the service edge with the business logic
-
-Value:
-
-* Functional first programming
-  * Easy to reason about
-  * Easy to demonstrate correctness
-  * Delivers features iteratively for fast user feedback
-  * Composable back ends
-  * Separates domain problems for clearer focus
-  * Back end supports any front end requiring the service (not isometric to front end)
-* NoSQL and Message Brokers
-  * Easy to reason about
-  * Tested, demonstrably correct services
-  * Distributed computing is probably not our core competency, so we have someone else do that
-  * Buy Don't Build
-* Event Stores
-  * Easy to reason about
-  * Easy to demonstrate correctness
-  * Comparable performance to straight up cacheing
-  * Isometric to identity in functional programming
-  * Time variant data delivers more features
-  * Very rich source of data for future value
-* DDD
-  * Easy to reason about
-  * Collaboratively demonstrate correctness in the ubiquitous language and common model
-  * Easy to identify where to deliver value
-* All combined
-  * Composable, reliable, correct, reasonable design
-  * Dramatically reduce ongoing maintenance costs (long tail)
 
