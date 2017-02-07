@@ -62,7 +62,7 @@ Programming is a practical art. Very few of us do it for aesthetic reasons; by a
 
 The degree to which our tools meets that goal is how I define "value". How we as programmers deliver this value varies depending on where our product is in it's lifecycle.
 
-For example, I have a theory that such a high percentage of software startups fail that it's useful to just round it up to "all". Under that presumption, it's good to fail as cheaply as possible, so we want to deliver value quickly and frequently so that we can validate it with real users - or toss it in the bin and take a different tact. The tools we use to deliver this value quickly are typically rapid application development environments built in scripting languages like Ruby, Python, and Javascript; monolithin frameworks; and readily available libraries. The code produced by this effort is often most charitably described as "expedient". But we can deliver value to a potential market quickly.
+For example, I have a theory that such a high percentage of software startups fail that it's useful to just round it up to "all". Under that presumption, it's good to fail as cheaply as possible, so we want to deliver value quickly and frequently so that we can validate it with real users - or toss it in the bin and take a different tact. The tools we use to deliver this value quickly are typically rapid application development environments built in scripting languages like Ruby, Python, and Javascript; monolithic frameworks; and readily available libraries. The code produced by this effort is often most charitably described as "expedient". But we can deliver value to a potential market quickly.
 
 Once a product is proven in the market and we start to develop a significant user base, the short cuts we took up front start to matter. The code is hard to maintain. Bug fixes create new bugs. Our systems are fragile. We can't scale to meet demand. Getting through this phase is called "surviving our success".
 
@@ -260,6 +260,17 @@ Although much harder to come by, we have the option of **immutable databases**. 
 
 Immutable databases provide our persistence layer with many of the same benefits immutable state provides us in our programs. We can reason about our data. Changes to our data are idempotent. We have an audit trail showing when and how our data changed. We can ask questions about our data over time. Our queries are essentially pure functions run against a bunch of events that affect our understanding of identity.
 
+## Let's talk about reactive systems
+
+[The Reactive Manifesto](http://www.reactivemanifesto.org/) identifies ways that the architectures and expectations we have used to guide our work in the past decade and longer are slow, fat, unreliable, and incapable of meeting the needs of today's internet. In response to that, they have defined a coherent systems architecture that expects 100% uptime, milisecond-range response times, cloud-based infrastructure, and petabytes of data. They call these "reactive systems", and they're based on four characteristics:
+
+* **Responsive:** Rapid and consistent response times build confidence in the usability of the system as well as the absence (and handling) of errors.
+* **Resilient:** Reactive systems stay responsive even during a failure, because components are replicated, isolated, and delegated responsibility when other components fail.
+* **Elastic:** Even when workloads vary significantly, reactive systems remain responsive, because designs avoid bottlenecks and contention points, timely scaling, and constant monitoring in a cloud environment.
+* **Event driven:** Reactive systems employ asynchronous message passing in order to decouple disparate systems, avoid blocking communication, isolate services, and make location transparent, 
+
+Taken together, these four characteristics of reactive systems not only help us design and build scalable, anti-fragile systems, they reduce the complexity of the systems themselves and align nicely with the functional-first concepts described early, and with Domain Driven Design. 
+
 ## Let's talk about domains
 
 Domain Driven Design (DDD) is an approach to developing software based on a collaboration between technical experts (us) and domain experts (people who know a lot about the problems our code will solve). In DDD, we organize our code around the organization of the domain and how the domain problems are modeled.
@@ -298,6 +309,8 @@ Let's assume we have a bounded context - a collection of domains that each have 
 
 [ diagram ]
 
+### Events
+
 On the user's side, we generate domain events when the user does something noteworthy within our domain. The event gets persisted to an immutable event store. Once it's persisted, the event is published to a message bus. Any service that pays attention to the domain, the entity in question, and the event type can pick up the event and use it to update their internal representation of a domain model.
 
 Our events are represented using a structure based on domain driven design. We send them to our event store like this:
@@ -312,9 +325,25 @@ All of this information, except for the realm, is arbitrary. The event store doe
 
 Once the event store has persisted the event (we use Cassandra for that), it can either publish the event to a message bus or deliver it via HTTP request or web socket. Each event gets stored with a type 1 UUID that can be used as a definitive "last seen" for a query. Likewise every request can be filtered by domain, entity, and event type.
 
-Services within our bounded context are usually organized by domain, but can be subdivided to specific types of events. The events a service receives are mapped to a command within our business logic, which then updates the service's internal representation of the domain model. Then, the service can answer questions about the domain model.
+### Domain services
+
+Services within our bounded context are usually organized by domain, but can be subdivided by model, when a domain has a model that can be divided. Each event a service receives is mapped to a command within our business logic, which then updates the service's internal representation of the domain model. Then, the service can answer questions about the domain model.
 
 In most cases, we want a domain to keep an up to date representation of its domain model for immediate response to any questions. This is very useful when queries happen more frequently than new events are processed. For example, a service that maintains the state of a shopping cart for an ecommerce store will be queried much more frequently than it's changed. But sometimes, things happen the other way around. In the shopping cart example, we may have a number of questions we ask about shopper behavior - how old is each cart, how long since it's been used, which items are added to carts but removed before checking out. These queries happen much less frequently than events affecting the model, so we may update these models on a schedule, or on demand.
+
+### Reductions and projections
+
+Events are the richest record of what's happened within a domain, and from a comprehensive list of events we can recreate the answer to almost any question at any time in the past or present.
+
+Projections are a flattened view of the events. If events were a person, a projection is a shadow of that person. We might tell some things about the person (shape, size) and not tell other things (expression, hair color). If our event store contains a journal of our finances, then examples of projections include a profit and loss statement, or even just the total of our cash on hand.
+
+Reductions are how we get our projections. We start with a list of events and an empty projection. Each event is mapped to a function which transforms that projection. At any point, we can stop and that is the projection up through that event in time. Typically we might run the reduction against all of our known events, and use that projection to answer questions about our domain. When new events come in, we simply continue with more reductions against the same projection.
+
+A reduction is a pure function, applied to a list of events - that is the entirety of data about our domain. For any given list of events, it will always return the same projection. We aren't doing a destructive update on our data; the event store is immutable, and the projection is a series of state transformed by a function mapped to an event.
+
+While we use projections to answer questions about our domain, the projection is not the canonical data source. The event store is the system of record. Projections are more like the answers to queries. We can recreate a projection at any time from the events in the event store. Sometimes there will be so many events we may instead choose to cache our projection as a snapshot, and then reduce it further with events newer than that snapshot.
+
+If we think of projections as the answer to a query, we can see how the projections can be maintained with each new event, calculating the answer to a set of queries in advance or the query. Or our service may run a reduction on a set of events to create a projection on demand. Or we can do something inbetween, maintaining a snapshot from the last time a projection was built, but not processing new events until someone indicates a need.
 
 ## Let's talk about distributed computing
 
@@ -326,33 +355,31 @@ By using established, proven software (Cassandra, RabbitMQ, etc.) for the portio
 
 ## Let's talk about simple, demonstrably correct systems
 
-Let's take a look at those benefits of pure functions, and of functional programming, in terms of our architecture.
+Reactive systems bring these benefits to simplifying our designs:
 
-**Referential transparency.** Our domain logic is referentially transparent. Given the same list of events, it will always return the same projection. This is basically creating a database that manages the integrity of the datam then applies a specific query function to the entirety of that data within a domain to return exactly the projection that's needed. Typically, it does this work in advance in order to answer queries instantly.
+* We focus on responsiveness, not only as a value we can deliver to the user but also as a way of detecting and handling error.
+* Components are isolated to reduce complexity and "blast radius", redundant to ensure any given service can fail, and assigned traffice through routing or message subscription.
+* Reactive systems remain responsive, because we avoid contention points, monitor constantly, and scale automatically in a cloud environment.
+* Reactive systems use message passing to avoid blocking communication, decouple, isolate, and make the presence and location of listeners arbitrary.
 
-**Immutable state.** Our data persistence layer is an immutable, append-only, event store. From it, we can answer any question about state and identity at any past or current time.
+Here are the benefits that Domain Driven Design brings to our system design:
 
-**Function composition.** 
+* Our architecture is isomorphic to our business processes.
+* We share a common model and a common language with our business partners.
+* Bounded contexts, domains, subdomains, entity models help make even our code accessible to our business partners.
+* Domain events and domain models map perfectly to both a ES-CQRS pattern, and a Reactive Programming pattern.
+* I secretly think that Eric Evans created Domain Driven Design to bring the low hanging fruit of functional programming to an object oriented paradigm.
 
-**Laziness.** Some of our projections are updated with every new event. Some projections are evaluated on demand.
+Let's take a look at those benefits of pure functions, and of functional programming, now in terms of our architecture.
 
-**Distribution.** Our domain logic is fully distributed, and relies on established software projects and products to do distributed computing in a way that's been proven correct.
-
-**Higher order functions.** 
-
-
-
-How do you compose services?
-
-How do higher order functions come in?
-
-Services have their own projections. That's not pure.
-
-Where should the projections actually live? With the service? With the event store?
-
-Projections are mutable.
-
-System benefits combining DDD and functional programming. Ease of reasoning? Organization? Domain experts can read and understand?
+* Our state is persisted in an immutable, append-only, event store. This is our system of record.
+* Events happen in the real world, and we react to them with pure functions that transform our domain models.
+* Our domain models are essentially created by applying a function to all known domain events - that is, our entire database.
+* Some of our domain models are updated eagerly, as new events come in. Others are updated lazily, when and if someone asks for the data.
+* Our practice of pushing side effects to the edges gives us a pipeline of pure, composed functions to apply to our domain model.
+* Our side effect layer is very thin, and easily replaced. Yet this layer provides the proven methods that make distributed computing work for us.
+* Bounded contexts, domains, subdomain models, and entity models allow us to view the domain at varying levels of abstraction, giving us a similar benefit to function composition.
+* It's trivial to reason about our domain.
 
 - Demonstrably correct
   - Integration tests of a service are unit tests
