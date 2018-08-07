@@ -188,8 +188,8 @@ Create a test:
 ```
   test "Processing some events gives us our expected cart" do
     result = Cart.process(%Cart{}, @some_events)
-    assert result.total == @expected_result.total
     assert Enum.count(result.items) == 3
+    assert result.total == @expected_result.total
     assert @expected_result.items -- result.items == result.items -- @expected_result.items
   end
 ```
@@ -219,7 +219,7 @@ Implement `Cart.process` for an `:item_added` event:
 ```
   def process(%Cart{items: items} = _cart, {:item_added, item} = _event) do
     new_items = dedup_items(items, item)
-    %Cart{items: new_items, total: calculate_total(new_items)}
+    %Cart{items: new_items, total: calculated_total(new_items)}
   end
 ```
 
@@ -228,14 +228,14 @@ Implement `Cart.process` for an `:item_removed` event:
 ```
   def process(%Cart{items: items} = _cart, {:item_removed, item} = _event) do
     new_items = dedup_items(items, %Item{sku: item.sku, cost: item.cost, qty: item.qty * -1})
-    %Cart{items: new_items, total: calculate_total(new_items)}
+    %Cart{items: new_items, total: calculated_total(new_items)}
   end
 ```
 
-Implement `Cart.calculate_total`:
+Implement `Cart.calculated_total`:
 
 ```
-  def calculate_total(items) do
+  def calculated_total(items) do
     Enum.reduce(items, 0, fn(item, sum) -> sum + item.cost * item.qty end)
   end
 ```
