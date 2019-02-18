@@ -1,0 +1,2615 @@
+<html lang="en">
+
+<head>
+
+    <link rel="stylesheet" href="https://yourpersonality.net/attachment/CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="https://yourpersonality.net/attachment/CSS/bootstrap-theme.min.css">
+    <script src="https://yourpersonality.net/attachment/CSS/jquery.min.js"></script>
+    <script src="https://yourpersonality.net/attachment/CSS/bootstrap.min.js"></script>
+
+
+    <script language='javascript' type='text/javascript' src='https://yourpersonality.net/attachment/CSS/jquery.flot.js'></script>
+    <script language='javascript' type='text/javascript' src='https://yourpersonality.net/attachment/CSS/jquery.flot.axislabels.js'></script>
+    <script language='javascript' type='text/javascript' src='https://yourpersonality.net/attachment/CSS/jquery.flot.resize.js'></script>
+
+    <script language="javascript" type="text/javascript" src="https://yourpersonality.net/attachment/CSS/jquery.flot.symbol.js"></script>
+
+
+    <style type='text/css'>
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        
+        .navbar {
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <style type='text/css'>
+        .other-color {
+            background: #233b4e
+        }
+    </style>
+
+    <style type='text/css'>
+        /* #######################################################
+
+						HOW TO CREATE AN INTERACTIVE GRAPH USING CSS3 & JQUERY [TUTORIAL]
+
+						'How to create an Interactive Graph using CSS3 & jQuery [Tutorial]' was specially made for DesignModo by our friend Valeriu Timbuc.
+
+						Links:
+						http://vtimbuc.net
+						http://designmodo.com
+						http://vladimirkudinov.com
+
+						######################################################## */
+        /* Resets */
+        
+        .graph-container,
+        .graph-container div,
+        .graph-container a,
+        .graph-container span {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .graph-container div,
+        .graph-container span {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #chartLegend .legendLabel {
+            padding-right: 10px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        /* Gradinet and Rounded Corners
+						.graph-container, #tooltip, .graph-info a {
+							background: #ffffff;
+							background: -moz-linear-gradient(top,  #ffffff 0%, #f9f9f9 100%);
+							background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f9f9f9));
+							background: -webkit-linear-gradient(top,  #ffffff 0%,#f9f9f9 100%);
+							background: -o-linear-gradient(top,  #ffffff 0%,#f9f9f9 100%);
+							background: -ms-linear-gradient(top,  #ffffff 0%,#f9f9f9 100%);
+							background: linear-gradient(to bottom,  #ffffff 0%,#f9f9f9 100%);
+
+							-webkit-border-radius: 3px;
+							-moz-border-radius: 3px;
+							border-radius: 3px;
+						} */
+        /* Gradinet and Rounded Corners */
+        
+        #tooltip {
+            opacity: 1;
+            background: white;
+            /*
+							background: -moz-linear-gradient(top,  #ffffff 0%, #f9f9f9 100%);
+							background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f9f9f9));
+							background: -webkit-linear-gradient(top,  #ffffff 0%,#f9f9f9 100%);
+							background: -o-linear-gradient(top,  #ffffff 0%,#f9f9f9 100%);
+							background: -ms-linear-gradient(top,  #ffffff 0%,#f9f9f9 100%);
+							background: linear-gradient(to bottom,  #ffffff 0%,#f9f9f9 100%);
+
+							-webkit-border-radius: 3px;
+							-moz-border-radius: 3px;
+							border-radius: 3px;
+							*/
+        }
+        /*  Graph Container */
+        
+        .graph-container {
+            position: relative;
+            width: 98%;
+            height: 300px;
+            /*padding: 10px;*/
+            /*
+							-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+							-moz-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+							box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+							*/
+        }
+        /*  Graph Container */
+        
+        #graph-a,
+        #graph-f {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            /*padding: 10px;*/
+            /*
+							-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+							-moz-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+							box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+							*/
+        }
+        /*  Graph Container */
+        
+        #graph-k {
+            position: absolute;
+            width: 98%;
+            height: 300px;
+        }
+        
+        .graph-container>div {
+            position: absolute;
+            width: inherit;
+            height: inherit;
+            top: 0px;
+            left: 0px;
+        }
+        /*
+						.graph-info {
+							width: 590px;
+							margin-bottom: 10px;
+						}
+						*/
+        /* Text Styles */
+        
+        #tooltip,
+        .graph-info a {
+            //height: 20px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            //font-weight: bold;
+            //font-size: 12px;
+            /*line-height: 20px;*/
+            //padding: 10px;
+            color: #646464;
+        }
+        
+        .tickLabel {
+            font-weight: bold;
+            font-size: 12px;
+            color: #666;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        /* Tooltip */
+        
+        #tooltip {
+            position: absolute;
+            display: none;
+            padding: 15px 5px;
+            border: 1px solid #e1e1e1;
+        }
+        /* Links */
+        
+        .graph-info a {
+            cursor: default;
+        }
+        /* Color Circle for Links */
+        
+        .graph-info a:before {
+            position: absolute;
+            display: block;
+            content: '';
+            width: 8px;
+            height: 8px;
+            top: 13px;
+            left: 13px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+        
+        .legend table {
+            border-spacing: 5px;
+        }
+        /* Colors For each Link */
+        /* Lines & Bars Buttons */
+        
+        #TAB_A,
+        #TAB_B,
+        #TAB_C,
+        #TAB_D {
+            cursor: pointer;
+        }
+        
+        #lines.active,
+        #bars.active {
+            background: #82d344;
+            background: -moz-linear-gradient(top, #82d344 0%, #71c73e 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #82d344), color-stop(100%, #71c73e));
+            background: -webkit-linear-gradient(top, #82d344 0%, #71c73e 100%);
+            background: -o-linear-gradient(top, #82d344 0%, #71c73e 100%);
+            background: -ms-linear-gradient(top, #82d344 0%, #71c73e 100%);
+            background: linear-gradient(to bottom, #82d344 0%, #71c73e 100%);
+        }
+        /*#lines span, #bars span {
+							display: block;
+							width: 34px;
+							height: 32px;
+							background: url('../img/lines.png') no-repeat 9px 12px;
+						}*/
+        
+        #bars span {
+            background: url('../img/bars.png') no-repeat center 10px;
+        }
+        
+        #lines.active span {
+            background-image: url('../img/lines_active.png');
+        }
+        
+        #bars.active span {
+            background-image: url('../img/bars_active.png');
+        }
+        /* Hide the First and Last Y Label */
+        /*
+						.yAxis .tickLabel:first-child,
+						.xAxis .tickLabel:first-child,
+						.xAxis .tickLabel:last-child,
+						.yAxis .tickLabel:last-child { display: none; }
+						*/
+        /* Chris Padding */
+        
+        .chrispadding {
+            padding: 20px 20px;
+            border: 1px solid #e1e1e1;
+        }
+        /* Clear Floats */
+        
+        .graph-info:before,
+        .graph-info:after,
+        .graph-container:before,
+        .graph-container:after {
+            content: '';
+            display: block;
+            clear: both;
+            /*
+.axisLabel {
+    position: absolute;
+    text-align: center;
+    font-size: 12px;
+}
+
+.xaxisLabel {
+    bottom: 3px;
+    left: 0;
+    right: 0;
+}
+
+.yaxisLabel {
+    top: 50%;
+    left: 2px;
+    transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -webkit-transform:  rotate(-90deg);
+    transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+}
+*/
+            #legendContainer {
+                background-color: #fff;
+                padding: 20px;
+                margin-bottom: 8px;
+                border-radius: 3px 3px 3px 3px;
+                border: 1px solid #E6E6E6;
+                display: inline-block;
+                margin: 0 auto;
+                font-weight: bold;
+                font-size: 12px;
+                color: #666;
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            }
+            input[type=checkbox] {
+                margin: 7px;
+            }
+            #hidden {
+                visibility: hidden;
+            }
+            .#choices {
+                visibility: hidden;
+            }
+        }
+    </style>
+
+
+
+
+
+    <title>Results | Your Personality</title>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='description' content='Your Personality'>
+    <meta name='author' content='R. Chris Fraley'>
+    <link rel='icon' href='favicon.ico'>
+
+</head>
+
+<body role='document'>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+                <a class="navbar-brand">Your Personality</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="logout.php">Logout <span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="menu.php">Menu <span class="sr-only">(current)</span></a></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Options <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+
+                            <li><a href="logout.php">Logout</a></li>
+                            <li class="divider"></li>
+
+
+
+                            <li><a href="#">user: rob</a></li>
+                            <li class="divider"></li>
+
+
+
+
+                        </ul>
+                    </li>
+                </ul>
+
+
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <CENTER>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                Choose a variable to graph
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li class="dropdown-header">Your Personality</li>
+                <li class="divider"></li>
+                <li><a href="#" id="TAB_A" class="active"><span> Attachment Styles (Traits)</span></a></li>
+                <li><a href="#" id="TAB_B"><span> Attachment Styles (States) </span></a></li>
+                <li><a href="#" id="TAB_C"><span> Subjective Well-Being </span></a></li>
+                <li><a id="TAB_D"><span> Relationship Functioning </span></a></li>
+                <li><a href="#" id="TAB_E"><span> Personality Traits </span></a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Personality Across Time - 5 waves</li>
+                <li class="divider"></li>
+
+                <li><a href="#" id="TAB_F" class="active"><span> Attachment Styles (Traits)</span></a></li>
+                <li><a href="#" id="TAB_G"><span> Attachment Styles (States) </span></a></li>
+                <li><a href="#" id="TAB_H"><span> Subjective Well-Being </span></a></li>
+                <li><a href="#" id="TAB_I"><span> Relationship Functioning </span></a></li>
+                <li><a href="#" id="TAB_J"><span> Personality Traits </span></a></li>
+                <li><a href="#" id="TAB_K"><span> Life Events </span></a></li>
+            </ul>
+        </div>
+        <BR>
+        <div class="container theme-showcase" role="main">
+            <div id="graph_instructions">
+                <P>
+                    <CENTER>
+                        <B>Viewing Your Results</B>
+                    </CENTER>On this page you can view your results from the personality survey(s) you have taken. Use the pull-down menu above to select the results you would like to see. If you have only taken one survey, then you will only have the
+                    option to see your latest results. If you have taken the surveys on more than one occasion, you will also be able to see your results across time. This kind of output is useful for seeing whether and how your personality has evolved
+                    across time.</P>
+            </div>
+            <!-- Graph HTML -->
+            <div id="graph-wrapper">
+                <div class="graph-container">
+
+                    <div id="graph-a"></div>
+                    <div id="graph-b"></div>
+                    <div id="graph-c"></div>
+                    <div id="graph-d"></div>
+                    <div id="graph-e"></div>
+                    <div id="graph-f"></div>
+                    <div id="graph-g"></div>
+                    <div id="graph-h"></div>
+                    <div id="graph-i"></div>
+                    <div id="graph-j"></div>
+                    <div id="graph-k"></div>
+
+                </div>
+            </div>
+            <!-- end Graph HTML -->
+            <script>
+                $(document).ready(function() {
+                    // Create Dates
+
+                    var dates = ["12 Apr 2018", "24 Aug 2018", "02 Oct 2018", "17 Nov 2018", "10 Feb 2019", ];
+
+
+                    // Create Rusbult Dates
+
+                    var dates_rusbult = [];
+
+                    var e_self = [
+                        [3.67, 2.5]
+                    ];
+                    var a_self = [
+                        [2.33, 3.5]
+                    ];
+                    var b_self = [
+                        [3, 4]
+                    ];
+                    var c_self = [
+                        [3, 1.5]
+                    ];
+                    var d_self = [
+                        [2.67, 2.33]
+                    ];
+
+
+
+
+                    var graphData_attachment2 = [{
+                        label: "General",
+                        data: e_self,
+                        points: {
+                            symbol: "square"
+                        }
+
+                    }, {
+                        label: "Mother",
+                        data: a_self,
+                        points: {
+                            symbol: "triangle"
+                        }
+
+                    }, {
+                        label: "Father",
+                        data: b_self,
+                        points: {
+                            symbol: "diamond"
+                        }
+
+                    }, {
+                        label: "Partner",
+                        data: c_self
+                    }, {
+                        label: "Friend",
+                        data: d_self
+                    }, ];
+
+                    var saam_self = [
+                        [1, 3.77],
+                        [4, 4.53],
+                        [7, 1.47]
+                    ];
+                    var saam_other = [
+                        [2, 3.56],
+                        [5, 3.82],
+                        [8, 2.37]
+                    ];
+                    var graphData_saam2 = [{
+                            label: 'You',
+                            data: saam_self,
+                            bars: {
+                                show: true,
+                                barWidth: 0.9,
+                                fill: 1,
+                                fillColor: '#4F628E'
+                            }
+                        },
+
+                        {
+                            label: 'Others',
+                            data: saam_other,
+                            bars: {
+                                show: true,
+                                barWidth: 0.9,
+                                fill: 1,
+                                fillColor: '#7887AB'
+                            }
+                        },
+                    ];
+                    var graphData_swb2 = [{
+                            label: 'Subjective Well-Being',
+                            data: [
+                                [0.80, 0],
+                                [1, 18470],
+                                [1.5, 22387],
+                                [2, 65782],
+                                [2.5, 48371],
+                                [3, 75228],
+                                [3.5, 47927],
+                                [4, 40386],
+                                [4.5, 12168],
+                                [5.20, 0]
+                            ],
+                            lines: {
+                                show: true,
+                                fill: true,
+                                fillColor: '#E0CCF5',
+                                fill: .1
+                            },
+                        }
+
+                    ];
+                    var rusbult_self = [
+                        [1, 3.47],
+                        [4, 3.9],
+                        [7, 4.53],
+                        [10, 3.43]
+                    ];
+                    var rusbult_other = [
+                        [2, 4.17],
+                        [5, 3.32],
+                        [8, 2.69],
+                        [11, 3.04]
+                    ];
+                    var graphData_rusbult2 = [{
+                            label: 'You',
+                            data: rusbult_self,
+                            bars: {
+                                show: true,
+                                barWidth: 0.9,
+                                fill: 1,
+                                fillColor: '#800000'
+                            }
+                        },
+
+                        {
+                            label: 'Others',
+                            data: rusbult_other,
+                            bars: {
+                                show: true,
+                                barWidth: 0.9,
+                                fill: 1,
+                                fillColor: '#CC9999'
+                            }
+                        },
+                    ];
+                    var ipip_self = [
+                        [1, 3.45],
+                        [4, 4.35],
+                        [7, 3.5],
+                        [10, 3.6],
+                        [13, 3.85]
+                    ];
+                    var ipip_other = [
+                        [2, 2.9],
+                        [5, 4.04],
+                        [8, 3.27],
+                        [11, 3.16],
+                        [14, 3.99]
+                    ]; // Graph Data IPIP  BAR  ##############################################
+                    var graphData_personality2 = [{
+                            label: 'You',
+                            data: ipip_self,
+                            bars: {
+                                show: true,
+                                barWidth: 0.9,
+                                fill: 1,
+                                fillColor: '#336600'
+                            }
+                        },
+
+                        {
+                            label: 'Others',
+                            data: ipip_other,
+                            bars: {
+                                show: true,
+                                barWidth: 0.9,
+                                fill: 1,
+                                fillColor: '#99B280'
+                            }
+                        },
+                    ]; // Graph Data Attachment ############################################## 
+
+                    var graphData_avoide_dynamic = [3, 2.5, 2.17, 2.17, 2.5, , ];
+
+                    var graphData_anxietye_dynamic = [5, 4, 3.33, 3.67, 3.67, , ];
+
+                    var graphData_avoida_dynamic = [4.17, 4.17, 4.17, 4.33, 3.5, , ];
+
+                    var graphData_anxietya_dynamic = [3.33, 2.67, 2, 2.33, 2.33, , ];
+
+                    var graphData_avoidb_dynamic = [4.67, 3.83, 4.33, 4, 4, , ];
+
+                    var graphData_anxietyb_dynamic = [4.33, 2.33, 2.33, 2, 3, , ];
+
+                    var graphData_avoidc_dynamic = [1.5, 1.33, 1.33, 1.17, 1.5, , ];
+
+                    var graphData_anxietyc_dynamic = [4, 3.67, 3, 3.33, 3, , ];
+
+                    var graphData_avoidd_dynamic = [2.67, 3.33, 3.5, 3.33, 2.33, , ];
+
+                    var graphData_anxietyd_dynamic = [3, 3, 3, 3, 2.67, , ];
+
+                    var avoide_interpolate = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2.98, 2.95, 2.93, 2.9, 2.88, 2.85, 2.83, 2.8, 2.78, 2.75, 2.73, 2.7, 2.68, 2.65, 2.63, 2.6, 2.58, 2.55, 2.53, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.48, 2.47, 2.45, 2.43, 2.42, 2.4, 2.38, 2.37, 2.35, 2.34, 2.32, 2.3, 2.29, 2.27, 2.25, 2.24, 2.22, 2.2, 2.19, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.17, 2.19, 2.2, 2.22, 2.24, 2.25, 2.27, 2.29, 2.3, 2.32, 2.34, 2.35, 2.37, 2.38, 2.4, 2.42, 2.43, 2.45, 2.47, 2.48, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.53, 2.55, 2.58, 2.6, 2.63, 2.65, 2.68, 2.7, 2.73, 2.75, 2.78, 2.8, 2.83, 2.85, 2.88, 2.9, 2.93, 2.95, 2.98, 3, , ];
+
+                    var dates2 = ["12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", "12 Apr 2018", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", "24 Aug 2018", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", "02 Oct 2018", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", "17 Nov 2018", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", "10 Feb 2019", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", " <BR> ", "", ];
+
+                    var anxietye_interpolate = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4.95, 4.9, 4.85, 4.8, 4.75, 4.7, 4.65, 4.6, 4.55, 4.5, 4.45, 4.4, 4.35, 4.3, 4.25, 4.2, 4.15, 4.1, 4.05, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3.97, 3.93, 3.9, 3.87, 3.83, 3.8, 3.77, 3.73, 3.7, 3.67, 3.63, 3.6, 3.56, 3.53, 3.5, 3.46, 3.43, 3.4, 3.36, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.35, 3.36, 3.38, 3.4, 3.42, 3.43, 3.45, 3.47, 3.48, 3.5, 3.52, 3.53, 3.55, 3.57, 3.59, 3.6, 3.62, 3.64, 3.65, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.74, 3.8, 3.87, 3.94, 4, 4.07, 4.14, 4.2, 4.27, 4.34, 4.4, 4.47, 4.53, 4.6, 4.67, 4.73, 4.8, 4.87, 4.93, 5, , ];
+
+                    var anxietya_interpolate = [3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.3, 3.26, 3.23, 3.2, 3.17, 3.13, 3.1, 3.07, 3.03, 3, 2.97, 2.93, 2.9, 2.87, 2.84, 2.8, 2.77, 2.74, 2.7, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.64, 2.6, 2.57, 2.54, 2.5, 2.47, 2.44, 2.4, 2.37, 2.34, 2.3, 2.27, 2.23, 2.2, 2.17, 2.13, 2.1, 2.07, 2.03, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2.02, 2.03, 2.05, 2.07, 2.08, 2.1, 2.12, 2.13, 2.15, 2.17, 2.18, 2.2, 2.21, 2.23, 2.25, 2.26, 2.28, 2.3, 2.31, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.38, 2.43, 2.48, 2.53, 2.58, 2.63, 2.68, 2.73, 2.78, 2.83, 2.88, 2.93, 2.98, 3.03, 3.08, 3.13, 3.18, 3.23, 3.28, 3.33, , ];
+
+                    var anxietyb_interpolate = [4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.23, 4.13, 4.03, 3.93, 3.83, 3.73, 3.63, 3.53, 3.43, 3.33, 3.23, 3.13, 3.03, 2.93, 2.83, 2.73, 2.63, 2.53, 2.43, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.31, 2.3, 2.28, 2.26, 2.25, 2.23, 2.21, 2.2, 2.18, 2.17, 2.15, 2.13, 2.12, 2.1, 2.08, 2.07, 2.05, 2.03, 2.02, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3, 2.35, 2.4, 2.45, 2.5, 2.55, 2.6, 2.65, 2.7, 2.75, 2.8, 2.85, 2.9, 2.95, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3.07, 3.13, 3.2, 3.27, 3.33, 3.4, 3.47, 3.53, 3.6, 3.67, 3.73, 3.8, 3.86, 3.93, 4, 4.06, 4.13, 4.2, 4.26, 4.33, , ];
+
+                    var anxietyc_interpolate = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3.98, 3.97, 3.95, 3.93, 3.92, 3.9, 3.88, 3.87, 3.85, 3.84, 3.82, 3.8, 3.79, 3.77, 3.75, 3.74, 3.72, 3.7, 3.69, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.67, 3.64, 3.6, 3.57, 3.54, 3.5, 3.47, 3.44, 3.4, 3.37, 3.34, 3.3, 3.27, 3.23, 3.2, 3.17, 3.13, 3.1, 3.07, 3.03, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3.02, 3.03, 3.05, 3.07, 3.08, 3.1, 3.12, 3.13, 3.15, 3.17, 3.18, 3.2, 3.21, 3.23, 3.25, 3.26, 3.28, 3.3, 3.31, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.31, 3.3, 3.28, 3.26, 3.25, 3.23, 3.21, 3.2, 3.18, 3.17, 3.15, 3.13, 3.12, 3.1, 3.08, 3.07, 3.05, 3.03, 3.02, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3.05, 3.1, 3.15, 3.2, 3.25, 3.3, 3.35, 3.4, 3.45, 3.5, 3.55, 3.6, 3.65, 3.7, 3.75, 3.8, 3.85, 3.9, 3.95, 4, , ];
+
+                    var anxietyd_interpolate = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2.98, 2.97, 2.95, 2.93, 2.92, 2.9, 2.88, 2.87, 2.85, 2.84, 2.82, 2.8, 2.79, 2.77, 2.75, 2.74, 2.72, 2.7, 2.69, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.69, 2.7, 2.72, 2.74, 2.75, 2.77, 2.79, 2.8, 2.82, 2.84, 2.85, 2.87, 2.88, 2.9, 2.92, 2.93, 2.95, 2.97, 2.98, 3, , ];
+
+                    var avoida_interpolate = [4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.17, 4.18, 4.19, 4.19, 4.2, 4.21, 4.22, 4.23, 4.23, 4.24, 4.25, 4.26, 4.27, 4.27, 4.28, 4.29, 4.3, 4.31, 4.31, 4.32, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.29, 4.25, 4.21, 4.16, 4.12, 4.08, 4.04, 4, 3.96, 3.92, 3.87, 3.83, 3.79, 3.75, 3.71, 3.67, 3.62, 3.58, 3.54, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.53, 3.57, 3.6, 3.63, 3.67, 3.7, 3.73, 3.77, 3.8, 3.84, 3.87, 3.9, 3.94, 3.97, 4, 4.04, 4.07, 4.1, 4.14, 4.17, , ];
+
+                    var avoidb_interpolate = [4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.67, 4.63, 4.59, 4.54, 4.5, 4.46, 4.42, 4.38, 4.33, 4.29, 4.25, 4.21, 4.17, 4.12, 4.08, 4.04, 4, 3.96, 3.91, 3.87, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.83, 3.86, 3.88, 3.91, 3.93, 3.96, 3.98, 4.01, 4.03, 4.06, 4.08, 4.11, 4.13, 4.16, 4.18, 4.21, 4.23, 4.26, 4.28, 4.31, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.33, 4.31, 4.3, 4.28, 4.26, 4.25, 4.23, 4.21, 4.2, 4.18, 4.17, 4.15, 4.13, 4.12, 4.1, 4.08, 4.07, 4.05, 4.03, 4.02, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4.03, 4.07, 4.1, 4.13, 4.17, 4.2, 4.23, 4.27, 4.3, 4.34, 4.37, 4.4, 4.44, 4.47, 4.5, 4.54, 4.57, 4.6, 4.64, 4.67, , ];
+
+                    var avoidc_interpolate = [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.49, 1.48, 1.47, 1.47, 1.46, 1.45, 1.44, 1.43, 1.42, 1.42, 1.41, 1.4, 1.39, 1.38, 1.37, 1.36, 1.36, 1.35, 1.34, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.33, 1.32, 1.31, 1.31, 1.3, 1.29, 1.28, 1.27, 1.27, 1.26, 1.25, 1.24, 1.23, 1.23, 1.22, 1.21, 1.2, 1.19, 1.19, 1.18, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.17, 1.19, 1.2, 1.22, 1.24, 1.25, 1.27, 1.29, 1.3, 1.32, 1.34, 1.35, 1.37, 1.38, 1.4, 1.42, 1.43, 1.45, 1.47, 1.48, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, , ];
+
+                    var avoidd_interpolate = [2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.7, 2.74, 2.77, 2.8, 2.84, 2.87, 2.9, 2.93, 2.97, 3, 3.03, 3.07, 3.1, 3.13, 3.17, 3.2, 3.23, 3.26, 3.3, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.34, 3.35, 3.36, 3.36, 3.37, 3.38, 3.39, 3.4, 3.41, 3.42, 3.42, 3.43, 3.44, 3.45, 3.46, 3.47, 3.47, 3.48, 3.49, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.49, 3.48, 3.47, 3.47, 3.46, 3.45, 3.44, 3.43, 3.42, 3.42, 3.41, 3.4, 3.39, 3.38, 3.37, 3.36, 3.36, 3.35, 3.34, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.33, 3.28, 3.23, 3.18, 3.13, 3.08, 3.03, 2.98, 2.93, 2.88, 2.83, 2.78, 2.73, 2.68, 2.63, 2.58, 2.53, 2.48, 2.43, 2.38, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.33, 2.35, 2.36, 2.38, 2.4, 2.42, 2.43, 2.45, 2.47, 2.48, 2.5, 2.52, 2.53, 2.55, 2.57, 2.59, 2.6, 2.62, 2.64, 2.65, 2.67, , ];
+
+
+                    $(function() {
+
+                        var updateInterval = 100;
+                        var thisstep = 0;
+
+
+                        function getRandomData(thisstep) {
+
+                            var d1 = [anxietye_interpolate[thisstep], avoide_interpolate[thisstep]];
+                            var d2 = [anxietya_interpolate[thisstep], avoida_interpolate[thisstep]];
+                            var d3 = [anxietyb_interpolate[thisstep], avoidb_interpolate[thisstep]];
+                            var d4 = [anxietyc_interpolate[thisstep], avoidc_interpolate[thisstep]];
+                            var d5 = [anxietyd_interpolate[thisstep], avoidd_interpolate[thisstep]];
+
+                            var graphData_attachment3 = [{
+                                label: "General",
+                                data: [d1],
+                                points: {
+                                    symbol: "square"
+                                }
+                            }, {
+                                label: "Mother",
+                                data: [d2],
+                                points: {
+                                    symbol: "triangle"
+                                }
+                            }, {
+                                label: "Father",
+                                data: [d3],
+                                points: {
+                                    symbol: "diamond"
+                                }
+                            }, {
+                                label: "Partner",
+                                data: [d4]
+                            }, {
+                                label: "Friend",
+                                data: [d5]
+                            }];
+
+                            document.getElementById("choices_ecrrsdynamic").innerHTML = dates2[thisstep];
+
+                            return graphData_attachment3;
+                        }
+
+
+                        var markings = [{
+                            color: '#CDFFCD ',
+                            xaxis: {
+                                from: 0,
+                                to: 3
+                            },
+                            yaxis: {
+                                from: 0,
+                                to: 3
+                            }
+                        }, {
+                            color: '#CDCDFF ',
+                            xaxis: {
+                                from: 0,
+                                to: 3
+                            },
+                            yaxis: {
+                                from: 3,
+                                to: 6
+                            }
+                        }, {
+                            color: '#FEFFB9 ',
+                            xaxis: {
+                                from: 3,
+                                to: 6
+                            },
+                            yaxis: {
+                                from: 0,
+                                to: 3
+                            }
+                        }, {
+                            color: '#FFE1E1 ',
+                            xaxis: {
+                                from: 3,
+                                to: 6
+                            },
+                            yaxis: {
+                                from: 3,
+                                to: 6
+                            }
+                        }, {
+                            color: '#5E5A80',
+                            lineWidth: 2,
+                            xaxis: {
+                                from: 3,
+                                to: 3
+                            }
+                        }, {
+                            color: '#5E5A80',
+                            lineWidth: 2,
+                            yaxis: {
+                                from: 3,
+                                to: 3
+                            }
+                        }, ];
+
+
+                        var newData = getRandomData(thisstep);
+
+
+                        var plot = $.plot($('#graph-f'), newData, {
+                            series: {
+                                points: {
+                                    show: true,
+                                    radius: 10,
+                                    fill: true
+                                },
+                                shadowSize: 0
+                            },
+                            legend: {
+                                show: true
+                            },
+                            grid: {
+                                color: '#646464',
+                                borderWidth: 2,
+                                hoverable: true,
+                                markings: markings
+                            },
+                            xaxis: {
+                                min: 1,
+                                max: 5
+                            },
+                            yaxis: {
+                                min: 1,
+                                max: 5
+                            }
+
+                        });
+
+
+
+
+                        var coffee = $("#graph-f");
+
+                        var o;
+                        o = plot.pointOffset({
+                            x: 1.9,
+                            y: 2.2
+                        });
+                        coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:small">Secure</div>');
+
+                        var o;
+                        o = plot.pointOffset({
+                            x: 3.8,
+                            y: 4.15
+                        });
+                        coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:small">Fearful</div>');
+
+                        var o;
+                        o = plot.pointOffset({
+                            x: 1.8,
+                            y: 4.15
+                        });
+                        coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:small">Dismissing</div>');
+
+                        var o;
+                        o = plot.pointOffset({
+                            x: 3.6,
+                            y: 2.2
+                        });
+                        coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:small">Preoccupied</div>');
+
+
+
+                        function update() {
+                            var newData = getRandomData(thisstep);
+                            plot.setData(newData);
+                            thisstep = thisstep + 1;
+                            if (thisstep >= 210) {
+                                thisstep = 0;
+                            }
+                            plot.draw();
+                            setTimeout(update, updateInterval);
+                        }
+
+                        update();
+
+
+
+                    });
+
+
+
+                    $(function() {
+
+                        var datasets_saam = {
+                            "Security": {
+                                label: "Security",
+                                data: [
+                                    [1, 2.67],
+                                    [2, 4.57],
+                                    [3, 4.87],
+                                    [4, 3.13],
+                                    [5, 3.77],
+                                ]
+                            },
+                            "Anxiety": {
+                                label: "Anxiety",
+                                data: [
+                                    [1, 4.9],
+                                    [2, 4.57],
+                                    [3, 3.67],
+                                    [4, 4.23],
+                                    [5, 4.53],
+                                ]
+                            },
+                            "Avoidance": {
+                                label: "Avoidance",
+                                data: [
+                                    [1, 2.57],
+                                    [2, 1.47],
+                                    [3, 2.13],
+                                    [4, 2.57],
+                                    [5, 1.47],
+                                ]
+                            }
+                        };
+
+                        // hard-code color indices to prevent them from shifting as
+                        // series are turned on/off
+
+                        //			val.color = i;#4F628E '#7281A5',
+
+
+                        var saam_colors = ['#181D2B', '#95A1BB', '#CAD0DD'];
+
+
+                        var i = 0;
+                        $.each(datasets_saam, function(key, val) {
+                            val.color = saam_colors[i];
+                            ++i;
+                        });
+
+                        // insert checkboxes 
+                        var choiceContainer = $("#choices");
+                        var i = 0;
+
+                        $.each(datasets_saam, function(key, val) {
+                            choiceContainer.append(" \&nbsp \&nbsp <input type='checkbox' name='" + key +
+                                "' checked='checked' id='id" + key + "'></input>" +
+                                " <label for='id" + key + "' style='color:" + saam_colors[i] + "' >" +
+                                val.label + "</label>");
+                            ++i;
+                        });
+
+
+
+
+                        choiceContainer.find("input").click(plotAccordingToChoices);
+
+                        function plotAccordingToChoices() {
+
+                            var data = [];
+
+                            choiceContainer.find("input:checked").each(function() {
+                                var key = $(this).attr("name");
+                                if (key && datasets_saam[key]) {
+                                    data.push(datasets_saam[key]);
+                                }
+                            });
+
+                            if (data.length > 0) {
+                                $.plot("#graph-g", data, {
+                                    yaxis: {
+                                        min: .5,
+                                        max: 5.5
+                                    },
+                                    xaxis: {
+                                        tickDecimals: 0,
+                                        show: false
+                                    },
+                                    grid: {
+                                        color: '#646464',
+                                        borderColor: 'transparent',
+                                        borderWidth: 20,
+                                        hoverable: true
+                                    },
+                                    series: {
+                                        points: {
+                                            show: true,
+                                            radius: 5
+                                        },
+                                        lines: {
+                                            show: true
+                                        },
+                                        shadowSize: 0
+
+
+                                    },
+
+
+
+                                });
+
+                                var coffee = $("#graph-g");
+
+                                var o;
+                                o = plot.pointOffset({
+                                    x: 3,
+                                    y: -.5
+                                });
+                                coffee.append('<div style="position:center;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:smaller">Time</div>');
+
+                            }
+                        }
+
+                        plotAccordingToChoices();
+
+                    });
+
+
+
+                    $(function() {
+
+                        var datasets_rusbult = {
+                            "Commitment": {
+                                label: "Commitment",
+                                data: [
+                                    [1, 3.87],
+                                    [2, 3.57],
+                                    [3, 3.67],
+                                    [4, 3.87],
+                                    [5, 3.47],
+                                ]
+                            },
+                            "Satisfaction": {
+                                label: "Satisfaction",
+                                data: [
+                                    [1, 4.13],
+                                    [2, 4.23],
+                                    [3, 4.77],
+                                    [4, 4.2],
+                                    [5, 3.9],
+                                ]
+                            },
+                            "Alternatives": {
+                                label: "Alternatives",
+                                data: [
+                                    [1, 2.9],
+                                    [2, 4.13],
+                                    [3, 4.77],
+                                    [4, 4.33],
+                                    [5, 4.53],
+                                ]
+                            },
+                            "Investment": {
+                                label: "Investment",
+                                data: [
+                                    [1, 4.13],
+                                    [2, 4.47],
+                                    [3, 3.77],
+                                    [4, 3.77],
+                                    [5, 3.43],
+                                ]
+                            }
+                        };
+
+                        // hard-code color indices to prevent them from shifting as
+                        // series are turned on/off
+
+                        var rusbult_colors = ['#520000', '#A30000', '#E68080', '#F5CCCC'];
+
+
+                        var i = 0;
+                        $.each(datasets_rusbult, function(key, val) {
+                            val.color = rusbult_colors[i];
+                            ++i;
+                        });
+
+                        // insert checkboxes 
+                        var choiceContainer = $("#choices_rusbult");
+                        var i = 0;
+
+                        $.each(datasets_rusbult, function(key, val) {
+                            choiceContainer.append(" \&nbsp \&nbsp <input type='checkbox' name='" + key +
+                                "' checked='checked' id='id" + key + "'></input>" +
+                                " <label for='id" + key + "' style='color:" + rusbult_colors[i] + "' >" +
+                                val.label + "</label>");
+                            ++i;
+                        });
+
+                        choiceContainer.find("input").click(plotAccordingToChoices);
+
+                        function plotAccordingToChoices() {
+
+                            var data = [];
+
+                            choiceContainer.find("input:checked").each(function() {
+                                var key = $(this).attr("name");
+                                if (key && datasets_rusbult[key]) {
+                                    data.push(datasets_rusbult[key]);
+                                }
+                            });
+
+                            if (data.length > 0) {
+                                $.plot("#graph-i", data, {
+                                    yaxis: {
+                                        min: .5,
+                                        max: 5.5
+                                    },
+                                    xaxis: {
+                                        tickDecimals: 0,
+                                        show: false
+                                    },
+                                    grid: {
+                                        color: '#646464',
+                                        borderColor: 'transparent',
+                                        borderWidth: 20,
+                                        hoverable: true
+                                    },
+                                    series: {
+                                        points: {
+                                            show: true,
+                                            radius: 5
+                                        },
+                                        lines: {
+                                            show: true
+                                        },
+                                        shadowSize: 0
+
+
+                                    },
+
+
+                                });
+                                var coffee = $("#graph-i");
+
+                                var o;
+                                o = plot.pointOffset({
+                                    x: 3,
+                                    y: -.5
+                                });
+                                coffee.append('<div style="position:center;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:smaller">Time</div>');
+
+                            }
+                        }
+
+                        plotAccordingToChoices();
+
+                    });
+
+
+
+                    $(function() {
+
+                        var datasets_personality = {
+                            "Extraversion": {
+                                label: "Extraversion",
+                                data: [
+                                    [1, 2],
+                                    [2, 3.35],
+                                    [3, 3.35],
+                                    [4, 3.45],
+                                    [5, 3.45],
+                                ],
+                                points: {
+                                    symbol: "circle"
+                                }
+                            },
+                            "Agreeableness": {
+                                label: "Agreeableness",
+                                data: [
+                                    [1, 4.35],
+                                    [2, 3.9],
+                                    [3, 4.15],
+                                    [4, 3.55],
+                                    [5, 4.35],
+                                ],
+                                points: {
+                                    symbol: "square"
+                                }
+                            },
+                            "Conscientiousness": {
+                                label: "Conscientiousness",
+                                data: [
+                                    [1, 2.4],
+                                    [2, 3.45],
+                                    [3, 3.25],
+                                    [4, 3.4],
+                                    [5, 3.5],
+                                ],
+                                points: {
+                                    symbol: "diamond"
+                                }
+                            },
+                            "Neuroticism": {
+                                label: "Neuroticism",
+                                data: [
+                                    [1, 3.95],
+                                    [2, 3.2],
+                                    [3, 3.35],
+                                    [4, 3.95],
+                                    [5, 3.6],
+                                ],
+                                points: {
+                                    symbol: "triangle"
+                                }
+                            },
+                            "Openness": {
+                                label: "Openness",
+                                data: [
+                                    [1, 4.3],
+                                    [2, 4.35],
+                                    [3, 4.45],
+                                    [4, 4.6],
+                                    [5, 3.85],
+                                ],
+                                points: {
+                                    symbol: "cross"
+                                }
+                            }
+                        };
+
+                        // hard-code color indices to prevent them from shifting as
+                        // series are turned on/off
+
+
+                        var personality_colors = ['#191A31', '#12766C', '#F4DFC9', '#A6D3C5', '#93B393'];
+                        //var personality_colors = ['red','blue', 'green', 'yellow', 'purple'];
+
+
+                        var i = 0;
+                        $.each(datasets_personality, function(key, val) {
+                            val.color = personality_colors[i];
+                            ++i;
+                        });
+
+                        // insert checkboxes 
+                        var choiceContainer = $("#choices_personality");
+                        var i = 0;
+
+                        $.each(datasets_personality, function(key, val) {
+                            choiceContainer.append(" \&nbsp \&nbsp <input type='checkbox' name='" + key +
+                                "' checked='checked' id='id" + key + "'></input>" +
+                                " <label for='id" + key + "' style='color:" + personality_colors[i] + "' >" +
+                                val.label + "</label>");
+                            ++i;
+                        });
+
+
+
+                        choiceContainer.find("input").click(plotAccordingToChoices);
+
+                        function plotAccordingToChoices() {
+
+                            var data = [];
+
+                            choiceContainer.find("input:checked").each(function() {
+                                var key = $(this).attr("name");
+                                if (key && datasets_personality[key]) {
+                                    data.push(datasets_personality[key]);
+                                }
+                            });
+
+                            if (data.length > 0) {
+                                $.plot("#graph-j", data, {
+                                    yaxis: {
+                                        min: .5,
+                                        max: 5.5
+                                    },
+                                    xaxis: {
+                                        tickDecimals: 0,
+                                        show: false
+                                    },
+                                    grid: {
+                                        color: '#646464',
+                                        borderColor: 'transparent',
+                                        borderWidth: 20,
+                                        hoverable: true
+                                    },
+                                    series: {
+                                        points: {
+                                            show: true,
+                                            radius: 5
+                                        },
+                                        lines: {
+                                            show: true
+                                        },
+                                        shadowSize: 0
+
+
+                                    },
+
+
+                                });
+                                var coffee = $("#graph-j");
+
+                                var o;
+                                o = plot.pointOffset({
+                                    x: 3,
+                                    y: -.5
+                                });
+                                coffee.append('<div style="position:center;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:smaller">Time</div>');
+
+                            }
+                        }
+
+                        plotAccordingToChoices();
+
+                    });
+
+
+                    var graphData_swb = [{
+                        // Visits
+                        label: 'Subjective Well-Being',
+
+                        data: [
+                            [1, 3.4],
+                            [2, 3.6],
+                            [3, 3.8],
+                            [4, 3.8],
+                            [5, 4.6],
+                        ],
+                        color: '#77b7c5'
+                    }];
+                    var graphData_swbevents = [{
+                        // Visits
+                        label: 'x',
+
+                        data: [
+                            [1, 1],
+                            [2, 2],
+                            [3, 3],
+                            [4, 4],
+                            [5, 5],
+                            [6, 6],
+                            [7, 7],
+                            [8, 8],
+                            [9, 9],
+                            [10, 10],
+                            [11, 11],
+                            [12, 12],
+                            [13, 13],
+                            [14, 14],
+                            [15, 15],
+                            [16, 16],
+                            [17, 17],
+                            [18, 18],
+                            [19, 19],
+                            [20, 20],
+                            [21, 21],
+                            [22, 22],
+                            [23, 23],
+                            [24, 24],
+                        ]
+                    }];
+                    var markings = [{
+                        color: '#CDFFCD ',
+                        xaxis: {
+                            from: 0,
+                            to: 3
+                        },
+                        yaxis: {
+                            from: 0,
+                            to: 3
+                        }
+                    }, {
+                        color: '#CDCDFF ',
+                        xaxis: {
+                            from: 0,
+                            to: 3
+                        },
+                        yaxis: {
+                            from: 3,
+                            to: 6
+                        }
+                    }, {
+                        color: '#FEFFB9 ',
+                        xaxis: {
+                            from: 3,
+                            to: 6
+                        },
+                        yaxis: {
+                            from: 0,
+                            to: 3
+                        }
+                    }, {
+                        color: '#FFE1E1 ',
+                        xaxis: {
+                            from: 3,
+                            to: 6
+                        },
+                        yaxis: {
+                            from: 3,
+                            to: 6
+                        }
+                    }, {
+                        color: '#5E5A80',
+                        lineWidth: 2,
+                        xaxis: {
+                            from: 3,
+                            to: 3
+                        }
+                    }, {
+                        color: '#5E5A80',
+                        lineWidth: 2,
+                        yaxis: {
+                            from: 3,
+                            to: 3
+                        }
+                    }, ];
+
+
+
+                    var plot = $.plot($('#graph-a'), graphData_attachment2, {
+                        series: {
+                            points: {
+                                show: true,
+                                radius: 10,
+                                fill: true
+                            },
+                            shadowSize: 0
+                        },
+                        legend: {
+                            show: true
+                        },
+                        grid: {
+                            color: '#646464',
+                            borderWidth: 2,
+                            hoverable: true,
+                            markings: markings
+                        },
+                        xaxis: {
+                            min: 1,
+                            max: 5,
+                            axisLabel: "Anxiety",
+                            axisLabelUseCanvas: true,
+                            axisLabelFontSizePixels: 12,
+                            axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+                            axisLabelPadding: 5
+                        },
+                        yaxis: {
+                            min: 1,
+                            max: 5,
+                            axisLabel: "Avoidance",
+                            axisLabelUseCanvas: true,
+                            axisLabelFontSizePixels: 12,
+                            axisLabelFontFamily: "Verdana, Arial, Helvetica, Tahoma, sans-serif",
+                            axisLabelPadding: 5
+                        }
+
+
+
+                    });
+
+                    var coffee = $("#graph-a");
+                    /*
+                    	var o;
+                        o = plot.pointOffset({ x: 1.5, y: 2});
+                        coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:smaller">Secure</div>');
+
+                    	var o;
+                        o = plot.pointOffset({ x: 3.5, y: 4});
+                        coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:smaller">Fearful</div>');
+
+                    	var o;
+                        o = plot.pointOffset({ x: 1.5, y: 4});
+                        coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:smaller">Dismissing</div>');
+
+                    	var o;
+                        o = plot.pointOffset({ x: 3.5, y: 2});
+                        coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:smaller">Preoccupied</div>');
+
+                    	//var o;
+                        //o = plot.pointOffset({ x: 3, y: -.5});
+                        //coffee.append('<div style="position:center;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:smaller">ANXIETY</div>');
+
+                    */
+
+                    var o;
+                    o = plot.pointOffset({
+                        x: 1.9,
+                        y: 2.2
+                    });
+                    coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:small">Secure</div>');
+
+                    var o;
+                    o = plot.pointOffset({
+                        x: 3.8,
+                        y: 4.15
+                    });
+                    coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:small">Fearful</div>');
+
+                    var o;
+                    o = plot.pointOffset({
+                        x: 1.8,
+                        y: 4.15
+                    });
+                    coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:small">Dismissing</div>');
+
+                    var o;
+                    o = plot.pointOffset({
+                        x: 3.6,
+                        y: 2.2
+                    });
+                    coffee.append('<div style="position:absolute;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:small">Preoccupied</div>');
+
+
+                    var markings = [{
+                        color: '#4F628E ',
+                        xaxis: {
+                            from: 1,
+                            to: 2.9
+                        },
+                        yaxis: {
+                            from: -.1,
+                            to: -.05
+                        }
+                    }, {
+                        color: '#4F628E ',
+                        xaxis: {
+                            from: 4,
+                            to: 5.9
+                        },
+                        yaxis: {
+                            from: -.1,
+                            to: -.05
+                        }
+                    }, {
+                        color: '#4F628E ',
+                        xaxis: {
+                            from: 7,
+                            to: 8.9
+                        },
+                        yaxis: {
+                            from: -.1,
+                            to: -.05
+                        }
+                    }];
+
+                    $.plot($('#graph-b'), graphData_saam2, {
+                        series: {
+                            bars: {
+                                show: true,
+                            },
+                            shadowSize: 0
+                        },
+                        legend: {
+                            show: true,
+                        },
+                        grid: {
+                            color: '#646464',
+                            borderColor: 'transparent',
+                            borderWidth: 20,
+                            markings: markings,
+                            hoverable: true,
+
+                        },
+                        xaxis: {
+                            ticks: [
+                                [2, 'Security'],
+                                [5, 'Anxiety'],
+                                [8, 'Avoidance']
+                            ],
+                            tickLength: 0
+                        },
+                        yaxis: {
+                            //tickSize: 1000
+                            min: .95,
+                            max: 5.5
+                                //tickLength:0
+
+                        },
+                        colors: ['#4F628E', '#7887AB']
+
+                    });
+
+
+                    var markings = [{
+                        color: '#5E5A80',
+                        lineWidth: 10,
+                        xaxis: {
+                            from: 4.6,
+                            to: 4.6
+                        }
+                    }];
+
+                    var plot = $.plot($('#graph-c'), graphData_swb2, {
+                        series: {
+                            points: {
+                                show: false
+                            },
+                            lines: {
+                                show: true,
+                                lineWidth: 0,
+                                fill: true,
+                                fillColor: 'rgb(211, 209, 229)'
+                            },
+                            shadowSize: 3
+                        },
+
+                        grid: {
+                            show: true,
+                            borderWidth: 1,
+                            markings: markings,
+                            aboveData: true
+                        },
+
+                        xaxis: {
+                            tickLength: 0
+                        },
+                        legend: {
+                            show: false
+                        }
+                    });
+
+                    var coffee = $("#graph-c");
+
+                    var o;
+                    o = plot.pointOffset({
+                        x: 3,
+                        y: -.5
+                    });
+                    coffee.append('<div style="position:center;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:smaller">Subjective Well-Being</div>');
+
+
+
+
+                    var markings = [{
+                            color: '#800000 ',
+                            xaxis: {
+                                from: 1,
+                                to: 2.9
+                            },
+                            yaxis: {
+                                from: -.1,
+                                to: -.05
+                            }
+                        }, {
+                            color: '#800000 ',
+                            xaxis: {
+                                from: 4,
+                                to: 5.9
+                            },
+                            yaxis: {
+                                from: -.1,
+                                to: -.05
+                            }
+                        }, {
+                            color: '#800000 ',
+                            xaxis: {
+                                from: 7,
+                                to: 8.9
+                            },
+                            yaxis: {
+                                from: -.1,
+                                to: -.05
+                            }
+                        }, {
+                            color: '#800000 ',
+                            xaxis: {
+                                from: 10,
+                                to: 11.9
+                            },
+                            yaxis: {
+                                from: -.1,
+                                to: -.05
+                            }
+                        }
+
+                    ];
+
+
+                    $.plot($('#graph-d'), graphData_rusbult2, {
+                        series: {
+                            bars: {
+                                show: true,
+                            },
+                            shadowSize: 0
+                        },
+                        legend: {
+                            show: true,
+                        },
+                        grid: {
+                            color: '#646464',
+                            borderColor: 'transparent',
+                            markings: markings,
+                            borderWidth: 20,
+                            hoverable: true,
+
+                        },
+                        xaxis: {
+                            ticks: [
+                                [2, 'Commitment'],
+                                [5, 'Satisfaction'],
+                                [8, 'Alternatives'],
+                                [11, 'Investment']
+                            ],
+                            tickLength: 0
+                        },
+                        yaxis: {
+                            //tickLength:0,
+                            min: .95,
+                            max: 5.5
+
+                        },
+                        colors: ['#800000', '#CC9999']
+
+                    });
+
+                    var markings = [{
+                            color: '#336600 ',
+                            xaxis: {
+                                from: 1,
+                                to: 2.9
+                            },
+                            yaxis: {
+                                from: .5,
+                                to: .80
+                            }
+                        }, {
+                            color: '#336600 ',
+                            xaxis: {
+                                from: 4,
+                                to: 5.9
+                            },
+                            yaxis: {
+                                from: .5,
+                                to: .80
+                            }
+                        }, {
+                            color: '#336600 ',
+                            xaxis: {
+                                from: 7,
+                                to: 8.9
+                            },
+                            yaxis: {
+                                from: .5,
+                                to: .80
+                            }
+                        }, {
+                            color: '#336600 ',
+                            xaxis: {
+                                from: 10,
+                                to: 11.9
+                            },
+                            yaxis: {
+                                from: .5,
+                                to: .80
+                            }
+                        }, {
+                            color: '#336600 ',
+                            xaxis: {
+                                from: 13,
+                                to: 14.9
+                            },
+                            yaxis: {
+                                from: .5,
+                                to: .80
+                            }
+                        }
+
+                    ];
+
+                    $.plot($('#graph-e'), graphData_personality2, {
+                        series: {
+                            bars: {
+                                show: true
+                            },
+                            shadowSize: 0
+                        },
+                        legend: {
+                            show: true
+                        },
+                        grid: {
+                            color: '#646464',
+                            borderColor: 'transparent',
+                            markings: markings,
+                            borderWidth: 20,
+                            hoverable: true,
+                        },
+                        xaxis: {
+                            ticks: [
+                                [2, 'E'],
+                                [5, 'A'],
+                                [8, 'C'],
+                                [11, 'N'],
+                                [14, 'O']
+                            ],
+                            tickLength: 0
+                        },
+                        yaxis: {
+                            //tickLength:5,
+                            min: .95,
+                            max: 5.5
+                        },
+                        colors: ['#336600', '#99B280']
+
+                    });
+
+
+                    $.plot($('#graph-h'), graphData_swb, {
+                        series: {
+                            points: {
+                                show: true,
+                                radius: 5
+                            },
+                            lines: {
+                                show: true
+                            },
+                            shadowSize: 0
+                        },
+                        grid: {
+                            color: '#646464',
+                            borderColor: 'transparent',
+                            borderWidth: 20,
+                            hoverable: true
+                        },
+                        xaxis: {
+                            tickColor: 'transparent',
+                            tickDecimals: 2,
+                            show: false
+                        },
+                        yaxis: {
+                            //tickSize: 1000
+                            min: .5,
+                            max: 5.5
+                        }
+                    });
+
+
+                    var coffee = $("#graph-h");
+
+                    var o;
+                    o = plot.pointOffset({
+                        x: 3,
+                        y: -.5
+                    });
+                    coffee.append('<div style="position:center;left:' + (o.left + 0) + 'px;top:' + o.top + 'px;color:#666;font-size:small">Time</div>');
+
+
+
+
+                    var markings = [{
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 10,
+                                to: 10
+                            },
+                            yaxis: {
+                                from: 1,
+                                to: 2
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 11,
+                                to: 11
+                            },
+                            yaxis: {
+                                from: 1,
+                                to: 2
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 10,
+                                to: 11
+                            },
+                            yaxis: {
+                                from: 1,
+                                to: 1
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 10,
+                                to: 11
+                            },
+                            yaxis: {
+                                from: 2,
+                                to: 2
+                            }
+                        },
+
+                        {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 11,
+                                to: 11
+                            },
+                            yaxis: {
+                                from: 1,
+                                to: 2
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 12,
+                                to: 12
+                            },
+                            yaxis: {
+                                from: 1,
+                                to: 2
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 11,
+                                to: 12
+                            },
+                            yaxis: {
+                                from: 1,
+                                to: 1
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 11,
+                                to: 12
+                            },
+                            yaxis: {
+                                from: 2,
+                                to: 2
+                            }
+                        },
+
+                        {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 12,
+                                to: 12
+                            },
+                            yaxis: {
+                                from: 1,
+                                to: 2
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 13,
+                                to: 13
+                            },
+                            yaxis: {
+                                from: 1,
+                                to: 2
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 12,
+                                to: 13
+                            },
+                            yaxis: {
+                                from: 1,
+                                to: 1
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 12,
+                                to: 13
+                            },
+                            yaxis: {
+                                from: 2,
+                                to: 2
+                            }
+                        },
+
+                        {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 12,
+                                to: 12
+                            },
+                            yaxis: {
+                                from: 2,
+                                to: 3
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 13,
+                                to: 13
+                            },
+                            yaxis: {
+                                from: 2,
+                                to: 3
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 12,
+                                to: 13
+                            },
+                            yaxis: {
+                                from: 2,
+                                to: 2
+                            }
+                        }, {
+                            color: '#ffffff ',
+                            xaxis: {
+                                from: 12,
+                                to: 13
+                            },
+                            yaxis: {
+                                from: 3,
+                                to: 3
+                            }
+                        },
+
+
+                    ];
+
+
+                    $.plot($('#graph-k'), graphData_swbevents, {
+                        series: {
+                            points: {
+                                show: false,
+                                radius: 5,
+                                color: '#B0C4DE'
+                            },
+                            lines: {
+                                show: false,
+                                color: '#B0C4DE'
+                            },
+                            shadowSize: 0
+                        },
+                        grid: {
+                            //color: '#646464',
+                            borderColor: 'transparent',
+                            borderWidth: 20,
+                            //markings: markings,
+                            hoverable: true,
+                            backgroundColor: {
+                                colors: ['#5b5272', '#B0C4DE']
+                            }
+                        },
+
+                        xaxis: {
+                            tickColor: 'transparent',
+                            tickDecimals: 2,
+                            show: false,
+                            min: 1,
+                            max: 24
+                        },
+                        yaxis: {
+                            tickLength: 0,
+                            tickColor: 'transparent',
+                            ticks: false,
+                            min: 1,
+                            max: 24
+                        },
+                        legend: {
+                            show: false
+                        }
+                    });
+
+
+                    var coffee = $("#graph-k");
+                    var o;
+                    o = plot.pointOffset({
+                        x: 1,
+                        y: 1
+                    });
+                    coffee.append('<div style="position:absolute;left:' + (o.left - 20) + 'px;top:' + (o.top - 220) + 'px;color:#E5E5E5;font-size:x-large">Life Events Summary</div>');
+
+
+
+                    //var ctx = plot.getCanvas().getContext("2d");
+
+                    //var c = document.getElementById("coffee");
+
+                    //var ctx = plot.getCanvas().getContext("2d");
+                    //var ctx = c.getContext("2d");
+                    //ctx.rect(20,20,150,100);
+                    //ctx.stroke(); 
+
+
+
+                    $('#graph-a').hide();
+                    $('#graph-b').hide();
+                    $('#graph-c').hide();
+                    $('#graph-d').hide();
+                    $('#graph-e').hide();
+                    $('#graph-f').hide();
+                    $('#graph-g').hide();
+                    $('#graph-h').hide();
+                    $('#graph-i').hide();
+                    $('#graph-j').hide();
+                    $('#graph-k').hide();
+                    $('#choices').hide();
+                    $('#choices_rusbult').hide();
+                    $('#choices_personality').hide();
+                    $('#choices_ecrrsdynamic').hide();
+
+
+
+                    $('#TAB_A').on('click', function(e) {
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_H').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+                        $('#TAB_J').removeClass('active');
+                        $('#TAB_K').removeClass('active');
+                        $('#graph-b').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-d').fadeOut();
+                        $('#graph-e').fadeOut();
+                        $('#graph-f').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-h').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $('#graph-k').fadeOut();
+
+                        $('#choices').fadeOut();
+                        $('#choices_rusbult').fadeOut();
+                        $('#graph_instructions').fadeOut();
+                        $('#choices_personality').fadeOut();
+
+                        $('#choices_ecrrsdynamic').fadeOut();
+
+                        $(this).addClass('active');
+                        $('#graph-a').fadeIn();
+                        $("#clickdata").html(" <P>People vary considerably in how secure or insecure they feel in their relationships with others.  For example, some people might feel relatively secure in their relationships with others, whereas other people might be more concerned about whether others truly care about them. Psychologists refer to these individual differences as <B>attachment styles</B>, and one of the surveys you took is designed to assess your attachment styles across some of your close relationships.<BR><BR>		According to attachment theory and research, there are two fundamental ways in which people differ from one another in the way they think about their close relationships. First, some people are more anxious than others. People who are high in <B>attachment-related anxiety</B> tend to worry about whether others really love them and often fear rejection. People low on this dimension are much less worried about such matters. Second, some people are more avoidant than others. People who are high in <B>attachment-related avoidance</B> are less comfortable depending on others and opening up to others. <BR><BR>		We have plotted your anxiety and avoidance scores for each of the people you rated in the graph above.  The two-dimensional space is defined by attachment-related anxiety (the horizontal axis) and avoidance (the vertical axis). Your approximate position in this space for each relationship is denoted by the colored dots (tan = general or how you think about others in general without regard to a specific person, blue = mother, red = father, green = partner, purple = friend). (Note: You may not have been asked questions about each of these persons.)<BR><BR>		The light green area at the lower-left portion of the figure represents the secure region of the space. People who are <B>secure</B> in their relationships are comfortable depending on others and having the other person depend on them. Moreover, they are relatively unconcerned about whether the other person truly cares about them. The light red area at the upper-right portion represents the <B>fearful-avoidant</B> region of the space. People who are fearfully avoidant in their relationships are uncomfortable depending on others and serving as an attachment figure. Moreover, they worry that others may not be there emotionally when they are most needed. The light blue area in the upper-left represents the <B>dismissing-avoidant</B> area of the space. People who are dismissing in their relationships are also not comfortable opening up to others and depending on or having others depend on them. In addition, they are not concerned with the question of whether the other person truly cares about them. The light yellow area in the lower-right represents the <B>preoccupied region</B> of the space. People who are preoccupied in their relationships are worried that the other person is not or will not be available when needed. They would like to depend on the other person and have that person depend on them, but feel that such dependence is not reciprocal.<BR><BR>	According to your responses, your general attachment style is <B>Preoccupied</B>. 	<BR><BR> Here is a summary of your attachment style across various relationship domains. Please note that you may not have answered questions for each of these domains. Also, to prevent the  symbols from overlapping in the graph, we added a tiny bit of noise to each value. Thus, if you're near the boundary, you might be classified in a less reliable way and you should take those classifications with a grain of salt.<BR><BR>	<CENTER><TABLE class='table table-striped'>	<TR>		<TD>			<B>Relationship Domain</B>			</TD>		<TD>			<B>Your Attachment Style</B>				</TD>	</TR>	<TR>		<TD>			General			</TD>		<TD>			Preoccupied			</TD>	</TR>	<TR>		<TD>			Mother			</TD>		<TD>			Dismissing-avoidant			</TD>	</TR>	<TR>		<TD>			Father			</TD>		<TD>			Fearful-avoidant			</TD>	</TR>	<TR>		<TD>			Romantic			</TD>		<TD>			Preoccupied			</TD>	</TR>	<TR>		<TD>			Friend			</TD>		<TD>			Secure			</TD>	</TR></TABLE></CENTER>	</P>  ");
+                        $('#clickdata').fadeIn();
+
+                        e.preventDefault();
+
+                    });
+
+
+                    $('#TAB_B').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_H').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+                        $('#TAB_K').removeClass('active');
+                        $('#graph-a').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-d').fadeOut();
+                        $('#graph-e').fadeOut();
+                        $('#graph-f').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-h').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $('#graph-k').fadeOut();
+
+                        $(this).addClass('active');
+                        $('#graph-b').fadeIn();
+                        e.preventDefault();
+                        $("#clickdata").html(" <P>Attachment styles can be thought of in two ways. The traditional way is to conceptualize them as <B>traits</B>--relatively enduring ways of characterizing our relationships with important people in our lives. (You can see your attachment trait results in the results pull-down menu.) Another way to conceptualize attachment styles is as <B>states</B>--thoughts and feelings that might change quickly as we move from one situation to the next. For example, if you were to get into an argument with a loved one, you might feel that other people don't fully understand you. In that moment--or in the moments following the argument--you might feel more insecure, even if you're not more insecure in general (i.e., in a trait-like way).</P>        <P>One of the surveys you took--the SAAM--is designed to assess attachment-related states. The SAAM measures three attachment-related states: <ul><li><B>security</B> - When you're in a secure state, you feel that others are available and responsive to you</li><li> <B>anxiety</B> - When you're in a state of attachment anxiety, you feel that others may not be as attentive to or invested in you as you would like</li>  <li><B>avoidance</B> - When you're in a state of avoidance, you may feel uncomfortable opening up to and depending on others</li></ul></P>        <P>The graph above illustrates your recent scores for each of these three attachment-related states. The scores can range from 1 (low) to 5 (high). Your scores are represented by the dark blue bars. For example, your score for security was 3.77. For the purposes of comparison, we have also graphed the average score for other people who have taken this survey. (This information updates in real time, so if you check back later, the numbers might be slightly different.) As you can see from this graph, your sense of security is greater than that of the average person who has taken this survey.</P>	  ");
+                        $('#choices').fadeOut();
+                        $('#choices_rusbult').fadeOut();
+                        $('#choices_personality').fadeOut();
+                        $('#choices_ecrrsdynamic').fadeOut();
+                        $('#graph_instructions').fadeOut();
+
+
+                        var o = plot.pointOffset({
+                            x: 8,
+                            y: 1
+                        });
+                        var ctx = plot.getCanvas().getContext("2d");
+                        ctx.beginPath();
+                        o.left += 1;
+                        ctx.moveTo(o.left, o.top);
+                        ctx.lineTo(o.left, o.top - 2);
+                        ctx.lineTo(o.left + 2, o.top - 2);
+                        ctx.lineTo(o.left, o.top);
+                        ctx.fillStyle = "#000";
+                        ctx.fill();
+
+
+
+                    });
+
+                    $('#TAB_C').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_H').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+
+                        $('#graph-a').fadeOut();
+                        $('#graph-b').fadeOut();
+                        $('#graph-d').fadeOut();
+                        $('#graph-e').fadeOut();
+                        $('#graph-f').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-h').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $('#graph-k').fadeOut();
+
+                        $('#choices').fadeOut();
+                        $('#choices_rusbult').fadeOut();
+                        $('#choices_personality').fadeOut();
+                        $('#choices_ecrrsdynamic').fadeOut();
+                        $('#graph_instructions').fadeOut();
+
+
+                        $(this).addClass('active');
+                        $('#graph-c').fadeIn();
+                        e.preventDefault();
+                        $("#clickdata").html(" <P>How happy are you? The <B>Subjective Well Being (SWB)</B> survey is designed to assess how satisfied you are with your life. </P>   <P>Your subjective well-being score was a 4.6 on a scale ranging from 1 (low) to 5 (high). In the graph above we have plotted your score (the dark purple, vertical line). We have also graphed the distribution of scores from other people who have taken the SWB survey.  As you can see, most people are relatively satisfied with their lives, although there is some variation: some people are much more satisfied than others.</P>         <P>Your well-being (4.6) is higher than that of the average person (2.96).  </P>  ");
+                        $('#clickdata').fadeIn();
+
+                    });
+
+
+                    $('#TAB_D').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_H').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+                        $('#TAB_K').removeClass('active');
+                        $('#graph-a').fadeOut();
+                        $('#graph-b').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-e').fadeOut();
+                        $('#graph-f').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-h').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $('#graph-k').fadeOut();
+
+                        $('#choices').fadeOut();
+                        $('#choices_rusbult').fadeOut();
+                        $('#choices_personality').fadeOut();
+                        $('#choices_ecrrsdynamic').fadeOut();
+                        $('#graph_instructions').fadeOut();
+
+
+                        $(this).addClass('active');
+                        $('#graph-d').fadeIn();
+                        e.preventDefault();
+                        $("#clickdata").html(" <P>People differ quite a bit in how well their exclusive romantic relationships function. Some people are highly satisfied in their relationships and are commited to making them work. Other people are less satisfied, but might be highly committed to their relationships nonetheless. The Investment Model Scale (IMS) is designed to assess four domains of relationship functioning that capture this kind of nuance:<ul><li><B>Commitment</B> - The intent to persist in a relationship, a long-term orientation toward the relationship, or a sense of attachment to the relationship partner. </li><li> <B>Satisfaction</B> - The extent to which, overall, a person has positive or negative feelings about the relationship</li>  <li><B>Quality of Alternatives</B> - The perceived desirability of the best available alternative to the relationship.</li><li><B>Investments</B> - The magnitude and importance of the resouces that are attached to a relationship. For example, if one has invested a lot of time or money into building a relationship, it might be more difficult to end that relationship. </li></ul></P>   <P>	The IMS survey is designed to assess each of these features of relationship functioning. <B>Note</B>: If you are not currently involved in a relationship, the plotted scores will either be zero or missing from the graph. Or, if you were in a relationship during a previous assessment wave, but are not in one now, the scores you see here will be from a previous wave.  Your score for each of these features is plotted above as the dark red bars. Scores range from 1 (low) to 5 (high). We have also graphed the average scores for other people who have taken the IMS. Your sense of committment (3.47), for example, is lower than that of the average person (4.17).</P>    ");
+                        $('#clickdata').fadeIn();
+
+                    });
+
+
+
+                    $('#TAB_E').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_H').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+                        $('#TAB_K').removeClass('active');
+                        $('#graph-a').fadeOut();
+                        $('#graph-b').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-d').fadeOut();
+
+                        $('#graph-f').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-h').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $('#graph-k').fadeOut();
+
+                        $('#choices').fadeOut();
+                        $('#choices_rusbult').fadeOut();
+                        $('#choices_personality').fadeOut();
+                        $('#choices_ecrrsdynamic').fadeOut();
+                        $('#graph_instructions').fadeOut();
+
+
+                        $(this).addClass('active');
+                        $('#graph-e').fadeIn();
+                        e.preventDefault();
+                        $("#clickdata").html(" <P>What are your personality traits? Are you kind, agreeable, and warm-hearted? Are you the life of the party? </P><P>One of the most popular models of personality differences in modern research is the Five Factor Model (FFM). According to the FFM, the vast number of ways in which people can differ from one another with respects to their personalities can be summarized with respect to five core dimensions. :<ul>	<li><B>Extraversion (E)</B> - A tendency to experience or express energy, positive emotions, surgency, assertiveness, sociability and the tendency to seek stimulation in the company of others, and talkativeness. </li><li> 	<B>Agreeableness (A) </B> - A tendency to be compassionate and cooperative rather than suspicious and antagonistic towards others. It is also a measure of one's trusting and helpful nature, and whether a person is generally well tempered or not.</li>  	<li><B>Conscientiousness (C) </B> - A tendency to be organized and dependable, show self-discipline, act dutifully, aim for achievement, and prefer planned rather than spontaneous behavior.</li><li><B>Neuroticism (N)</B> - The tendency to experience unpleasant emotions easily, such as anger, anxiety, depression, and vulnerability. Neuroticism also refers to the degree of emotional stability and impulse control and is sometimes referred to by its low pole, <I>emotional stability</I>.</li><li> <B>Openness to Experience (O)</B> - An appreciation for art, emotion, adventure, unusual ideas, curiosity, and variety of experience. Openness reflects the degree of intellectual curiosity, creativity and a preference for novelty and variety a person has. It is also described as the extent to which a person is imaginative or independent, and depicts a personal preference for a variety of activities over a strict routine. </li>	</ul></P>   <P>	The personality trait survey you took, the <B>Mini-IPIP</B>, is designed to assess your standing on each of the five personality dimensions. Your score for each of these trait dimensions is plotted above as the dark green bars. Scores range from 1 (low) to 5 (high). We have also graphed the average scores for other people who have taken the Mini-IPIP. This will allow you to determine whether you are higher or lower than others, on average, for each of the five personality traits. </P>   ");
+                        $('#clickdata').fadeIn();
+
+                    });
+
+                    $('#TAB_F').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_H').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+                        $('#TAB_K').removeClass('active');
+                        $('#graph-a').fadeOut();
+                        $('#graph-b').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-d').fadeOut();
+                        $('#choices').fadeOut();
+                        $('#choices_rusbult').fadeOut();
+                        $('#choices_personality').fadeOut();
+                        $('#choices_ecrrsdynamic').fadeIn();
+                        $('#graph_instructions').fadeOut();
+
+
+                        $('#graph-e').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-h').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $('#graph-k').fadeOut();
+
+                        $(this).addClass('active');
+                        $('#graph-f').fadeIn();
+                        e.preventDefault();
+                        $("#clickdata").html(" <P> <CENTER><B>Attachment Styles (Traits) Across Time</B></CENTER></P><P>This graph illustrates your attachment styles in different relationships across time. The horizontal axis represents low vs. high values of attachment-related anxiety--the extent to which you are concerned with the availability and responsiveness of important people in your life. The vertical axis represents low vs. high values of attachment-related avoidance--the extent to which you are comfortable opening up to and depending on others. A prototypical secure attachment style is defined as low anxiety and avoidance--the green area of the graph above. You can read more about attachment styles in the <I>Attachment Style (Traits)</I> results section for your most recent assessment.</P> <P>In this particular graph we are plotting your attachment style with various people in your life across time--based on the number of times you have completed our assessments. The dots will move every 5 seconds or so to represent how your attachment with respect to each person changed across assessments. The date for each assessment appears on the bottom of the graph. The animation will repeat itself (i.e., rewind to your initial assessment scores) once your most recent scores have been displayed.</P>  ");
+                        $('#clickdata').fadeIn();
+
+                    });
+
+                    $('#TAB_G').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+
+                        $('#TAB_H').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+                        $('#TAB_J').removeClass('active');
+                        $('#TAB_K').removeClass('active');
+                        $('#graph-a').fadeOut();
+                        $('#graph-b').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-d').fadeOut();
+                        $('#graph-e').fadeOut();
+                        $('#graph-f').fadeOut();
+
+                        $('#graph-h').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $('#graph-k').fadeOut();
+
+
+                        $(this).addClass('active');
+                        $('#choices_rusbult').fadeOut();
+                        $('#choices_personality').fadeOut();
+                        $('#choices_ecrrsdynamic').fadeOut();
+                        $('#graph_instructions').fadeOut();
+
+
+                        $('#graph-g').fadeIn();
+                        $('#choices').fadeIn();
+                        $('#choices').addClass('active');
+
+                        e.preventDefault();
+                        $("#clickdata").html(" <P> <CENTER><B>Attachment Styles (States) Across Time</B></CENTER></P><P>This graph plots your state-level attachment scores across time. Each line represents your scores for a distinct facet (e.g., security, anxiety, avoidance) for each time you have completed a survey. (If you have only completed 1 or 2 surveys, this dynamic graph might not be very informative--yet.) </P><P>You can turn off and on different variables using the checkboxes below the graph. If you click or touch a data point, a tooltip will appear to show you the date for that particular assessment wave.</P>  ");
+                        $('#clickdata').fadeIn();
+
+                    });
+
+                    $('#TAB_H').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+                        $('#TAB_J').removeClass('active');
+                        $('#TAB_K').removeClass('active');
+                        $('#graph-a').fadeOut();
+                        $('#graph-b').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-d').fadeOut();
+                        $('#choices').fadeOut();
+                        $('#choices_rusbult').fadeOut();
+                        $('#choices_personality').fadeOut();
+                        $('#choices_ecrrsdynamic').fadeOut();
+                        $('#graph_instructions').fadeOut();
+
+
+                        $('#graph-e').fadeOut();
+                        $('#graph-f').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $('#graph-k').fadeOut();
+
+                        $(this).addClass('active');
+                        $('#graph-h').fadeIn();
+                        e.preventDefault();
+                        $("#clickdata").html(" <P> <CENTER><B>Subjective Well-Being Across Time</B></CENTER></P><P>This graph plots your subjective well-being scores across time. (If you have only completed 1 or 2 surveys, this dynamic graph might not be very informative--yet.) You can mouse-over the data points to see the date at which you obtained each score.</P>  ");
+                        $('#clickdata').fadeIn();
+
+                    });
+
+                    $('#TAB_I').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_H').removeClass('active');
+
+                        $('#TAB_J').removeClass('active');
+                        $('#TAB_K').removeClass('active');
+                        $('#graph-a').fadeOut();
+                        $('#graph-b').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-d').fadeOut();
+                        $('#choices').fadeOut();
+                        $('#choices_personality').fadeOut();
+                        $('#choices_ecrrsdynamic').fadeOut();
+                        $('#graph_instructions').fadeOut();
+
+
+                        $('#graph-e').fadeOut();
+                        $('#graph-f').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-h').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $('#graph-k').fadeOut();
+
+                        $(this).addClass('active');
+                        $('#choices_rusbult').fadeIn();
+                        $('#choices_rusbult').addClass('active');
+
+
+
+                        $('#graph-i').fadeIn();
+                        e.preventDefault();
+                        $("#clickdata").html(" <P> <CENTER><B>Relationship Functioning Across Time</B></CENTER></P><P>This graph plots your relationship functioning scores across time. Each line represents your scores for a distinct facet (i.e., committment, satisfaction, quality of alternatives, and investments) for each time you have completed a survey. (If you have only completed 1 or 2 surveys, this dynamic graph might not be very informative--yet.) </P><P>You can turn off and on different variables using the checkboxes below the graph. If you click or touch a data point, a tooltip will appear to show you the date for that particular assessment wave.  <B>Note</B>: If you are not currently involved in a relationship, the plotted scores will either be zero or missing from the graph. Or, if you were in a relationship during a previous assessment wave, but are not in one now, the scores you see here will be from a previous wave. </P>  ");
+                        $('#clickdata').fadeIn();
+
+                    });
+
+                    $('#TAB_J').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_H').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+                        $('#TAB_K').removeClass('active');
+                        $('#graph-a').fadeOut();
+                        $('#graph-b').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-d').fadeOut();
+                        $('#choices').fadeOut();
+                        $('#choices_rusbult').fadeOut();
+                        $('#choices_personality').fadeIn();
+                        $('#choices_personality').addClass('active');
+                        $('#choices_ecrrsdynamic').fadeOut();
+                        $('#graph_instructions').fadeOut();
+
+
+                        $('#graph-e').fadeOut();
+                        $('#graph-f').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-h').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-k').fadeOut();
+
+                        $(this).addClass('active');
+                        $('#graph-j').fadeIn();
+                        e.preventDefault();
+
+
+
+                        $("#clickdata").html(" <P> <CENTER><B>Personality Traits Across Time</B></CENTER></P><P>This graph plots your personality trait scores across time. Each line represents your scores for a distinct trait (i.e., Extraversion, Agreeableness, Conscientiousness, Neuroticism, and Openness) for each time you have completed a survey. (If you have only completed 1 or 2 surveys, this dynamic graph might not be very informative--yet.) </P><P>You can turn off and on different variables using the checkboxes below the graph. If you click or touch a data point, a tooltip will appear to show you the date for that particular assessment wave.</P>  ");
+                        $('#clickdata').fadeIn();
+
+                    });
+
+
+
+
+                    $('#TAB_K').on('click', function(e) {
+                        $('#TAB_A').removeClass('active');
+                        $('#TAB_B').removeClass('active');
+                        $('#TAB_C').removeClass('active');
+                        $('#TAB_D').removeClass('active');
+                        $('#TAB_E').removeClass('active');
+                        $('#TAB_F').removeClass('active');
+                        $('#TAB_G').removeClass('active');
+                        $('#TAB_H').removeClass('active');
+                        $('#TAB_I').removeClass('active');
+                        $('#TAB_J').removeClass('active');
+                        $('#graph-a').fadeOut();
+                        $('#graph-b').fadeOut();
+                        $('#graph-c').fadeOut();
+                        $('#graph-d').fadeOut();
+                        $('#choices').fadeOut();
+                        $('#choices_rusbult').fadeOut();
+                        $('#choices_personality').fadeOut();
+                        $('#choices_ecrrsdynamic').fadeOut();
+                        $('#graph_instructions').fadeOut();
+
+
+                        $('#graph-e').fadeOut();
+                        $('#graph-f').fadeOut();
+                        $('#graph-g').fadeOut();
+                        $('#graph-h').fadeOut();
+                        $('#graph-i').fadeOut();
+                        $('#graph-j').fadeOut();
+                        $(this).addClass('active');
+                        $('#graph-k').fadeIn();
+
+                        e.preventDefault();
+                        $("#clickdata").html(" <P><BR><CENTER><B>Life Events</B></CENTER><BR>At each assessment wave you have had the opportunity to indicate what kinds of life events have transpired since the previous assessment. These events include getting ill, changing jobs, and so on. The table below summarizes the events you reported taking place and what, if anything, you wrote about those experiences.<BR><HR><BR><B> Date: 2018-04-12 23:56:49 </B><BR><BR>Event Category: I was ill or sick <BR> Your Decription: Arm injury at judo <BR><BR><BR> Event Category: I had to visit the Emergency Room <BR> Your Decription: Same arm injury <BR><BR><BR> Event Category: My partner and I got in a fight or argument <BR> Your Decription: First journey paper <BR><BR><BR> Event Category: I took a vacation or went on holiday <BR> Your Decription: Same trip with Masami and Brin <BR><BR><BR> Event Category: I visited with friends or family that I do not get to see often <BR> Your Decription: Masami and I saw Brin and took him to Galena <BR><BR><BR> <HR><BR><B> Date: 2018-08-24 03:31:21 </B><BR><BR>Event Category: I was ill or sick <BR> Your Decription: None provided <BR><BR> Event Category: I had to visit the Emergency Room <BR> Your Decription: None provided <BR><BR> Event Category: I lost or quit my job <BR> Your Decription: None provided <BR><BR> Event Category: I started a new job <BR> Your Decription: None provided <BR><BR> Event Category: I started dating someone new <BR> Your Decription: We are polyamorous and I wish the results were capable of taking that into consideration <BR><BR><BR> Event Category: My partner did something special for me <BR> Your Decription: None provided <BR><BR> Event Category: My partner and I got in a fight or argument <BR> Your Decription: None provided <BR><BR> Event Category: I accomplished something I was proud of <BR> Your Decription: None provided <BR><BR> Event Category: I took a vacation or went on holiday <BR> Your Decription: None provided <BR><BR> Event Category: I visited with friends or family that I do not get to see often <BR> Your Decription: None provided <BR><BR> <HR><BR><B> Date: 2018-10-02 18:35:45 </B><BR><BR>Event Category: I started dating someone new <BR> Your Decription: Katrina <BR><BR><BR> Event Category: My partner did something special for me <BR> Your Decription: Masami supports Katrina moving in <BR><BR><BR> <HR><BR><B> Date: 2018-11-17 17:40:11 </B><BR><BR>Event Category: My partner and I got in a fight or argument <BR> Your Decription: LQ &amp; Tribe <BR><BR><BR> <HR><BR><B> Date: 2019-02-10 14:01:24 </B><BR><BR>Event Category: I had to visit the Emergency Room <BR> Your Decription: ER visit for low BP/heart rate <BR><BR><BR> Event Category: I started dating someone new <BR> Your Decription: This is Jenny <BR><BR><BR> Event Category: My partner and I were physically apart ... <BR> Your Decription: Engineering retreat to Kentucky <BR><BR><BR> Event Category: My partner and I got in a fight or argument <BR> Your Decription: This is the processing we did instead of Sin in the City <BR><BR><BR> Event Category: A close friend or family member passed away <BR> Your Decription: None provided <BR><BR> <HR><BR><BR><BR> <I>Please note that the dates listed are the dates on which you submitted the survey, not the dates on which the events themselves took place. </I><BR><BR> </P>  ");
+                        $('#clickdata').fadeIn();
+
+                    });
+
+
+
+
+
+
+
+
+
+
+                    // Tooltip #################################################
+
+
+                    function showTooltip(x, y, contents) {
+                        $('<div id="tooltip">' + contents + '</div>').css({
+                            top: y - 16,
+                            left: x + 20
+                        }).appendTo('body').fadeIn();
+                    }
+
+                    var previousPoint = null;
+
+                    // Dates
+
+                    $('#graph-f, #graph-g, #graph-h, #graph-i, #graph-j').bind('plothover', function(event, pos, item) {
+                        if (item) {
+                            if (previousPoint != item.dataIndex) {
+                                previousPoint = item.dataIndex;
+                                $('#tooltip').remove();
+                                var x = item.datapoint[0],
+                                    y = item.datapoint[1],
+                                    xx = x - 1,
+                                    z = dates[xx];
+                                showTooltip(item.pageX, item.pageY, item.series.label + ': ' + y + ' <BR> Date = ' + z + ' ');
+                            }
+                        } else {
+                            $('#tooltip').remove();
+                            previousPoint = null;
+                        }
+                    });
+
+
+
+                    // Dates Rusbult dynamic
+
+                    $('#graph-z').bind('plothover', function(event, pos, item) {
+                        if (item) {
+                            if (previousPoint != item.dataIndex) {
+                                previousPoint = item.dataIndex;
+                                $('#tooltip').remove();
+                                var x = item.datapoint[0],
+                                    y = item.datapoint[1],
+                                    xx = x - 1,
+                                    z = dates_rusbult[xx];
+                                showTooltip(item.pageX, item.pageY, item.series.label + ': ' + y + ' <BR> Date = ' + z + ' ');
+                            }
+                        } else {
+                            $('#tooltip').remove();
+                            previousPoint = null;
+                        }
+                    });
+
+
+                    // attachment
+
+
+                    $('#graph-a').bind('plothover', function(event, pos, item) {
+                        if (item) {
+                            if (previousPoint != item.dataIndex) {
+                                previousPoint = item.dataIndex;
+                                $('#tooltip').remove();
+                                var x = item.datapoint[0],
+                                    y = item.datapoint[1],
+                                    xx = x - 1,
+                                    z = dates[xx];
+                                showTooltip(item.pageX, item.pageY, item.series.label);
+                            }
+                        } else {
+                            $('#tooltip').remove();
+                            previousPoint = null;
+                        }
+                    });
+
+                    // relabel tip
+
+                    $('#graph-c, #graph-b, #graph-d, #graph-e').bind('plothover', function(event, pos, item) {
+                        if (item) {
+                            if (previousPoint != item.dataIndex) {
+                                previousPoint = item.dataIndex;
+                                $('#tooltip').remove();
+                                var x = item.datapoint[0],
+                                    y = item.datapoint[1],
+                                    xx = x - 1,
+                                    z = dates[xx];
+                                showTooltip(item.pageX, item.pageY, item.series.label);
+                            }
+                        } else {
+                            $('#tooltip').remove();
+                            previousPoint = null;
+                        }
+                    });
+
+
+
+                });
+                // end doc ready function
+            </script>
+
+    </CENTER>
+    <BR>
+    </P>
+    <CENTER>
+        <P id="choices"></P>
+        <P id="choices_rusbult"></P>
+        <P id="choices_personality"></P>
+        <P id="choices_ecrrsdynamic"></P>
+    </CENTER>
+    <BR>
+    <div class="container theme-showcase" role="main">
+        <div class="container">
+            <div class="row">
+                <P>
+                    <div id="clickdata"> </div>
+                </p>
+            </div>
+        </div>
+    </DIV>
+    </DIV>
+</BODY>
