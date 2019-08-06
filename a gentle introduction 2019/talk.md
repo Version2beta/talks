@@ -15,6 +15,7 @@ History:
 
 Objectives:
 
+* Almost entirely code
 * Create a new project in Elixir
 * Basic data structures and optional types
 * Working with lists and tuples (not the optimal approach)
