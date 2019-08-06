@@ -56,12 +56,22 @@
 > defmodule Pure do
 > def square(x), do: x*x
 > end
+
+> Pure.square(16)
+256
 ```
 
 * Returns the same value given the same arguments.
 * Any given function call can be replaced with its result without changing the meaning of the program.
 * Nothing about the state of a program (or the database or the world) outside of a function can impact the result of a function.
 * Nothing inside the function can affect what’s outside the function (no side effects)
+
+```
+> Pure.square(4) |> Pure.square()
+256
+```
+
+* Elixir pipeline composition
 
 ### Immutable state
 
@@ -156,7 +166,12 @@ It also defines a function that transforms Point data.
 
 ## Live coding an event-based shopping cart
 
-`mix new cart` and edit files for a decent starting point
+```
+mix new cart
+vi -p test/cart_test.exs lib/cart.ex
+```
+
+and edit files for a decent starting point
 
 ### `test/cart_test.exs`
 
@@ -164,12 +179,12 @@ Create some events:
 
 ```
   @some_events [
-    {:item_added, %Cart.Item{sku: :nail_polish_elephant, qty: 1, cost: 9.99}},
+    {:item_added, %Cart.Item{sku: :elephant_nail_polish, qty: 1, cost: 9.99}},
     {:item_added, %Cart.Item{sku: :pumice_stone, qty: 10, cost: 2.79}},
     {:item_added, %Cart.Item{sku: :nail_file_xl, qty: 1, cost: 14.69}},
     {:item_added, %Cart.Item{sku: :nail_polish_elephant, qty: 3, cost: 9.99}},
-    {:item_removed, %Cart.Item{sku: :pumice_stone, qty: 10, cost: 2.79}},
     {:item_added, %Cart.Item{sku: :pumice_stone_xl, qty: 1, cost: 7.79}},
+    {:item_removed, %Cart.Item{sku: :pumice_stone, qty: 10, cost: 2.79}}
   ]
 ```
 
@@ -187,7 +202,7 @@ Create a test:
 
 ```
   test "Processing some events gives us our expected cart" do
-    result = Cart.process(%Cart{}, @some_events)
+    result = Cart.process(%Cart{}, @some_events) |> IO.inspect
     assert Enum.count(result.items) == 3
     assert result.total == @expected_result.total
     assert @expected_result.items -- result.items == result.items -- @expected_result.items
@@ -218,7 +233,7 @@ Implement `Cart.process` for an `:item_added` event:
 
 ```
   def process(%Cart{items: items} = _cart, {:item_added, item} = _event) do
-    new_items = dedup_items(items, item)
+    new_items = deduped_items(items, item)
     %Cart{items: new_items, total: calculated_total(new_items)}
   end
 ```
@@ -227,7 +242,7 @@ Implement `Cart.process` for an `:item_removed` event:
 
 ```
   def process(%Cart{items: items} = _cart, {:item_removed, item} = _event) do
-    new_items = dedup_items(items, %Item{sku: item.sku, cost: item.cost, qty: item.qty * -1})
+    new_items = deduped_items(items, %Item{sku: item.sku, cost: item.cost, qty: item.qty * -1})
     %Cart{items: new_items, total: calculated_total(new_items)}
   end
 ```
