@@ -33,7 +33,7 @@ because I can try new things out and see what it does immediately.
 
 ## Expressions
 
-One of the first things to know about Elixir is that everything is an expression. Expressions always have a return value.
+One of the first things to know about Elixir is that everything is an expression. Expressions are math. Expressions always have a return value.
 
 ```
 0 # returns 0
@@ -57,7 +57,7 @@ One of the first things to know about Elixir is that everything is an expression
 Imperative - Do the thing.
 Declarative - The thing is true. The thing is a relationship.
 
-Imperative and declarative language with children.
+Describe imperative and declarative language using examples from talking with children.
 
 ```
 a = 0 # Balancing left from right
@@ -103,7 +103,7 @@ c # [] why?
 :apple # returns :apple
 ```
 
-An atom is a similar to a variable. It has a constantly value that's the same as it's name.
+An atom is a similar to a variable. It has a constant value that's the same as it's name.
 We often use it when we want to refer to a thing we already know or would recognize.
 
 ```
