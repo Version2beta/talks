@@ -112,40 +112,67 @@ end
 ### Fake some data
 
 ```
+defmodule CgolzTest.HelpersTest do
+  use ExUnit.Case
+  import Cgolz.Helpers
+
+  test "random_town returns a town, listing 0 or more valid plots" do
+    width = :rand.uniform(100)
+    depth = :rand.uniform(100)
+    probability = :rand.uniform()
+
+    town = random_town(width, depth, probability)
+    assert Enum.count(town) >= 0
+    assert Enum.count(town) <= width * depth
+
+    Enum.each(town, fn {x, y} -> assert x <= width && y <= depth end)
+  end
+end
+
 defmodule Cgolz.Helpers do
-  @spec random_town(x :: integer, y :: integer, density :: float) :: Cgolz.town
-  def random_town(x, y, density) do
-    for xx <- 0..x, yy <- 0..y do
-      :rand.uniform() < density && {xx, yy}
+  @spec random_town(integer, integer, Float.t()) :: Cgolz.town()
+  def random_town(width, depth, probability \\ 0.25) do
+    for x <- 1..width, y <- 1..depth do
+      :rand.uniform() < probability && {x, y}
     end
     |> Enum.filter(fn el -> el end)
   end
 end
 ```
 
-in iex:
+`iex -S mix`:
 
 ```
-recompile
-Cgolz.Helpers.random_town(8, 8)
-Cgolz.Helpers.random_town(8, 8, 0.5)
-Cgolz.Helpers.random_town(8, 8, 1)
-town = Cgolz.Helpers.random_town(8, 8)
+import Cgolz.Helpers
+town = random_town(10, 10, 0.4)
 ```
+
 
 ### Check a plot
 
 ```
-@spec check_plot(town, plot) :: :zombie | :brains
-def check_plot(town, plot) do
-  plot in town && :zombie || :brains
-end
+  test "check_plot returns :zombie is the plot is listed in a town, :brains if not" do
+    infected_town = for x <- 0..4, y <- 0..4, do: {x, y}
+    Enum.each(infected_town, fn plot -> assert check_plot(infected_town, plot) == :zombie end)
+
+    Enum.each(infected_town, fn {x, y} ->
+      assert check_plot(infected_town, {x + 5, y + 5}) == :brains
+    end)
+  end
+```
+
+```
+  @spec check_plot(town(), plot()) :: :zombie | :brains
+  def check_plot(town, plot) do
+    (plot in town && :zombie) || :brains
+  end
 ```
 
 in iex:
 
 ```
 recompile
+import Cgolz
 Cgolz.check_plot(town, {1, 1})
 Cgolz.check_plot(town, {1, 2})
 ```
@@ -153,16 +180,26 @@ Cgolz.check_plot(town, {1, 2})
 ### Find the coordinates of all neighbors to a plot
 
 ```
-@neighbors [
-  {-1, -1}, {0, -1}, {1, -1},
-  {-1,  0},          {1,  0},
-  {-1,  1}, {0,  1}, {1,  1}
-]
+  test "find_neighbors returns appropriate plots" do
+    {x, y} = random_plot = {:rand.uniform(100), :rand.uniform(100)}
+    neighbors = find_neighbors(random_plot)
+    assert Enum.min(neighbors) == {x - 1, y - 1}
+    assert Enum.max(neighbors) == {x + 1, y + 1}
+    assert Enum.count(neighbors) == 8
+  end
+```
 
-@spec find_neighbors(plot) :: [plot]
-def find_neighbors({x, y} = _plot) do
-  Enum.map(@neighbors, fn {x_offset, y_offset} -> {x + x_offset, y + y_offset} end)
-end
+```
+  @neighbors [
+    {-1, -1}, {0, -1}, {1, -1},
+    {-1,  0},          {1,  0},
+    {-1,  1}, {0,  1}, {1,  1}
+  ]
+
+  @spec find_neighbors(plot) :: [plot]
+  def find_neighbors({x, y}) do
+    Enum.map(@neighbors, fn {x_offset, y_offset} -> {x + x_offset, y + y_offset} end)
+  end
 ```
 
 in iex:
@@ -176,15 +213,24 @@ Cgolz.find_neighbors({4,4})
 ### Count all of the neighbors to a plot
 
 ```
-@spec count_neighbors(town, plot) :: plot_census
-def count_neighbors(town, plot) do
-  neighbors_count =
-    find_neighbors(plot)
-    |> Enum.filter(fn site -> check_plot(town, site) == :zombie end)
-    |> Enum.count()
+  test "count_neighbors returns returns correct counts as a plot_census type" do
+    random_plot = {:rand.uniform(100), :rand.uniform(100)}
+    neighbors = find_neighbors(random_plot)
+    assert count_neighbors([], random_plot) == {random_plot, 0}
+    assert count_neighbors(neighbors, random_plot) == {random_plot, 8}
+  end
+```
 
-  {plot, neighbors_count}
-end
+```
+  @spec count_neighbors(town, plot) :: plot_census()
+  def count_neighbors(town, plot) do
+    neighbors_count =
+      find_neighbors(plot)
+      |> Enum.filter(fn site -> check_plot(town, site) == :zombie end)
+      |> Enum.count()
+
+    {plot, neighbors_count}
+  end
 ```
 
 in iex:
@@ -197,12 +243,45 @@ Cgolz.count_neighbors(town, {4,4})
 ### Take a census of the entire town
 
 ```
-@spec take_census(town) :: census
-def take_census(town) do
-  Enum.flat_map(town, fn plot -> find_neighbors(plot) end)
-  |> Enum.uniq()
-  |> Enum.map(fn plot -> count_neighbors(town, plot) end)
-end
+  test "take_census returns the correct counts as a census type" do
+    random_town = random_town(:rand.uniform(10), :rand.uniform(10))
+    census = take_census(random_town)
+    if Enum.count(random_town) > 0, do: assert(Enum.count(census) > 0)
+    census_plots = Enum.map(census, fn {plot, _} -> plot end)
+
+    Enum.each(
+      random_town,
+      fn plot ->
+        assert plot in census_plots
+        Enum.each(find_neighbors(plot), fn neighbor -> assert neighbor in census_plots end)
+      end
+    )
+
+    uninfected_plots = Enum.filter(census_plots, fn plot -> plot not in random_town end)
+
+    Enum.each(
+      uninfected_plots,
+      fn plot ->
+        {_, count} = Enum.find(census, fn {p, _} -> p == plot end)
+        assert count > 0
+      end
+    )
+
+    neighborless_plots =
+      Enum.filter(census, fn {_, count} -> count == 0 end)
+      |> Enum.map(fn {plot, _} -> plot end)
+
+    Enum.each(neighborless_plots, fn p -> assert p in random_town end)
+  end
+```
+
+```
+  @spec take_census(town) :: census
+  def take_census(town) do
+    Enum.flat_map(town, fn plot -> [plot | find_neighbors(plot)] end)
+    |> Enum.uniq()
+    |> Enum.map(fn plot -> count_neighbors(town, plot) end)
+  end
 ```
 
 in iex:
@@ -215,11 +294,21 @@ census = Cgolz.take_census(town)
 ### Reference a census
 
 ```
-@spec check_census(census, plot) :: integer()
-def check_census(census, plot) do
-  {_, count} = Enum.find(census, {plot, 0}, fn {site, _} -> site == plot end)
-  count
-end
+  test "Get the count from a census" do
+    census =
+      random_town(:rand.uniform(100), :rand.uniform(100))
+      |> take_census()
+
+    Enum.each(census, fn {plot, count} -> assert Cgolz.check_census(census, plot) == count end)
+  end
+```
+
+```
+  @spec check_census(census, plot) :: integer
+  def check_census(census, plot) do
+    {_, count} = Enum.find(census, {plot, 0}, fn {site, _} -> site == plot end)
+    count
+  end
 ```
 
 in iex:
@@ -232,18 +321,66 @@ Cgolz.check_census(census, {4,4})
 ### Tock tick
 
 ```
-@spec tick(town) :: town
-def tick(town) do
-  take_census(town)
-  |> Enum.reduce([], fn {plot, count}, acc ->
-    cond do
-      count == 2 and plot in town -> [plot | acc]
-      count == 3 -> [plot | acc]
-      true -> acc
-    end
-  end)
-  |> Enum.sort()
-end
+  # 1. Any zombie with fewer than two neighboring zombies is overcome by the neighbors.
+  # 2. Any zombie with two or three neighboring zombies goes on the to next tick.
+  # 3. Any zombie with more than three zombie neighbours succombs to overpopulation.
+  # 4. Any home with exactly three zombie neighbours remains, or becomes, zombified.
+
+  test "Advancing one generation respects rule 1" do
+    town =
+      ({0, 0}
+       |> find_neighbors()
+       |> Enum.shuffle()
+       |> Enum.take(Enum.random([0, 1]))) ++ [{0, 0}]
+
+    assert {0, 0} not in tick(town)
+  end
+
+  test "Advancing one generation respects rule 2" do
+    town =
+      ({0, 0}
+       |> find_neighbors()
+       |> Enum.shuffle()
+       |> Enum.take(Enum.random([2, 3]))) ++ [{0, 0}]
+
+    assert {0, 0} in tick(town)
+  end
+
+  test "Advancing one generation respects rule 3" do
+    town =
+      ({0, 0}
+       |> find_neighbors()
+       |> Enum.shuffle()
+       |> Enum.take(Enum.random([4, 8]))) ++ [{0, 0}]
+
+    assert {0, 0} not in tick(town)
+  end
+
+  test "Advancing one generation respects rule 4" do
+    town =
+      {0, 0}
+      |> find_neighbors()
+      |> Enum.shuffle()
+      |> Enum.take(3)
+
+    assert {0, 0} in tick(town)
+    assert {0, 0} in tick([{0, 0} | town])
+  end
+```
+
+```
+  @spec tick(town) :: town
+  def tick(town) do
+    take_census(town)
+    |> Enum.reduce([], fn {plot, count}, acc ->
+      cond do
+        count == 2 and plot in town -> [plot | acc]
+        count == 3 -> [plot | acc]
+        true -> acc
+      end
+    end)
+    |> Enum.sort()
+  end
 ```
 
 ### Rendering
@@ -334,11 +471,7 @@ in iex:
 
 ```
 recompile
-town = Cgolz.Helpers.random_town(8,8,0.4)
-Cgolz.Render.render_town(town) |> IO.puts
-Cgolz.tick(town)
-Cgolz.Render.render_town(v()) |> IO.puts
-Cgolz.run(town)
-Cgolz.run(town, generations: 25)
+import Cgolz.Helpers
+town = random_town(8,8,0.4)
 Cgolz.run(town, generations: 25, wait: 250)
 ```
