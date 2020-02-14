@@ -24,15 +24,14 @@ defmodule Cgolz do
   ]
 
   @spec find_neighbors(plot) :: [plot]
-  def find_neighbors({x, y} = plot) do
-    [plot | Enum.map(@neighbors, fn {x_offset, y_offset} -> {x + x_offset, y + y_offset} end)]
+  def find_neighbors({x, y}) do
+    Enum.map(@neighbors, fn {x_offset, y_offset} -> {x + x_offset, y + y_offset} end)
   end
 
   @spec count_neighbors(town, plot) :: plot_census()
   def count_neighbors(town, plot) do
     neighbors_count =
       find_neighbors(plot)
-      |> Enum.reject(fn e -> e == {0, 0} end)
       |> Enum.filter(fn site -> check_plot(town, site) == :zombie end)
       |> Enum.count()
 
@@ -41,7 +40,7 @@ defmodule Cgolz do
 
   @spec take_census(town) :: census
   def take_census(town) do
-    Enum.flat_map(town, fn plot -> find_neighbors(plot) end)
+    Enum.flat_map(town, fn plot -> [plot | find_neighbors(plot)] end)
     |> Enum.uniq()
     |> Enum.map(fn plot -> count_neighbors(town, plot) end)
   end

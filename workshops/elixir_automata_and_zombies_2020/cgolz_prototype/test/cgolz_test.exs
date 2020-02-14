@@ -17,18 +17,18 @@ defmodule CgolzTest do
     neighbors = find_neighbors(random_plot)
     assert Enum.min(neighbors) == {x - 1, y - 1}
     assert Enum.max(neighbors) == {x + 1, y + 1}
-    assert Enum.count(neighbors) == 9
+    assert Enum.count(neighbors) == 8
   end
 
   test "count_neighbors returns returns correct counts as a plot_census type" do
     random_plot = {:rand.uniform(100), :rand.uniform(100)}
     neighbors = find_neighbors(random_plot)
     assert count_neighbors([], random_plot) == {random_plot, 0}
-    assert count_neighbors(neighbors, random_plot) == {random_plot, 9}
+    assert count_neighbors(neighbors, random_plot) == {random_plot, 8}
   end
 
   test "take_census returns the correct counts as a census type" do
-    random_town = random_town(:rand.uniform(100), :rand.uniform(100))
+    random_town = random_town(:rand.uniform(10), :rand.uniform(10))
     census = take_census(random_town)
     if Enum.count(random_town) > 0, do: assert(Enum.count(census) > 0)
     census_plots = Enum.map(census, fn {plot, _} -> plot end)
@@ -41,7 +41,7 @@ defmodule CgolzTest do
       end
     )
 
-    uninfected_plots = Enum.filter(census_plots, fn {plot, _} -> plot not in random_town end)
+    uninfected_plots = Enum.filter(census_plots, fn plot -> plot not in random_town end)
 
     Enum.each(
       uninfected_plots,
@@ -75,7 +75,6 @@ defmodule CgolzTest do
     town =
       ({0, 0}
        |> find_neighbors()
-       |> Enum.reject(fn e -> e == {0, 0} end)
        |> Enum.shuffle()
        |> Enum.take(Enum.random([0, 1]))) ++ [{0, 0}]
 
@@ -86,7 +85,6 @@ defmodule CgolzTest do
     town =
       ({0, 0}
        |> find_neighbors()
-       |> Enum.reject(fn e -> e == {0, 0} end)
        |> Enum.shuffle()
        |> Enum.take(Enum.random([2, 3]))) ++ [{0, 0}]
 
@@ -97,7 +95,6 @@ defmodule CgolzTest do
     town =
       ({0, 0}
        |> find_neighbors()
-       |> Enum.reject(fn e -> e == {0, 0} end)
        |> Enum.shuffle()
        |> Enum.take(Enum.random([4, 8]))) ++ [{0, 0}]
 
@@ -108,7 +105,6 @@ defmodule CgolzTest do
     town =
       {0, 0}
       |> find_neighbors()
-      |> Enum.reject(fn e -> e == {0, 0} end)
       |> Enum.shuffle()
       |> Enum.take(3)
 
