@@ -1,7 +1,4 @@
-# Conway's Game of Zombie Summercamp
-
-Slide for talk, sponsors
-Discuss deaf developers while waiting?
+# Elixir, Automata, and Zombies
 
 ## Concepts:
 
