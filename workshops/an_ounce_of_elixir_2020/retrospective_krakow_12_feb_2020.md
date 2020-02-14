@@ -27,4 +27,4 @@
     * "I think that three people was just about perfect."
     * "I think it was good to switch drivers more often."
 * "It would be nice to have a break in the afternoon session. It gets really intense and it would have been nice to have a short coffee break."
-* "Maybe have a repository so we can what is the final result so we can see how the problem is solved?"
+* "Maybe have a repository so we can see what is the final result so we can see how the problem is solved?"
