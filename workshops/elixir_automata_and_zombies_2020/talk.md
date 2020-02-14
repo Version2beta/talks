@@ -71,6 +71,20 @@ Assuming a neighborhood arranged on an orthogonal grid:
 3. Any zombie with more than three zombie neighbours succombs to overpopulation.
 4. Any home with exactly three zombie neighbours remains, or becomes, zombified.
 
+## Our process
+
+1. Create our project: `Cgolz`
+2. Create our types: `plot`, `town`, `plot_census`, `census`
+3. Fake some data: `Cgolz.Helpers.random_town()`
+4. Check a plot: `Cgolz.check_plot()`
+5. Find neighbors’ coordinates: `Cgolz.find_neighbors()`
+6. Count how many are infected: `Cgolz.count_neighbors()`
+7. Take a census of the entire town: `Cgolz.take_census()`
+8. Reference that census: `Cgolz.check_census()`
+9. Advance a generation: `Cgolz.tick()`
+10. Render a map: `Cgolz.Helpers.render_town()`
+11. Render multiple generations: `Cgolz.Helpers.run()`
+
 ### New project
 
 ```
@@ -204,9 +218,9 @@ census = Cgolz.take_census(town)
 ### Reference a census
 
 ```
-@spec check_census(town, plot) :: integer()
-def check_census(town, plot) do
-  {_, count} = Enum.find(town, {plot, 0}, fn {site, _} -> site == plot end)
+@spec check_census(census, plot) :: integer()
+def check_census(census, plot) do
+  {_, count} = Enum.find(census, {plot, 0}, fn {site, _} -> site == plot end)
   count
 end
 ```
