@@ -73,7 +73,7 @@ _not_needed = 1
 [x, y, z] = [0, 1, 2] # Balancing from a list
 [x, y, z] = [0, 1] # Not balanced
 [1, y, z] = [0, 1, 2] # Not balanced
-[0, y, z] = [0, 1, 2] # Not balanced
+[0, y, z] = [0, 1, 2] # Balanced
 [_, 1, 2] = [0, 1, 2] # Balanced
 a = [0, 1, 2]
 a # [0, 1, 2]
