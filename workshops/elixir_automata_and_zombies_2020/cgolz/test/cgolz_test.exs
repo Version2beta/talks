@@ -32,8 +32,8 @@ defmodule CgolzTest do
 
   test "count_neighbors returns returns correct counts as a plot_census type" do
     random_plot = {:rand.uniform(100), :rand.uniform(100)}
-    neighbors = find_neighbors(random_plot)
     assert count_neighbors([], random_plot) == {random_plot, 0}
+    neighbors = find_neighbors(random_plot)
     assert count_neighbors(neighbors, random_plot) == {random_plot, 8}
   end
 
