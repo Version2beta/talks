@@ -7,3 +7,5 @@ Long description: Let's hypothetically say that ChatCoAIPilotMicroOpenSoftBotGPT
 This talk looks at who we are, what we're good at, and where we can work without worrying about the robots taking those jobs too. We're problem solvers, and we're creative - we can figure this out! (Hmmm, maybe job placement counselor should be on the list...)
 
 Spoiler alert: you're probably looking at a pay cut!
+
+Twenty-five years ago, my cofounder and I were discussing an article about people who have the highest job-happiness indexes. The number one position was hairdressers. Since then, I've learned to give excellent hair cuts and dye jobs! I am also a principle engineer at Axios Media (axios.com) in Washington DC and have worked as a professional programmer since 1991.
