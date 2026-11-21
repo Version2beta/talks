@@ -1,0 +1,6 @@
+requests
+BeautifulSoup4
+html5lib
+numpy
+pandas
+openpyxl
