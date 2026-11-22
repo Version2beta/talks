@@ -38,6 +38,23 @@ archive prefixes. This is preservation, not maintained or deployment-ready code.
   No code, notebooks, dependency installations or external services were run
   or tested during import.
 
+## Perhap shopping demo — 2017
+
+- [Archived files and presentation notes](2017-perhap-shopping/README.md)
+- Source: https://github.com/Version2beta/shopping-perhap
+- Imported `master`: [`ebb9597ca3670439cc2e2134f40a6b65c032e586`](https://github.com/Version2beta/shopping-perhap/commit/ebb9597ca3670439cc2e2134f40a6b65c032e586)
+  (September 5, 2017; this is the source commit date, not a verified talk date).
+- Rob Martin's presentation notes demonstrate a Perhap shopping-cart reducer
+  using IEx and localhost HTTP requests. Original BSD 3-Clause attribution and
+  license are retained in [LICENSE](2017-perhap-shopping/LICENSE).
+- All original root files, including `lib/`, `config/`, `test/`, `mix.exs` and
+  `mix.lock`, are unchanged under `2017-perhap-shopping/`. All three original
+  commits and their merge topology remain reachable through the import merge;
+  historical commits retain root-relative paths. No source tags existed.
+- Elixir 1.5-era code, the machine-local Perhap dependency path and legacy
+  dependencies are historical, not current setup advice. No code, installs or
+  services were run. This snapshot does not replace or modify current Perhap.
+
 The source repositories remain intact; importing these materials does not
 retire or delete them. Existing source URLs and historical README wording are
 kept for provenance, even where links or stage instructions refer to the old
